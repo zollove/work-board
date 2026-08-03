@@ -126,13 +126,13 @@ export function MonthDetailModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-5xl w-[95vw] h-[90vh] flex flex-col p-0 overflow-hidden">
-        <DialogHeader className="px-6 py-4 border-b shrink-0 flex flex-row items-center justify-between">
-          <div className="flex items-center gap-4">
+      <DialogContent className="w-full max-w-full sm:max-w-5xl h-[95vh] sm:h-[90vh] flex flex-col p-0 overflow-hidden rounded-none sm:rounded-lg">
+        <DialogHeader className="px-4 sm:px-6 py-3 sm:py-4 border-b shrink-0 flex flex-row items-center justify-between">
+          <div className="flex items-center gap-3 sm:gap-4">
             <Button variant="outline" size="icon" onClick={handlePrevMonth} className="h-8 w-8">
               <ChevronLeft className="w-4 h-4" />
             </Button>
-            <DialogTitle className="text-2xl m-0">
+            <DialogTitle className="text-xl sm:text-2xl m-0">
               {year}년 {month + 1}월
             </DialogTitle>
             <Button variant="outline" size="icon" onClick={handleNextMonth} className="h-8 w-8">
@@ -141,7 +141,7 @@ export function MonthDetailModal({
           </div>
         </DialogHeader>
 
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
           {/* Calendar Grid */}
           <div className="flex-1 border-r flex flex-col overflow-hidden">
             <div className="grid grid-cols-7 border-b bg-muted/50 shrink-0">
@@ -199,7 +199,7 @@ export function MonthDetailModal({
           </div>
 
           {/* Sidebar for Day Details & Form */}
-          <div className="w-80 bg-muted/10 flex flex-col shrink-0">
+          <div className="w-full md:w-80 border-t md:border-t-0 bg-muted/10 flex flex-col shrink-0 h-64 md:h-auto overflow-y-auto">
             {selectedDate ? (
               <>
                 <div className="p-4 border-b font-medium bg-muted/30">

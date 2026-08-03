@@ -1,0 +1,17 @@
+{
+  "name": "업무 관리 시스템 (Work Board)",
+  "short_name": "업무보드",
+  "description": "캘린더, 임대현황, 메모, 업체 연락처 통합 관리 앱",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
