@@ -8,17 +8,15 @@ import {
   CloudRain, 
   CloudSnow, 
   CloudLightning, 
-  AlertTriangle, 
-  CheckSquare, 
-  Square, 
   RefreshCw, 
   MapPin, 
   ShieldAlert,
-  Calendar as CalendarIcon,
-  X,
-  Info
+  ChevronDown,
+  ChevronUp,
+  CheckSquare,
+  Square
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -51,6 +49,9 @@ export function WeatherWidget() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [checkedActions, setCheckedActions] = useState<Record<string, boolean>>({});
+
+  // Mobile Drawer Toggle
+  const [isMobileExpanded, setIsMobileExpanded] = useState(false);
 
   // Modal State for Selected Date Hazard Alert
   const [selectedHazard, setSelectedHazard] = useState<HazardAlert | null>(null);
@@ -247,113 +248,222 @@ export function WeatherWidget() {
   };
 
   const hazardCount = weatherList.filter((w) => w.hazard).length;
+  const todayWeather = weatherList.find((w) => w.isToday) || weatherList[0];
+  const { icon: todayIcon, label: todayLabel } = todayWeather
+    ? getWeatherIconAndLabel(todayWeather.weatherCode)
+    : { icon: <Sun className="w-4 h-4 text-amber-500" />, label: "맑음" };
 
   return (
-    <div className="space-y-4">
-      {/* ☀️ 7-DAY WEATHER BAR CARD */}
-      <Card className="border bg-card/80 backdrop-blur shadow-sm">
-        <CardHeader className="p-3 sm:p-4 border-b flex flex-row items-center justify-between space-y-0">
-          <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-primary" />
-            <span className="text-xs sm:text-sm font-bold">대한민국 기상청 연동 일주일 날씨 예보</span>
-            {hazardCount > 0 && (
-              <Badge variant="destructive" className="text-[10px] animate-pulse">
-                🚨 위협 날씨 {hazardCount}건 (날짜 클릭시 대처 가이드)
-              </Badge>
-            )}
+    <div className="space-y-3">
+      {/* 📱 MOBILE COMPACT WEATHER BAR (Only visible on mobile screens `sm:hidden`) */}
+      <div className="block sm:hidden">
+        <Card className="border bg-card/90 backdrop-blur shadow-sm overflow-hidden">
+          {/* Single Compact Header Line */}
+          <div className="p-3 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="shrink-0">{todayIcon}</div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 text-xs font-bold">
+                  <span>오늘 날씨</span>
+                  <span className="text-muted-foreground">({todayLabel})</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs font-extrabold">
+                  <span className="text-red-500">{todayWeather?.tempMax}°</span>
+                  <span className="text-muted-foreground/50">/</span>
+                  <span className="text-sky-500">{todayWeather?.tempMin}°</span>
+                  {hazardCount > 0 && (
+                    <Badge
+                      variant="destructive"
+                      className="text-[9px] px-1.5 py-0 ml-1 animate-pulse shrink-0"
+                      onClick={() => {
+                        const firstHaz = weatherList.find((w) => w.hazard)?.hazard;
+                        if (firstHaz) {
+                          setSelectedHazard(firstHaz);
+                          setIsModalOpen(true);
+                        }
+                      }}
+                    >
+                      🚨 위협 경보 {hazardCount}건
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile Toggle Button for 7-Day breakdown */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsMobileExpanded(!isMobileExpanded)}
+              className="h-8 px-2.5 text-xs gap-1 shrink-0"
+            >
+              <span>주간 날씨</span>
+              {isMobileExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            </Button>
           </div>
 
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={fetchWeather}
-            disabled={loading}
-            className="h-7 text-xs text-muted-foreground hover:text-foreground gap-1"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
-            갱신
-          </Button>
-        </CardHeader>
+          {/* Expandable Horizontal Ribbon on Mobile */}
+          {isMobileExpanded && (
+            <div className="p-3 pt-0 border-t bg-muted/20">
+              <div className="text-[11px] font-semibold text-muted-foreground mb-2 flex items-center justify-between">
+                <span>일주일 날씨 예보 (터치 시 대처가이드)</span>
+                <button
+                  onClick={fetchWeather}
+                  disabled={loading}
+                  className="text-primary hover:underline text-[10px] flex items-center gap-1"
+                >
+                  <RefreshCw className={`w-3 h-3 ${loading ? "animate-spin" : ""}`} />
+                  갱신
+                </button>
+              </div>
 
-        <CardContent className="p-3 sm:p-4">
-          {loading && (
-            <div className="flex items-center justify-center py-6 text-xs text-muted-foreground gap-2">
-              <RefreshCw className="w-4 h-4 animate-spin" />
-              날씨 정보를 불러오는 중입니다...
+              {/* Horizontal Scroll Ribbon for Mobile */}
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                {weatherList.map((item, idx) => {
+                  const dateShort = item.date.slice(5).replace("-", "/");
+                  const { icon, label } = getWeatherIconAndLabel(item.weatherCode);
+                  const hasHazard = !!item.hazard;
+
+                  return (
+                    <div
+                      key={idx}
+                      onClick={() => handleCardClick(item)}
+                      className={`shrink-0 w-20 p-2 rounded-lg border text-center transition-all ${
+                        hasHazard
+                          ? "bg-red-500/10 border-red-400 font-bold ring-1 ring-red-500/40"
+                          : item.isToday
+                          ? "bg-primary/10 border-primary font-bold"
+                          : "bg-background border-border"
+                      }`}
+                    >
+                      <div className="text-[10px] text-muted-foreground font-semibold">
+                        {dateShort}({item.dayName})
+                      </div>
+                      <div className="my-1 flex justify-center">{icon}</div>
+                      <div className="flex items-center justify-center gap-1 text-[11px] font-extrabold">
+                        <span className="text-red-500">{item.tempMax}°</span>
+                        <span className="text-sky-500">{item.tempMin}°</span>
+                      </div>
+                      {hasHazard && (
+                        <div className="text-[9px] text-red-600 font-bold mt-0.5 truncate">
+                          🚨 경보
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
+        </Card>
+      </div>
 
-          {error && (
-            <div className="text-center py-4 text-xs text-red-500">{error}</div>
-          )}
-
-          {!loading && !error && (
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
-              {weatherList.map((item, idx) => {
-                const dateShort = item.date.slice(5).replace("-", "/");
-                const { icon, label } = getWeatherIconAndLabel(item.weatherCode);
-                const hasHazard = !!item.hazard;
-
-                return (
-                  <div
-                    key={idx}
-                    onClick={() => handleCardClick(item)}
-                    className={`p-2.5 rounded-xl border flex flex-col items-center text-center transition-all ${
-                      hasHazard
-                        ? "cursor-pointer bg-red-500/10 border-red-400 hover:border-red-600 hover:scale-105 shadow-md ring-2 ring-red-500/30"
-                        : item.isToday
-                        ? "bg-primary/10 border-primary ring-1 ring-primary/40 font-semibold"
-                        : "bg-background border-border/70 hover:border-primary/40"
-                    }`}
-                  >
-                    <div className="flex items-center gap-1 text-[11px] font-bold text-muted-foreground mb-1">
-                      <span>{dateShort}</span>
-                      <span>({item.dayName})</span>
-                    </div>
-
-                    {item.isToday && (
-                      <Badge className="text-[9px] px-1 py-0 bg-primary text-primary-foreground mb-1">
-                        오늘
-                      </Badge>
-                    )}
-
-                    {/* Hazard Warning Badge on Card */}
-                    {hasHazard && (
-                      <Badge variant="destructive" className="text-[9px] px-1 py-0 mb-1 animate-pulse">
-                        {item.hazard?.type === "heat" && "🚨 폭염주의"}
-                        {item.hazard?.type === "freeze" && "❄️ 동파경보"}
-                        {item.hazard?.type === "heavy_rain" && "🌧️ 폭우주의"}
-                        {item.hazard?.type === "heavy_snow" && "☃️ 폭설주의"}
-                        {item.hazard?.type === "strong_wind" && "💨 강풍주의"}
-                      </Badge>
-                    )}
-
-                    <div className="my-1">{icon}</div>
-                    <span className="text-[11px] font-medium text-slate-700 dark:text-slate-300 mb-1.5">{label}</span>
-
-                    {/* Temp High / Low */}
-                    <div className="flex items-center gap-1.5 text-xs font-extrabold mt-auto pt-1 border-t w-full justify-center">
-                      <span className="text-red-500" title="최고 기온">
-                        {item.tempMax}°
-                      </span>
-                      <span className="text-muted-foreground/40">/</span>
-                      <span className="text-sky-500" title="최저 기온">
-                        {item.tempMin}°
-                      </span>
-                    </div>
-
-                    {hasHazard && (
-                      <span className="text-[9px] text-red-600 font-bold mt-1.5 underline">
-                        대처 가이드 팝업 ➔
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
+      {/* 💻 DESKTOP & TABLET WEATHER BAR CARD (Only visible on screens `hidden sm:block`) */}
+      <div className="hidden sm:block">
+        <Card className="border bg-card/80 backdrop-blur shadow-sm">
+          <CardHeader className="p-3 sm:p-4 border-b flex flex-row items-center justify-between space-y-0">
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-primary" />
+              <span className="text-xs sm:text-sm font-bold">대한민국 기상청 연동 일주일 날씨 예보</span>
+              {hazardCount > 0 && (
+                <Badge variant="destructive" className="text-[10px] animate-pulse">
+                  🚨 위협 날씨 {hazardCount}건 (날짜 클릭시 대처 가이드)
+                </Badge>
+              )}
             </div>
-          )}
-        </CardContent>
-      </Card>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={fetchWeather}
+              disabled={loading}
+              className="h-7 text-xs text-muted-foreground hover:text-foreground gap-1"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
+              갱신
+            </Button>
+          </CardHeader>
+
+          <CardContent className="p-3 sm:p-4">
+            {loading && (
+              <div className="flex items-center justify-center py-6 text-xs text-muted-foreground gap-2">
+                <RefreshCw className="w-4 h-4 animate-spin" />
+                날씨 정보를 불러오는 중입니다...
+              </div>
+            )}
+
+            {error && (
+              <div className="text-center py-4 text-xs text-red-500">{error}</div>
+            )}
+
+            {!loading && !error && (
+              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
+                {weatherList.map((item, idx) => {
+                  const dateShort = item.date.slice(5).replace("-", "/");
+                  const { icon, label } = getWeatherIconAndLabel(item.weatherCode);
+                  const hasHazard = !!item.hazard;
+
+                  return (
+                    <div
+                      key={idx}
+                      onClick={() => handleCardClick(item)}
+                      className={`p-2.5 rounded-xl border flex flex-col items-center text-center transition-all ${
+                        hasHazard
+                          ? "cursor-pointer bg-red-500/10 border-red-400 hover:border-red-600 hover:scale-105 shadow-md ring-2 ring-red-500/30"
+                          : item.isToday
+                          ? "bg-primary/10 border-primary ring-1 ring-primary/40 font-semibold"
+                          : "bg-background border-border/70 hover:border-primary/40"
+                      }`}
+                    >
+                      <div className="flex items-center gap-1 text-[11px] font-bold text-muted-foreground mb-1">
+                        <span>{dateShort}</span>
+                        <span>({item.dayName})</span>
+                      </div>
+
+                      {item.isToday && (
+                        <Badge className="text-[9px] px-1 py-0 bg-primary text-primary-foreground mb-1">
+                          오늘
+                        </Badge>
+                      )}
+
+                      {/* Hazard Warning Badge on Card */}
+                      {hasHazard && (
+                        <Badge variant="destructive" className="text-[9px] px-1 py-0 mb-1 animate-pulse">
+                          {item.hazard?.type === "heat" && "🚨 폭염주의"}
+                          {item.hazard?.type === "freeze" && "❄️ 동파경보"}
+                          {item.hazard?.type === "heavy_rain" && "🌧️ 폭우주의"}
+                          {item.hazard?.type === "heavy_snow" && "☃️ 폭설주의"}
+                          {item.hazard?.type === "strong_wind" && "💨 강풍주의"}
+                        </Badge>
+                      )}
+
+                      <div className="my-1">{icon}</div>
+                      <span className="text-[11px] font-medium text-slate-700 dark:text-slate-300 mb-1.5">{label}</span>
+
+                      {/* Temp High / Low */}
+                      <div className="flex items-center gap-1.5 text-xs font-extrabold mt-auto pt-1 border-t w-full justify-center">
+                        <span className="text-red-500" title="최고 기온">
+                          {item.tempMax}°
+                        </span>
+                        <span className="text-muted-foreground/40">/</span>
+                        <span className="text-sky-500" title="최저 기온">
+                          {item.tempMin}°
+                        </span>
+                      </div>
+
+                      {hasHazard && (
+                        <span className="text-[9px] text-red-600 font-bold mt-1.5 underline">
+                          대처 가이드 팝업 ➔
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
 
       {/* 🚨 HAZARD POPUP DIALOG */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
