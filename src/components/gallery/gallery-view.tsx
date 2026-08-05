@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useGallery, compressImage } from "@/hooks/use-gallery";
 import { GalleryItem } from "@/types";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,10 +19,10 @@ import {
   Upload, 
   Sparkles, 
   Calendar as CalendarIcon, 
-  Tag, 
   FileText,
   Maximize2,
-  CheckCircle2
+  CheckCircle2,
+  ClipboardCheck
 } from "lucide-react";
 
 const CATEGORIES = ["전체", "건물 외관", "하자 보수", "임대 현장", "설비/기계실", "기타"];
@@ -40,9 +40,48 @@ export function GalleryView() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isCompressing, setIsCompressing] = useState(false);
+  const [isPasted, setIsPasted] = useState(false);
 
   // Lightbox Modal State
   const [activeItem, setActiveItem] = useState<GalleryItem | null>(null);
+
+  // 📋 Global Clipboard Paste Event Listener (Ctrl + V / Cmd + V)
+  useEffect(() => {
+    const handlePaste = async (e: ClipboardEvent) => {
+      if (!e.clipboardData) return;
+      const items = e.clipboardData.items;
+
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.startsWith("image/")) {
+          const file = items[i].getAsFile();
+          if (file) {
+            e.preventDefault();
+            setIsCompressing(true);
+            setIsUploadOpen(true);
+            setIsPasted(true);
+            try {
+              const compressed = await compressImage(file);
+              setPreviewUrl(compressed);
+              setSelectedFile(file);
+              if (!uploadTitle) {
+                setUploadTitle(`복사한 사진 (${new Date().toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })})`);
+              }
+            } catch (err) {
+              console.error("Paste image compression error:", err);
+            } finally {
+              setIsCompressing(false);
+            }
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("paste", handlePaste);
+    return () => {
+      window.removeEventListener("paste", handlePaste);
+    };
+  }, [uploadTitle]);
 
   const filteredItems = useMemo(() => {
     return items.filter((item) => {
@@ -65,6 +104,7 @@ export function GalleryView() {
       const file = e.target.files[0];
       setSelectedFile(file);
       setIsCompressing(true);
+      setIsPasted(false);
       try {
         const compressed = await compressImage(file);
         setPreviewUrl(compressed);
@@ -92,6 +132,7 @@ export function GalleryView() {
     setUploadNotes("");
     setSelectedFile(null);
     setPreviewUrl(null);
+    setIsPasted(false);
   };
 
   const handleDelete = async (id: string) => {
@@ -123,8 +164,11 @@ export function GalleryView() {
               <span>건물 관리 사진 갤러리</span>
               <Sparkles className="w-4 h-4 text-amber-500" />
             </h1>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-              건물 외관, 하자 보수, 임대 현장 사진을 용량 걱정 없이 안전하게 보관하세요. (자동 최적화 압축)
+            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 flex items-center gap-1.5 flex-wrap">
+              <span>건물 현장 사진 보관</span>
+              <Badge variant="outline" className="text-[10px] bg-primary/5 text-primary border-primary/30">
+                📋 Ctrl + V (복사 붙여넣기)로 바로 업로드 가능!
+              </Badge>
             </p>
           </div>
         </div>
@@ -173,9 +217,12 @@ export function GalleryView() {
         <div className="text-center py-16 border-2 border-dashed rounded-2xl space-y-3 bg-muted/10">
           <Images className="w-10 h-10 text-muted-foreground/50 mx-auto" />
           <p className="text-sm font-medium text-muted-foreground">등록된 현장 사진이 없습니다.</p>
-          <Button variant="outline" size="sm" onClick={() => setIsUploadOpen(true)}>
-            + 새 사진 업로드하기
-          </Button>
+          <div className="flex items-center justify-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => setIsUploadOpen(true)}>
+              + 사진 파일 직접 업로드
+            </Button>
+            <span className="text-xs text-muted-foreground">또는 **Ctrl + V** 복사 붙여넣기</span>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -239,14 +286,23 @@ export function GalleryView() {
           <form onSubmit={handleUploadSubmit} className="space-y-4 py-2">
             {/* Image File Selector & Preview */}
             <div className="space-y-2">
-              <Label>사진 선택 (웹용 자동 용량 최적화)</Label>
+              <Label>사진 선택 (파일 선택 또는 Ctrl + V 붙여넣기)</Label>
               <div className="border-2 border-dashed rounded-xl p-4 text-center hover:bg-muted/20 transition-colors">
                 {previewUrl ? (
                   <div className="space-y-3">
                     <img src={previewUrl} alt="Preview" className="max-h-48 rounded-lg mx-auto object-contain border" />
                     <div className="flex items-center justify-center gap-1 text-xs text-emerald-600 font-semibold">
-                      <CheckCircle2 className="w-4 h-4" />
-                      <span>이미지 최적화 압축 완료 (~300KB)</span>
+                      {isPasted ? (
+                        <>
+                          <ClipboardCheck className="w-4 h-4 text-indigo-600" />
+                          <span className="text-indigo-600">클립보드 복사한 사진(Ctrl+V) 자동 첨부 완료!</span>
+                        </>
+                      ) : (
+                        <>
+                          <CheckCircle2 className="w-4 h-4" />
+                          <span>이미지 최적화 압축 완료 (~300KB)</span>
+                        </>
+                      )}
                     </div>
                     <Button
                       type="button"
@@ -255,6 +311,7 @@ export function GalleryView() {
                       onClick={() => {
                         setSelectedFile(null);
                         setPreviewUrl(null);
+                        setIsPasted(false);
                       }}
                     >
                       다른 사진 선택
@@ -264,10 +321,10 @@ export function GalleryView() {
                   <label className="cursor-pointer block py-6 space-y-2">
                     <Upload className="w-8 h-8 text-muted-foreground mx-auto" />
                     <span className="text-xs font-semibold text-primary block">
-                      컴퓨터나 스마트폰에서 사진 파일 선택하기
+                      사진 파일 선택 또는 캡처 사진 Ctrl + V 붙여넣기!
                     </span>
                     <span className="text-[11px] text-muted-foreground block">
-                      (고화질 사진도 300KB로 자동 압축되어 무료로 넉넉하게 보관됩니다)
+                      (화면 캡처/복사한 이미지를 <b>Ctrl + V</b>로 누르면 자동으로 첨부됩니다)
                     </span>
                     <input
                       type="file"
