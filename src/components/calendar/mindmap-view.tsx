@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useCalendarEvents } from "@/hooks/use-calendar";
 import { CalendarEvent } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -24,7 +24,8 @@ import {
   Eye,
   EyeOff,
   Maximize2,
-  Minimize2
+  Minimize2,
+  Minimize
 } from "lucide-react";
 
 export function MindmapView() {
@@ -37,11 +38,14 @@ export function MindmapView() {
   const [collapsedMonths, setCollapsedMonths] = useState<Record<number, boolean>>({});
 
   // Canvas Pan & Zoom State
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(0.8);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
+
+  // Touch Pinch Distance State for Mobile
+  const lastTouchDistRef = useRef<number | null>(null);
 
   // Event Edit/Add Modal State
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
@@ -171,15 +175,56 @@ export function MindmapView() {
 
   const handleMouseUp = () => setIsDragging(false);
 
-  // Wheel zoom handler
+  // Mobile Touch Handlers (Pan & Pinch Zoom)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if ((e.target as HTMLElement).tagName === "BUTTON" || (e.target as HTMLElement).closest(".node-interactive")) {
+      return;
+    }
+    if (e.touches.length === 1) {
+      setIsDragging(true);
+      setDragStart({ x: e.touches[0].clientX - pan.x, y: e.touches[0].clientY - pan.y });
+    } else if (e.touches.length === 2) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      lastTouchDistRef.current = dist;
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length === 1 && isDragging) {
+      setPan({ x: e.touches[0].clientX - dragStart.x, y: e.touches[0].clientY - dragStart.y });
+    } else if (e.touches.length === 2 && lastTouchDistRef.current !== null) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      const factor = dist / lastTouchDistRef.current;
+      setZoom((prev) => Math.min(Math.max(prev * factor, 0.15), 2.2));
+      lastTouchDistRef.current = dist;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+    lastTouchDistRef.current = null;
+  };
+
+  // Wheel zoom handler (min zoom lowered to 0.15 for mobile scaling)
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
     const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
-    setZoom((prev) => Math.min(Math.max(prev * zoomFactor, 0.5), 2.2));
+    setZoom((prev) => Math.min(Math.max(prev * zoomFactor, 0.15), 2.2));
   };
 
   const resetTransform = () => {
-    setZoom(1);
+    setZoom(0.8);
+    setPan({ x: 0, y: 0 });
+  };
+
+  const zoomToFitMobile = () => {
+    setZoom(0.32); // Fits 360-degree mindmap on smartphone screen
     setPan({ x: 0, y: 0 });
   };
 
@@ -234,36 +279,33 @@ export function MindmapView() {
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] md:h-[calc(100vh-1rem)] overflow-hidden bg-[#090d16] text-slate-100 select-none">
       {/* Top Header & Control Toolbar */}
-      <div className="z-10 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800 p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3 shadow-lg">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-            <GitFork className="w-5 h-5 text-white" />
+      <div className="z-10 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800 p-2.5 sm:p-4 flex flex-wrap items-center justify-between gap-2 shadow-lg">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 shrink-0">
+            <GitFork className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-base sm:text-lg font-bold flex items-center gap-2 text-white">
+            <h1 className="text-sm sm:text-lg font-bold flex items-center gap-1.5 text-white">
               <span>{selectedYear}년 옵시디안 방사형 마인드맵</span>
-              <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
+              <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
             </h1>
-            <p className="text-xs text-slate-400">
-              월별 가지를 접고 펼치거나, 사이드바 토글 버튼으로 최대로 넓게 감상할 수 있습니다.
-            </p>
           </div>
         </div>
 
         {/* Filters & Controls */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
           {/* Year Controls */}
           <div className="flex items-center bg-slate-800/80 rounded-lg p-0.5 border border-slate-700">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setSelectedYear((y) => y - 1)}
-              className="h-8 w-8 text-slate-300 hover:text-white hover:bg-slate-700"
+              className="h-7 w-7 sm:h-8 sm:w-8 text-slate-300 hover:text-white hover:bg-slate-700"
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </Button>
             <select
-              className="h-8 bg-transparent text-sm font-bold text-white px-2 focus:outline-none cursor-pointer"
+              className="h-7 sm:h-8 bg-transparent text-xs sm:text-sm font-bold text-white px-1 sm:px-2 focus:outline-none cursor-pointer"
               value={selectedYear}
               onChange={(e) => setSelectedYear(Number(e.target.value))}
             >
@@ -277,25 +319,37 @@ export function MindmapView() {
               variant="ghost"
               size="icon"
               onClick={() => setSelectedYear((y) => y + 1)}
-              className="h-8 w-8 text-slate-300 hover:text-white hover:bg-slate-700"
+              className="h-7 w-7 sm:h-8 sm:w-8 text-slate-300 hover:text-white hover:bg-slate-700"
             >
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </Button>
           </div>
 
           {/* Search */}
-          <div className="relative w-36 sm:w-44">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+          <div className="relative w-28 sm:w-44">
+            <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-slate-400" />
             <Input
-              placeholder="일정 검색..."
+              placeholder="검색..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-8 h-8 text-xs bg-slate-800/80 border-slate-700 text-slate-100 placeholder:text-slate-500"
+              className="pl-7 h-7 sm:h-8 text-xs bg-slate-800/80 border-slate-700 text-slate-100 placeholder:text-slate-500"
             />
           </div>
 
+          {/* Mobile One-Tap Fit Screen Zoom Out */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={zoomToFitMobile}
+            className="h-7 sm:h-8 text-[11px] sm:text-xs px-2 bg-indigo-950/80 border-indigo-700 text-indigo-200 hover:bg-indigo-900 gap-1"
+            title="한눈에 보기 (전체 축소)"
+          >
+            <Minimize className="h-3.5 w-3.5" />
+            한눈에축소
+          </Button>
+
           {/* Expand/Collapse All Months Buttons */}
-          <div className="flex items-center gap-1 bg-slate-800/80 rounded-lg p-0.5 border border-slate-700">
+          <div className="hidden sm:flex items-center gap-1 bg-slate-800/80 rounded-lg p-0.5 border border-slate-700">
             <Button
               variant="ghost"
               size="sm"
@@ -323,42 +377,42 @@ export function MindmapView() {
             variant={importantOnly ? "destructive" : "outline"}
             size="sm"
             onClick={() => setImportantOnly(!importantOnly)}
-            className={`h-8 text-xs gap-1 border-slate-700 ${
+            className={`h-7 sm:h-8 text-xs px-2 gap-1 border-slate-700 ${
               importantOnly ? "bg-red-600 text-white" : "bg-slate-800/80 text-slate-300 hover:text-white"
             }`}
           >
-            <Star className={`h-3.5 w-3.5 ${importantOnly ? "fill-current" : ""}`} />
+            <Star className={`h-3 w-3 sm:h-3.5 sm:w-3.5 ${importantOnly ? "fill-current" : ""}`} />
             중요만
           </Button>
 
           {/* Canvas Zoom Controls */}
-          <div className="flex items-center gap-1 bg-slate-800/80 rounded-lg p-0.5 border border-slate-700">
+          <div className="flex items-center gap-0.5 bg-slate-800/80 rounded-lg p-0.5 border border-slate-700">
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setZoom((z) => Math.min(z * 1.15, 2.2))}
-              className="h-8 w-8 text-slate-300 hover:text-white"
-              title="확대"
+              onClick={() => setZoom((z) => Math.min(z * 1.25, 2.2))}
+              className="h-7 w-7 sm:h-8 sm:w-8 text-slate-300 hover:text-white"
+              title="확대 (+)"
             >
-              <ZoomIn className="h-4 w-4" />
+              <ZoomIn className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setZoom((z) => Math.max(z * 0.85, 0.5))}
-              className="h-8 w-8 text-slate-300 hover:text-white"
-              title="축소"
+              onClick={() => setZoom((z) => Math.max(z * 0.7, 0.15))}
+              className="h-7 w-7 sm:h-8 sm:w-8 text-slate-300 hover:text-white"
+              title="축소 (-)"
             >
-              <ZoomOut className="h-4 w-4" />
+              <ZoomOut className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
               onClick={resetTransform}
-              className="h-8 w-8 text-slate-300 hover:text-white"
+              className="h-7 w-7 sm:h-8 sm:w-8 text-slate-300 hover:text-white"
               title="초기화"
             >
-              <RotateCcw className="h-4 w-4" />
+              <RotateCcw className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </Button>
           </div>
         </div>
@@ -366,13 +420,47 @@ export function MindmapView() {
 
       {/* OBSIDIAN GRAPH RADIAL CANVAS CONTAINER */}
       <div
-        className="flex-1 relative overflow-hidden cursor-grab active:cursor-grabbing bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px]"
+        className="flex-1 relative overflow-hidden cursor-grab active:cursor-grabbing bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] touch-none"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
         onWheel={handleWheel}
       >
+        {/* Floating Quick Mobile Zoom Controls overlay on Canvas Bottom Right */}
+        <div className="absolute bottom-4 right-4 z-40 flex flex-col gap-2 bg-slate-900/90 border border-slate-700 p-1.5 rounded-xl shadow-2xl backdrop-blur-md">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setZoom((z) => Math.min(z * 1.3, 2.2))}
+            className="h-9 w-9 text-slate-200 hover:bg-slate-800 active:bg-slate-700"
+            title="확대"
+          >
+            <ZoomIn className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setZoom((z) => Math.max(z * 0.65, 0.15))}
+            className="h-9 w-9 text-slate-200 hover:bg-slate-800 active:bg-slate-700"
+            title="축소"
+          >
+            <ZoomOut className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={zoomToFitMobile}
+            className="h-9 w-9 text-indigo-400 hover:bg-slate-800 active:bg-slate-700"
+            title="전체 축소 (한눈에 보기)"
+          >
+            <Minimize className="h-4 w-4" />
+          </Button>
+        </div>
+
         <div
           className="absolute inset-0 transition-transform duration-75 origin-center"
           style={{
