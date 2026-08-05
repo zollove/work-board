@@ -9,7 +9,6 @@ export interface Memo {
   updatedAt: string;
 }
 
-
 export interface Rental {
   id: string;
   building: string;
@@ -39,4 +38,13 @@ export interface CalendarEvent {
   title: string;
   description?: string;
   isImportant?: boolean;
+}
+
+export interface GalleryItem {
+  id: string;
+  title: string;
+  category: string;
+  imageUrl: string;
+  notes?: string;
+  createdAt: string;
 }
