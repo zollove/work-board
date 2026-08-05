@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useCalendarEvents } from "@/hooks/use-calendar";
 import { MonthCard } from "./month-card";
 import { MonthDetailModal } from "./month-detail-modal";
+import { WeatherWidget } from "./weather-widget";
 
 export function WorkCalendar() {
   const currentYear = new Date().getFullYear();
@@ -17,7 +18,10 @@ export function WorkCalendar() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4">
+      {/* ☀️ 7-Day Weather & Building Hazard Warning Bar */}
+      <WeatherWidget />
+
+      <div className="flex items-center gap-4 pt-2">
         <label htmlFor="year-select" className="text-sm font-medium">연도 선택:</label>
         <select
           id="year-select"
