@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Calendar, Building2, StickyNote, Contact2 } from "lucide-react";
+import { Calendar, Building2, StickyNote, Contact2, GitFork } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { name: "달력", href: "/", icon: Calendar },
+  { name: "마인드맵", href: "/mindmap", icon: GitFork },
   { name: "임대현황", href: "/rentals", icon: Building2 },
   { name: "메모", href: "/memos", icon: StickyNote },
   { name: "연락처", href: "/contacts", icon: Contact2 },
@@ -17,7 +18,7 @@ export function BottomNav() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur md:hidden">
-      <nav className="flex justify-around items-center h-16 px-2">
+      <nav className="flex justify-around items-center h-16 px-1">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -25,7 +26,7 @@ export function BottomNav() {
               key={item.name}
               href={item.href}
               className={cn(
-                "flex flex-col items-center justify-center w-full h-full text-xs gap-1 transition-colors",
+                "flex flex-col items-center justify-center w-full h-full text-[11px] gap-1 transition-colors",
                 isActive
                   ? "text-primary font-semibold"
                   : "text-muted-foreground hover:text-foreground"
