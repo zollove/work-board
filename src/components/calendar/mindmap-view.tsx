@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useCalendarEvents } from "@/hooks/use-calendar";
 import { CalendarEvent } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,10 @@ import {
   ZoomOut,
   RotateCcw,
   Calendar as CalendarIcon,
-  Maximize2
+  Eye,
+  EyeOff,
+  Maximize2,
+  Minimize2
 } from "lucide-react";
 
 export function MindmapView() {
@@ -29,6 +32,9 @@ export function MindmapView() {
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [searchQuery, setSearchQuery] = useState("");
   const [importantOnly, setImportantOnly] = useState(false);
+
+  // Month Expand/Collapse state: record of monthIdx -> isCollapsed (false means expanded)
+  const [collapsedMonths, setCollapsedMonths] = useState<Record<number, boolean>>({});
 
   // Canvas Pan & Zoom State
   const [zoom, setZoom] = useState(1);
@@ -76,8 +82,7 @@ export function MindmapView() {
   const radialData = useMemo(() => {
     return Array.from({ length: 12 }, (_, monthIdx) => {
       const monthNumber = monthIdx + 1;
-      // 1월 is at top (-90 deg), spreading clockwise every 30 deg
-      const angleDeg = monthIdx * 30 - 90;
+      const angleDeg = monthIdx * 30 - 90; // 1월 starts at top
       const angleRad = (angleDeg * Math.PI) / 180;
 
       const monthX = centerX + monthRadius * Math.cos(angleRad);
@@ -88,29 +93,33 @@ export function MindmapView() {
         .filter((e) => e.date.startsWith(monthPrefix))
         .sort((a, b) => a.date.localeCompare(b.date));
 
-      // Calculate positions for each event in this month branch
+      const isCollapsed = !!collapsedMonths[monthIdx];
+
+      // Calculate positions for each event in this month branch (only if not collapsed)
       const eventCount = monthEvents.length;
-      const fanSpreadDeg = Math.min(45, Math.max(18, eventCount * 8)); // fan arc angle
+      const fanSpreadDeg = Math.min(45, Math.max(18, eventCount * 8));
 
-      const eventNodes = monthEvents.map((evt, idx) => {
-        let eventAngleDeg = angleDeg;
-        if (eventCount > 1) {
-          const step = fanSpreadDeg / (eventCount - 1);
-          eventAngleDeg = angleDeg - fanSpreadDeg / 2 + idx * step;
-        }
-        const eventAngleRad = (eventAngleDeg * Math.PI) / 180;
-        const dist = monthRadius + eventRadiusStep + (idx % 2 === 0 ? 0 : 35); // stagger alternating
+      const eventNodes = isCollapsed
+        ? []
+        : monthEvents.map((evt, idx) => {
+            let eventAngleDeg = angleDeg;
+            if (eventCount > 1) {
+              const step = fanSpreadDeg / (eventCount - 1);
+              eventAngleDeg = angleDeg - fanSpreadDeg / 2 + idx * step;
+            }
+            const eventAngleRad = (eventAngleDeg * Math.PI) / 180;
+            const dist = monthRadius + eventRadiusStep + (idx % 2 === 0 ? 0 : 35);
 
-        const eventX = centerX + dist * Math.cos(eventAngleRad);
-        const eventY = centerY + dist * Math.sin(eventAngleRad);
+            const eventX = centerX + dist * Math.cos(eventAngleRad);
+            const eventY = centerY + dist * Math.sin(eventAngleRad);
 
-        return {
-          event: evt,
-          x: eventX,
-          y: eventY,
-          angleDeg: eventAngleDeg,
-        };
-      });
+            return {
+              event: evt,
+              x: eventX,
+              y: eventY,
+              angleDeg: eventAngleDeg,
+            };
+          });
 
       return {
         monthIdx,
@@ -118,12 +127,33 @@ export function MindmapView() {
         x: monthX,
         y: monthY,
         angleDeg,
+        isCollapsed,
         events: eventNodes,
         totalEventsCount: monthEvents.length,
         importantCount: monthEvents.filter((e) => e.isImportant).length,
       };
     });
-  }, [selectedYear, yearEvents, centerX, centerY]);
+  }, [selectedYear, yearEvents, collapsedMonths, centerX, centerY]);
+
+  // Toggle single month collapse
+  const toggleMonthCollapse = (mIdx: number) => {
+    setCollapsedMonths((prev) => ({
+      ...prev,
+      [mIdx]: !prev[mIdx],
+    }));
+  };
+
+  // Expand all months
+  const handleExpandAll = () => {
+    setCollapsedMonths({});
+  };
+
+  // Collapse all months
+  const handleCollapseAll = () => {
+    const all: Record<number, boolean> = {};
+    for (let i = 0; i < 12; i++) all[i] = true;
+    setCollapsedMonths(all);
+  };
 
   // Mouse pan handlers
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -215,12 +245,12 @@ export function MindmapView() {
               <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
             </h1>
             <p className="text-xs text-slate-400">
-              중앙 연도 노드에서 12개월 가지와 모든 일정 노드가 360도로 연결됩니다. (드래그 & 줌 지원)
+              월별 가지를 접고 펼치거나, 사이드바 토글 버튼으로 최대로 넓게 감상할 수 있습니다.
             </p>
           </div>
         </div>
 
-        {/* Filters & Year Controls */}
+        {/* Filters & Controls */}
         <div className="flex flex-wrap items-center gap-2">
           {/* Year Controls */}
           <div className="flex items-center bg-slate-800/80 rounded-lg p-0.5 border border-slate-700">
@@ -254,7 +284,7 @@ export function MindmapView() {
           </div>
 
           {/* Search */}
-          <div className="relative w-36 sm:w-48">
+          <div className="relative w-36 sm:w-44">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
             <Input
               placeholder="일정 검색..."
@@ -262,6 +292,30 @@ export function MindmapView() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-8 h-8 text-xs bg-slate-800/80 border-slate-700 text-slate-100 placeholder:text-slate-500"
             />
+          </div>
+
+          {/* Expand/Collapse All Months Buttons */}
+          <div className="flex items-center gap-1 bg-slate-800/80 rounded-lg p-0.5 border border-slate-700">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleExpandAll}
+              className="h-7 text-xs px-2 text-slate-300 hover:text-white gap-1"
+              title="12개 월 가지 모두 펼치기"
+            >
+              <Maximize2 className="h-3.5 w-3.5" />
+              모두 펼치기
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleCollapseAll}
+              className="h-7 text-xs px-2 text-slate-300 hover:text-white gap-1"
+              title="12개 월 가지 모두 접기"
+            >
+              <Minimize2 className="h-3.5 w-3.5" />
+              모두 접기
+            </Button>
           </div>
 
           {/* Important Only Toggle */}
@@ -357,28 +411,29 @@ export function MindmapView() {
                     stroke="url(#centerToMonthGrad)"
                     strokeWidth="2.5"
                     fill="none"
-                    strokeDasharray={m.totalEventsCount === 0 ? "4,4" : "none"}
+                    strokeDasharray={m.isCollapsed ? "4,4" : "none"}
                     className="opacity-70 group-hover:opacity-100 transition-all duration-300"
                   />
 
-                  {/* Lines from Month -> Event Sub-Nodes */}
-                  {m.events.map((evtNode) => {
-                    const isHovered = hoveredNodeId === evtNode.event.id;
-                    const isImp = evtNode.event.isImportant;
-                    const eCtrlX = m.x + (evtNode.x - m.x) * 0.5;
-                    const eCtrlY = m.y + (evtNode.y - m.y) * 0.5;
+                  {/* Lines from Month -> Event Sub-Nodes (Only if expanded) */}
+                  {!m.isCollapsed &&
+                    m.events.map((evtNode) => {
+                      const isHovered = hoveredNodeId === evtNode.event.id;
+                      const isImp = evtNode.event.isImportant;
+                      const eCtrlX = m.x + (evtNode.x - m.x) * 0.5;
+                      const eCtrlY = m.y + (evtNode.y - m.y) * 0.5;
 
-                    return (
-                      <path
-                        key={`edge-${evtNode.event.id}`}
-                        d={`M ${m.x} ${m.y} Q ${eCtrlX} ${eCtrlY} ${evtNode.x} ${evtNode.y}`}
-                        stroke={isImp ? "url(#importantGrad)" : isHovered ? "#38bdf8" : "#475569"}
-                        strokeWidth={isHovered ? "2.5" : isImp ? "2" : "1.2"}
-                        strokeOpacity={isHovered ? "1" : isImp ? "0.9" : "0.5"}
-                        fill="none"
-                      />
-                    );
-                  })}
+                      return (
+                        <path
+                          key={`edge-${evtNode.event.id}`}
+                          d={`M ${m.x} ${m.y} Q ${eCtrlX} ${eCtrlY} ${evtNode.x} ${evtNode.y}`}
+                          stroke={isImp ? "url(#importantGrad)" : isHovered ? "#38bdf8" : "#475569"}
+                          strokeWidth={isHovered ? "2.5" : isImp ? "2" : "1.2"}
+                          strokeOpacity={isHovered ? "1" : isImp ? "0.9" : "0.5"}
+                          fill="none"
+                        />
+                      );
+                    })}
                 </g>
               );
             })}
@@ -415,7 +470,7 @@ export function MindmapView() {
               >
                 <div className="relative group">
                   <div
-                    className={`relative px-4 py-2.5 rounded-2xl border-2 backdrop-blur-md shadow-xl flex items-center gap-2 transition-all duration-300 ${
+                    className={`relative px-3.5 py-2 rounded-2xl border-2 backdrop-blur-md shadow-xl flex items-center gap-2 transition-all duration-300 ${
                       m.importantCount > 0
                         ? "bg-slate-900/90 border-red-500/80 text-white ring-2 ring-red-500/30"
                         : hasEvents
@@ -447,13 +502,31 @@ export function MindmapView() {
                       {m.totalEventsCount}건
                     </Badge>
 
+                    {/* Expand / Collapse Month Button */}
+                    {hasEvents && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleMonthCollapse(m.monthIdx);
+                        }}
+                        className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
+                          m.isCollapsed
+                            ? "bg-slate-800 hover:bg-slate-700 text-amber-400"
+                            : "bg-slate-800 hover:bg-slate-700 text-slate-300"
+                        }`}
+                        title={m.isCollapsed ? `${m.monthNumber}월 가지 펼치기` : `${m.monthNumber}월 가지 접기`}
+                      >
+                        {m.isCollapsed ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                      </button>
+                    )}
+
                     {/* Quick Add Button */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         handleOpenAddForMonth(m.monthNumber);
                       }}
-                      className="ml-1 w-6 h-6 rounded-full bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors"
+                      className="w-6 h-6 rounded-full bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors"
                       title={`${m.monthNumber}월에 일정 추가`}
                     >
                       <Plus className="w-3.5 h-3.5" />

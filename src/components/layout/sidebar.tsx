@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Calendar, Building2, StickyNote, Contact2, GitFork } from "lucide-react";
+import { Calendar, Building2, StickyNote, Contact2, GitFork, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const navItems = [
   { name: "Work Calendar", href: "/", icon: Calendar },
@@ -15,30 +17,60 @@ const navItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <aside className="w-64 border-r bg-muted/30 hidden md:block h-screen sticky top-0">
-      <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6 font-semibold">
-        <Building2 className="mr-2 h-5 w-5 text-primary" />
-        <span>업무 관리 시스템</span>
+    <aside
+      className={cn(
+        "border-r bg-muted/30 hidden md:block h-screen sticky top-0 transition-all duration-300 z-40 shrink-0",
+        isCollapsed ? "w-16" : "w-64"
+      )}
+    >
+      {/* Header Bar with Toggle Button */}
+      <div className="flex h-14 items-center justify-between border-b px-3 lg:h-[60px] font-semibold">
+        {!isCollapsed && (
+          <div className="flex items-center gap-2 truncate">
+            <Building2 className="h-5 w-5 text-primary shrink-0" />
+            <span className="truncate">업무 관리 시스템</span>
+          </div>
+        )}
+        {isCollapsed && (
+          <div className="mx-auto">
+            <Building2 className="h-5 w-5 text-primary" />
+          </div>
+        )}
+
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="h-8 w-8 shrink-0 text-muted-foreground hover:text-foreground"
+          title={isCollapsed ? "사이드바 펼치기" : "사이드바 접기"}
+        >
+          {isCollapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+        </Button>
       </div>
+
+      {/* Navigation Items */}
       <div className="flex-1 py-4">
-        <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-1">
+        <nav className="grid items-start px-2 text-sm font-medium gap-1">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
                 key={item.name}
                 href={item.href}
+                title={isCollapsed ? item.name : undefined}
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                  "flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all hover:text-primary",
                   isActive
                     ? "bg-primary/10 text-primary font-semibold"
-                    : "text-muted-foreground hover:bg-muted"
+                    : "text-muted-foreground hover:bg-muted",
+                  isCollapsed && "justify-center px-0"
                 )}
               >
-                <item.icon className="h-4 w-4" />
-                {item.name}
+                <item.icon className="h-5 w-5 shrink-0" />
+                {!isCollapsed && <span className="truncate">{item.name}</span>}
               </Link>
             );
           })}
