@@ -26,7 +26,8 @@ import {
   ClipboardCheck, 
   X,
   CheckCircle2,
-  FileText
+  FileText,
+  Camera
 } from "lucide-react";
 
 const CATEGORIES = ["전체", "중요", "건물 외관", "하자 보수", "임대 현장", "설비/기계실", "일반", "아이디어", "긴급"];
@@ -135,6 +136,13 @@ export function MemoView() {
       const file = e.target.files[0];
       setIsCompressing(true);
       setIsPasted(false);
+      if (!isFormOpen) {
+        setEditingMemo(null);
+        setTitle(`현장 사진 메모 (${new Date().toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })})`);
+        setCategory("건물 외관");
+        setContent("");
+        setIsFormOpen(true);
+      }
       try {
         const compressed = await compressImage(file);
         setImageUrl(compressed);
@@ -209,10 +217,28 @@ export function MemoView() {
           </div>
         </div>
 
-        <Button onClick={handleOpenAdd} className="gap-2 shrink-0">
-          <Plus className="w-4 h-4" />
-          새 메모 작성
-        </Button>
+        {/* Top Action Buttons (Including Direct Photo Picker Button) */}
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <label
+            htmlFor="top-photo-input"
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 h-10 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-xs font-bold cursor-pointer transition-colors shadow-sm"
+          >
+            <Camera className="w-4 h-4" />
+            <span>📷 갤러리 사진 올리기</span>
+          </label>
+          <input
+            id="top-photo-input"
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+
+          <Button onClick={handleOpenAdd} className="flex-1 sm:flex-none gap-1.5 h-10 text-xs font-bold">
+            <Plus className="w-4 h-4" />
+            <span>+ 새 메모 작성</span>
+          </Button>
+        </div>
       </div>
 
       {/* Control Toolbar: Category Filter & View Mode Switcher */}
@@ -269,7 +295,7 @@ export function MemoView() {
         </div>
       </div>
 
-      {/* MEMO ITEMS DISPLAY - 1줄에 4개 (grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4) */}
+      {/* MEMO ITEMS DISPLAY */}
       {filteredMemos.length === 0 ? (
         <div className="text-center py-16 border-2 border-dashed rounded-2xl space-y-3 bg-muted/10">
           <StickyNote className="w-10 h-10 text-muted-foreground/50 mx-auto" />
@@ -392,12 +418,11 @@ export function MemoView() {
         </div>
       )}
 
-      {/* 팝업 1: MEMO DETAIL POPUP MODAL (메모 클릭 시 팝업으로 보기) */}
+      {/* 팝업 1: MEMO DETAIL POPUP MODAL */}
       <Dialog open={!!viewingMemo} onOpenChange={(open) => !open && setViewingMemo(null)}>
         <DialogContent className="sm:max-w-2xl p-0 overflow-hidden bg-card border shadow-xl">
           {viewingMemo && (
             <div className="flex flex-col max-h-[85vh]">
-              {/* Header */}
               <div className="p-4 sm:p-5 border-b flex items-start justify-between gap-3 bg-muted/20">
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2">
@@ -441,9 +466,7 @@ export function MemoView() {
                 </div>
               </div>
 
-              {/* Scrollable Content Body */}
               <div className="p-4 sm:p-6 overflow-y-auto space-y-4">
-                {/* Photo if present */}
                 {viewingMemo.imageUrl && (
                   <div className="relative bg-black/90 rounded-2xl overflow-hidden border p-2 text-center">
                     <img
@@ -464,7 +487,6 @@ export function MemoView() {
                   </div>
                 )}
 
-                {/* Text Content */}
                 <div className="bg-muted/30 p-4 rounded-xl border leading-relaxed text-sm whitespace-pre-wrap">
                   {viewingMemo.content || "(상세 텍스트 내용이 없습니다.)"}
                 </div>
@@ -525,7 +547,7 @@ export function MemoView() {
 
             {/* Photo Attachment Box */}
             <div className="space-y-2">
-              <Label>현장 사진 첨부 (선택 / Ctrl + V 가능)</Label>
+              <Label>현장 사진 첨부 (선택)</Label>
               <div className="border-2 border-dashed rounded-xl p-4 text-center hover:bg-muted/20 transition-colors">
                 {imageUrl ? (
                   <div className="space-y-3">
@@ -555,14 +577,16 @@ export function MemoView() {
                     </div>
                   </div>
                 ) : (
-                  <label className="cursor-pointer block py-4 space-y-1.5">
-                    <Upload className="w-6 h-6 text-muted-foreground mx-auto" />
-                    <span className="text-xs font-semibold text-primary block">
-                      사진 파일 선택 또는 **Ctrl + V** 복사 붙여넣기!
+                  <label htmlFor="modal-photo-input" className="w-full py-3.5 px-4 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-xl flex flex-col items-center justify-center gap-1.5 cursor-pointer text-primary font-bold transition-all shadow-sm">
+                    <Camera className="w-6 h-6 text-primary" />
+                    <span className="text-sm font-extrabold">📷 핸드폰 갤러리 사진 선택 / 촬영하기</span>
+                    <span className="text-[11px] text-muted-foreground font-normal">
+                      (터치하면 스마트폰 갤러리 및 카메라가 즉시 열립니다)
                     </span>
                   </label>
                 )}
                 <input
+                  id="modal-photo-input"
                   type="file"
                   accept="image/*"
                   className="hidden"
