@@ -83,6 +83,24 @@ export function useMemos() {
         createdAt: m.created_at || m.createdAt || new Date().toISOString(),
         updatedAt: m.updated_at || m.updatedAt || new Date().toISOString(),
       }));
+
+      // Preserve local drag-and-drop custom order if existing in localStorage
+      if (typeof window !== "undefined") {
+        try {
+          const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+          if (saved) {
+            const localList: Memo[] = JSON.parse(saved);
+            const localIdMap = new Map(localList.map((m, idx) => [m.id, idx]));
+            // Sort mapped by local custom order index if exists, otherwise keep fetched order
+            mapped.sort((a, b) => {
+              const idxA = localIdMap.has(a.id) ? localIdMap.get(a.id)! : 99999;
+              const idxB = localIdMap.has(b.id) ? localIdMap.get(b.id)! : 99999;
+              return idxA - idxB;
+            });
+          }
+        } catch (e) {}
+      }
+
       saveToLocal(mapped);
     }
   };
@@ -154,5 +172,9 @@ export function useMemos() {
     else fetchMemos();
   };
 
-  return { memos, addMemo, updateMemo, deleteMemo, refresh: fetchMemos };
+  const setMemoList = (newList: Memo[]) => {
+    saveToLocal(newList);
+  };
+
+  return { memos, addMemo, updateMemo, deleteMemo, setMemoList, refresh: fetchMemos };
 }

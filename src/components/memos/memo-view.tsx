@@ -27,16 +27,23 @@ import {
   X,
   CheckCircle2,
   FileText,
-  Camera
+  Camera,
+  GripVertical,
+  ArrowUpDown,
+  CalendarDays
 } from "lucide-react";
 
 const CATEGORIES = ["전체", "중요", "건물 외관", "하자 보수", "임대 현장", "설비/기계실", "일반", "아이디어", "긴급"];
 
 export function MemoView() {
-  const { memos, addMemo, updateMemo, deleteMemo } = useMemos();
+  const { memos, addMemo, updateMemo, deleteMemo, setMemoList } = useMemos();
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"card" | "gallery">("card");
+  const [sortOrder, setSortOrder] = useState<"custom" | "date_desc" | "date_asc">("custom");
+
+  // Drag and Drop state
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
 
   // Memo Detail Popup View Modal State
   const [viewingMemo, setViewingMemo] = useState<Memo | null>(null);
@@ -92,7 +99,17 @@ export function MemoView() {
   }, [title, category]);
 
   const filteredMemos = useMemo(() => {
-    return memos.filter((memo) => {
+    let list = [...memos];
+
+    // Apply Sorting
+    if (sortOrder === "date_desc") {
+      list.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    } else if (sortOrder === "date_asc") {
+      list.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+    }
+    // "custom" preserves the order as in `memos` array!
+
+    return list.filter((memo) => {
       if (selectedCategory !== "전체" && memo.category !== selectedCategory) {
         return false;
       }
@@ -108,7 +125,49 @@ export function MemoView() {
       }
       return true;
     });
-  }, [memos, selectedCategory, viewMode, searchQuery]);
+  }, [memos, selectedCategory, viewMode, searchQuery, sortOrder]);
+
+  // --- DRAG AND DROP HANDLERS ---
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  };
+
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === dropIndex) return;
+
+    const list = [...memos];
+    const draggedItem = list[draggedIndex];
+    list.splice(draggedIndex, 1);
+    list.splice(dropIndex, 0, draggedItem);
+
+    setSortOrder("custom"); // Set mode to custom drag order
+    setMemoList(list);
+    setDraggedIndex(null);
+  };
+
+  // 1-Click Sort by Date Handler
+  const handleSortByDate = () => {
+    if (sortOrder === "date_desc") {
+      setSortOrder("date_asc");
+    } else {
+      setSortOrder("date_desc");
+    }
+
+    // Permanently sort the underlying list by date
+    const sorted = [...memos].sort((a, b) => {
+      return sortOrder === "date_desc"
+        ? a.createdAt.localeCompare(b.createdAt)
+        : b.createdAt.localeCompare(a.createdAt);
+    });
+    setMemoList(sorted);
+  };
 
   const handleOpenAdd = () => {
     setEditingMemo(null);
@@ -211,7 +270,7 @@ export function MemoView() {
             <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 flex items-center gap-1.5 flex-wrap">
               <span>업무 메모 및 현장 사진 보관함</span>
               <Badge variant="outline" className="text-[10px] bg-primary/5 text-primary border-primary/30">
-                📋 Ctrl + V (복사 붙여넣기) 이미지 첨부 가능
+                🖐️ 드래그로 순서 변경 가능 · 📋 Ctrl + V 이미지 붙여넣기
               </Badge>
             </p>
           </div>
@@ -241,7 +300,7 @@ export function MemoView() {
         </div>
       </div>
 
-      {/* Control Toolbar: Category Filter & View Mode Switcher */}
+      {/* Control Toolbar: Category Filter, Date Sort Button & View Mode Switcher */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-muted/20 p-3 rounded-xl border">
         {/* Category Pills */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
@@ -258,12 +317,30 @@ export function MemoView() {
           ))}
         </div>
 
-        {/* Right Controls: Search & View Mode Switcher */}
-        <div className="flex items-center gap-2">
-          <div className="relative flex-1 sm:w-56">
+        {/* Right Controls: Date Sort Button, Search & View Mode Switcher */}
+        <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+          {/* 📅 1-Click Sort by Creation Date Button */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleSortByDate}
+            className="h-8 text-xs gap-1 border-primary/40 text-primary hover:bg-primary/10 font-bold shrink-0"
+            title="생성 날짜순 정렬 (클릭 시 최신순/오래된순 전환)"
+          >
+            <CalendarDays className="w-3.5 h-3.5" />
+            <span>
+              {sortOrder === "date_asc"
+                ? "날짜 오름차순 ⏳"
+                : sortOrder === "date_desc"
+                ? "날짜 최신순 📅"
+                : "📅 날짜순 정렬"}
+            </span>
+          </Button>
+
+          <div className="relative flex-1 sm:w-48">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
             <Input
-              placeholder="메모 제목 또는 내용 검색..."
+              placeholder="제목/내용 검색..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 h-8 text-xs"
@@ -276,7 +353,7 @@ export function MemoView() {
               size="sm"
               onClick={() => setViewMode("card")}
               className="h-7 text-xs px-2 gap-1"
-              title="카드 뷰 (1줄에 4개)"
+              title="카드 뷰 (드래그 순서 변경 가능)"
             >
               <LayoutGrid className="w-3.5 h-3.5" />
               <span>카드</span>
@@ -295,7 +372,7 @@ export function MemoView() {
         </div>
       </div>
 
-      {/* MEMO ITEMS DISPLAY */}
+      {/* MEMO ITEMS DISPLAY (Drag and Drop Supported) */}
       {filteredMemos.length === 0 ? (
         <div className="text-center py-16 border-2 border-dashed rounded-2xl space-y-3 bg-muted/10">
           <StickyNote className="w-10 h-10 text-muted-foreground/50 mx-auto" />
@@ -310,19 +387,27 @@ export function MemoView() {
           </div>
         </div>
       ) : viewMode === "card" ? (
-        /* CARD VIEW: 4 items per row on desktop */
+        /* CARD VIEW: 4 items per row on desktop with HTML5 Drag & Drop */
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {filteredMemos.map((memo) => {
+          {filteredMemos.map((memo, idx) => {
             const dateStr = memo.createdAt.slice(0, 10).replace(/-/g, ".");
             return (
               <Card
                 key={memo.id}
-                onClick={() => setViewingMemo(memo)}
-                className="group border hover:border-primary/60 transition-all duration-300 hover:shadow-md flex flex-col overflow-hidden cursor-pointer"
+                draggable={true}
+                onDragStart={(e) => handleDragStart(e, idx)}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, idx)}
+                className={`group border hover:border-primary/60 transition-all duration-300 hover:shadow-md flex flex-col overflow-hidden ${
+                  draggedIndex === idx ? "opacity-40 ring-2 ring-primary ring-dashed" : "bg-card"
+                }`}
               >
                 {/* Photo Thumbnail if present */}
                 {memo.imageUrl && (
-                  <div className="relative aspect-[16/9] bg-muted overflow-hidden">
+                  <div
+                    className="relative aspect-[16/9] bg-muted overflow-hidden cursor-pointer"
+                    onClick={() => setViewingMemo(memo)}
+                  >
                     <img
                       src={memo.imageUrl}
                       alt={memo.title}
@@ -337,18 +422,24 @@ export function MemoView() {
 
                 <CardHeader className="p-3.5 pb-1 space-y-1.5">
                   <div className="flex items-center justify-between">
-                    <Badge
-                      variant={
-                        memo.category === "중요" || memo.category === "긴급"
-                          ? "destructive"
-                          : memo.category === "하자 보수"
-                          ? "default"
-                          : "outline"
-                      }
-                      className="text-[10px]"
-                    >
-                      {memo.category}
-                    </Badge>
+                    <div className="flex items-center gap-1.5">
+                      {/* Drag Handle Grip Icon */}
+                      <span className="cursor-grab active:cursor-grabbing text-muted-foreground/60 hover:text-primary p-0.5" title="드래그해서 위치 이동">
+                        <GripVertical className="w-3.5 h-3.5" />
+                      </span>
+                      <Badge
+                        variant={
+                          memo.category === "중요" || memo.category === "긴급"
+                            ? "destructive"
+                            : memo.category === "하자 보수"
+                            ? "default"
+                            : "outline"
+                        }
+                        className="text-[10px]"
+                      >
+                        {memo.category}
+                      </Badge>
+                    </div>
 
                     <span className="text-[10px] text-muted-foreground flex items-center gap-1">
                       <CalendarIcon className="w-3 h-3" />
@@ -356,12 +447,18 @@ export function MemoView() {
                     </span>
                   </div>
 
-                  <CardTitle className="text-sm font-bold group-hover:text-primary transition-colors line-clamp-1">
+                  <CardTitle
+                    className="text-sm font-bold group-hover:text-primary transition-colors line-clamp-1 cursor-pointer"
+                    onClick={() => setViewingMemo(memo)}
+                  >
                     {memo.title}
                   </CardTitle>
                 </CardHeader>
 
-                <CardContent className="p-3.5 pt-1 flex-1 flex flex-col justify-between space-y-2">
+                <CardContent
+                  className="p-3.5 pt-1 flex-1 flex flex-col justify-between space-y-2 cursor-pointer"
+                  onClick={() => setViewingMemo(memo)}
+                >
                   <p className="text-xs text-muted-foreground whitespace-pre-wrap leading-relaxed line-clamp-3">
                     {memo.content || "(상세 텍스트 없음)"}
                   </p>
@@ -378,13 +475,19 @@ export function MemoView() {
       ) : (
         /* GALLERY VIEW: 4 items per row on desktop */
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {filteredMemos.map((memo) => {
+          {filteredMemos.map((memo, idx) => {
             const dateStr = memo.createdAt.slice(0, 10).replace(/-/g, ".");
             return (
               <Card
                 key={memo.id}
+                draggable={true}
+                onDragStart={(e) => handleDragStart(e, idx)}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, idx)}
                 onClick={() => setViewingMemo(memo)}
-                className="group overflow-hidden cursor-pointer border hover:border-primary/60 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                className={`group overflow-hidden cursor-pointer border hover:border-primary/60 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
+                  draggedIndex === idx ? "opacity-40 ring-2 ring-primary ring-dashed" : "bg-card"
+                }`}
               >
                 <div className="relative aspect-[4/3] bg-muted overflow-hidden">
                   <img
@@ -392,7 +495,10 @@ export function MemoView() {
                     alt={memo.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute top-2 left-2">
+                  <div className="absolute top-2 left-2 flex items-center gap-1">
+                    <span className="bg-background/80 backdrop-blur p-0.5 rounded text-muted-foreground cursor-grab">
+                      <GripVertical className="w-3 h-3" />
+                    </span>
                     <Badge variant="secondary" className="bg-background/80 backdrop-blur text-[10px]">
                       {memo.category}
                     </Badge>
