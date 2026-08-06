@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
-  { name: "메모 & 사진 보관함", href: "/memos", icon: StickyNote },
+  { name: "메모", href: "/memos", icon: StickyNote },
   { name: "Work Calendar", href: "/", icon: Calendar },
   { name: "연간 마인드맵", href: "/mindmap", icon: GitFork },
   { name: "임대현황", href: "/rentals", icon: Building2 },
