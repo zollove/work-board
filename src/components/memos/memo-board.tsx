@@ -63,12 +63,12 @@ export function MemoBoard() {
     setFormData({
       title: memo.title,
       content: memo.content,
-      category: memo.category,
+      category: (memo.category as MemoCategory) || "일반",
     });
     setIsOpen(true);
   };
 
-  const getCategoryColor = (category: MemoCategory) => {
+  const getCategoryColor = (category: string) => {
     switch (category) {
       case "긴급": return "destructive";
       case "중요": return "default";

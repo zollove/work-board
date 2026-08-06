@@ -1,10 +1,11 @@
-export type MemoCategory = "일반" | "중요" | "아이디어" | "긴급";
+export type MemoCategory = "일반" | "중요" | "건물 외관" | "하자 보수" | "임대 현장" | "설비/기계실" | "아이디어" | "긴급";
 
 export interface Memo {
   id: string;
   title: string;
   content: string;
-  category: MemoCategory;
+  category: MemoCategory | string;
+  imageUrl?: string;
   createdAt: string;
   updatedAt: string;
 }
