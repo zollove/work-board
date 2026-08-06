@@ -144,9 +144,6 @@ export function CalculatorsView() {
               <span>계산기</span>
               <Sparkles className="w-4 h-4 text-amber-500" />
             </h1>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-              임대료 증감률, 면적 단위환산(평 ↔ m²), 매익률/마진율 및 연체 이자를 계산합니다. (숫자 입력 시 천단위 콤마 자동 적용)
-            </p>
           </div>
         </div>
       </div>
@@ -159,7 +156,7 @@ export function CalculatorsView() {
           className="gap-2 py-3 text-xs sm:text-sm font-semibold rounded-xl"
         >
           <TrendingUp className="w-4 h-4 text-blue-500" />
-          <span>1. 증감률 계산기</span>
+          <span>증감률 계산기</span>
         </Button>
 
         <Button
@@ -168,7 +165,7 @@ export function CalculatorsView() {
           className="gap-2 py-3 text-xs sm:text-sm font-semibold rounded-xl"
         >
           <Scaling className="w-4 h-4 text-emerald-500" />
-          <span>2. 평 ↔ m² 단위환산</span>
+          <span>평 ↔ m² 단위환산</span>
         </Button>
 
         <Button
@@ -177,7 +174,7 @@ export function CalculatorsView() {
           className="gap-2 py-3 text-xs sm:text-sm font-semibold rounded-xl"
         >
           <Percent className="w-4 h-4 text-purple-500" />
-          <span>3. 매익률 계산기</span>
+          <span>매익률 계산기</span>
         </Button>
 
         <Button
@@ -186,7 +183,7 @@ export function CalculatorsView() {
           className="gap-2 py-3 text-xs sm:text-sm font-semibold rounded-xl"
         >
           <Clock className="w-4 h-4 text-amber-500" />
-          <span>4. 연체료 계산기</span>
+          <span>연체료 계산기</span>
         </Button>
       </div>
 

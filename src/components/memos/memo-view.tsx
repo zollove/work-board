@@ -267,11 +267,8 @@ export function MemoView() {
               <span>메모</span>
               <Sparkles className="w-4 h-4 text-amber-500" />
             </h1>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 flex items-center gap-1.5 flex-wrap">
-              <span>업무 메모 및 현장 사진 보관함</span>
-              <Badge variant="outline" className="text-[10px] bg-primary/5 text-primary border-primary/30">
-                🖐️ 드래그로 순서 변경 가능 · 📋 Ctrl + V 이미지 붙여넣기
-              </Badge>
+            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+              업무 메모 및 현장 사진 보관함
             </p>
           </div>
         </div>
