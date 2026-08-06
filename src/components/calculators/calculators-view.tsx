@@ -17,42 +17,61 @@ import {
   Clock
 } from "lucide-react";
 
+// Helper: Format string with thousand separators (e.g. 1000000 -> 1,000,000)
+function formatCommaInput(val: string): string {
+  if (!val) return "";
+  // Keep minus sign if present
+  const isNegative = val.startsWith("-");
+  const cleanStr = val.replace(/[^0-9.]/g, "");
+  const parts = cleanStr.split(".");
+  const intPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const result = parts.length > 1 ? `${intPart}.${parts[1]}` : intPart;
+  return isNegative ? `-${result}` : result;
+}
+
+// Helper: Parse raw number from comma-formatted string
+function parseRawNum(val: string): number {
+  if (!val) return 0;
+  const clean = val.replace(/,/g, "");
+  return parseFloat(clean) || 0;
+}
+
 export function CalculatorsView() {
   const [activeTab, setActiveTab] = useState<"rate" | "area" | "margin" | "late">("rate");
 
-  // 1. 증감률 계산기 State
-  const [oldVal, setOldVal] = useState<string>("1000000");
-  const [newVal, setNewVal] = useState<string>("1200000");
+  // 1. 증감률 계산기 State (comma formatted)
+  const [oldVal, setOldVal] = useState<string>("1,000,000");
+  const [newVal, setNewVal] = useState<string>("1,200,000");
 
-  const [baseAmount, setBaseAmount] = useState<string>("1000000");
+  const [baseAmount, setBaseAmount] = useState<string>("1,000,000");
   const [targetRate, setTargetRate] = useState<string>("5");
 
   // 2. 평 <-> m2 단위환산 State
   const [pyeongVal, setPyeongVal] = useState<string>("30");
   const [m2Val, setM2Val] = useState<string>("99.17");
 
-  // 3. 매익률 계산기 State
-  const [salesVal, setSalesVal] = useState<string>("1000000");
-  const [costVal, setCostVal] = useState<string>("700000");
+  // 3. 매익률 계산기 State (comma formatted)
+  const [salesVal, setSalesVal] = useState<string>("1,000,000");
+  const [costVal, setCostVal] = useState<string>("700,000");
 
-  const [targetMarginCost, setTargetMarginCost] = useState<string>("700000");
+  const [targetMarginCost, setTargetMarginCost] = useState<string>("700,000");
   const [targetMarginRate, setTargetMarginRate] = useState<string>("30");
 
-  // 4. 연체료 계산기 State (Bonus)
-  const [rentAmount, setRentAmount] = useState<string>("1000000");
+  // 4. 연체료 계산기 State (comma formatted)
+  const [rentAmount, setRentAmount] = useState<string>("1,000,000");
   const [lateDays, setLateDays] = useState<string>("15");
   const [lateRateAnnual, setLateRateAnnual] = useState<string>("6");
 
   // --- CALCULATION LOGIC ---
 
   // 1-A. 증감률 계산
-  const numOld = parseFloat(oldVal) || 0;
-  const numNew = parseFloat(newVal) || 0;
+  const numOld = parseRawNum(oldVal);
+  const numNew = parseRawNum(newVal);
   const diffAmount = numNew - numOld;
   const rateChange = numOld !== 0 ? ((numNew - numOld) / Math.abs(numOld)) * 100 : 0;
 
   // 1-B. 목표 증감률 적용 금액 계산
-  const numBase = parseFloat(baseAmount) || 0;
+  const numBase = parseRawNum(baseAmount);
   const numTargetRate = parseFloat(targetRate) || 0;
   const calculatedNewAmount = Math.round(numBase * (1 + numTargetRate / 100));
 
@@ -88,14 +107,14 @@ export function CalculatorsView() {
   };
 
   // 3-A. 매익률 계산
-  const numSales = parseFloat(salesVal) || 0;
-  const numCost = parseFloat(costVal) || 0;
+  const numSales = parseRawNum(salesVal);
+  const numCost = parseRawNum(costVal);
   const profitAmount = numSales - numCost;
   const profitMarginPercent = numSales !== 0 ? (profitAmount / numSales) * 100 : 0;
   const markupPercent = numCost !== 0 ? (profitAmount / numCost) * 100 : 0;
 
   // 3-B. 목표 매익률 기반 권장 판매가 역산
-  const numTargetCost = parseFloat(targetMarginCost) || 0;
+  const numTargetCost = parseRawNum(targetMarginCost);
   const numTargetMarginPercent = parseFloat(targetMarginRate) || 0;
   const recommendedSalesPrice =
     numTargetMarginPercent < 100
@@ -103,7 +122,7 @@ export function CalculatorsView() {
       : 0;
 
   // 4. 연체료 계산
-  const numRent = parseFloat(rentAmount) || 0;
+  const numRent = parseRawNum(rentAmount);
   const numDays = parseFloat(lateDays) || 0;
   const numAnnualRate = parseFloat(lateRateAnnual) || 0;
   const lateFeeAmount = Math.round((numRent * (numAnnualRate / 100) * numDays) / 365);
@@ -122,11 +141,11 @@ export function CalculatorsView() {
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight flex items-center gap-2">
-              <span>부동산 및 건물 관리 계산기</span>
+              <span>계산기</span>
               <Sparkles className="w-4 h-4 text-amber-500" />
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-              임대료 증감률, 면적 단위환산(평 ↔ m²), 매익률/마진율 및 연체 이자를 빠르게 계산해보세요.
+              임대료 증감률, 면적 단위환산(평 ↔ m²), 매익률/마진율 및 연체 이자를 계산합니다. (숫자 입력 시 천단위 콤마 자동 적용)
             </p>
           </div>
         </div>
@@ -190,10 +209,10 @@ export function CalculatorsView() {
                 <Label htmlFor="old-val" className="text-xs">이전 금액 (원)</Label>
                 <Input
                   id="old-val"
-                  type="number"
+                  type="text"
                   value={oldVal}
-                  onChange={(e) => setOldVal(e.target.value)}
-                  placeholder="예: 1000000"
+                  onChange={(e) => setOldVal(formatCommaInput(e.target.value))}
+                  placeholder="예: 1,000,000"
                 />
               </div>
 
@@ -201,10 +220,10 @@ export function CalculatorsView() {
                 <Label htmlFor="new-val" className="text-xs">변경 후 금액 (원)</Label>
                 <Input
                   id="new-val"
-                  type="number"
+                  type="text"
                   value={newVal}
-                  onChange={(e) => setNewVal(e.target.value)}
-                  placeholder="예: 1200000"
+                  onChange={(e) => setNewVal(formatCommaInput(e.target.value))}
+                  placeholder="예: 1,200,000"
                 />
               </div>
 
@@ -244,9 +263,9 @@ export function CalculatorsView() {
                 <Label htmlFor="base-amount" className="text-xs">기준 금액 (원)</Label>
                 <Input
                   id="base-amount"
-                  type="number"
+                  type="text"
                   value={baseAmount}
-                  onChange={(e) => setBaseAmount(e.target.value)}
+                  onChange={(e) => setBaseAmount(formatCommaInput(e.target.value))}
                 />
               </div>
 
@@ -384,9 +403,9 @@ export function CalculatorsView() {
                 <Label htmlFor="sales-val" className="text-xs">매출액 / 총 판매가 (원)</Label>
                 <Input
                   id="sales-val"
-                  type="number"
+                  type="text"
                   value={salesVal}
-                  onChange={(e) => setSalesVal(e.target.value)}
+                  onChange={(e) => setSalesVal(formatCommaInput(e.target.value))}
                 />
               </div>
 
@@ -394,9 +413,9 @@ export function CalculatorsView() {
                 <Label htmlFor="cost-val" className="text-xs">원가 / 총 매입 비용 (원)</Label>
                 <Input
                   id="cost-val"
-                  type="number"
+                  type="text"
                   value={costVal}
-                  onChange={(e) => setCostVal(e.target.value)}
+                  onChange={(e) => setCostVal(formatCommaInput(e.target.value))}
                 />
               </div>
 
@@ -437,9 +456,9 @@ export function CalculatorsView() {
                 <Label htmlFor="target-cost" className="text-xs">매입 원가 (원)</Label>
                 <Input
                   id="target-cost"
-                  type="number"
+                  type="text"
                   value={targetMarginCost}
-                  onChange={(e) => setTargetMarginCost(e.target.value)}
+                  onChange={(e) => setTargetMarginCost(formatCommaInput(e.target.value))}
                 />
               </div>
 
@@ -486,9 +505,9 @@ export function CalculatorsView() {
                 <Label htmlFor="rent-amount" className="text-xs">월 임대료 (원)</Label>
                 <Input
                   id="rent-amount"
-                  type="number"
+                  type="text"
                   value={rentAmount}
-                  onChange={(e) => setRentAmount(e.target.value)}
+                  onChange={(e) => setRentAmount(formatCommaInput(e.target.value))}
                 />
               </div>
 

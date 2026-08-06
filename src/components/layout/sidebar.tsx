@@ -10,12 +10,12 @@ import { Button } from "@/components/ui/button";
 const navItems = [
   { name: "Work Calendar", href: "/", icon: Calendar },
   { name: "연간 마인드맵", href: "/mindmap", icon: GitFork },
-  { name: "업무 유틸리티", href: "/utilities", icon: Wrench },
-  { name: "부동산/업무 계산기", href: "/calculators", icon: Calculator },
-  { name: "사진 갤러리", href: "/gallery", icon: Images },
   { name: "임대현황", href: "/rentals", icon: Building2 },
+  { name: "업무 유틸리티", href: "/utilities", icon: Wrench },
+  { name: "사진 갤러리", href: "/gallery", icon: Images },
   { name: "메모", href: "/memos", icon: StickyNote },
   { name: "업체 연락처 관리", href: "/contacts", icon: Contact2 },
+  { name: "계산기", href: "/calculators", icon: Calculator },
 ];
 
 export function Sidebar() {

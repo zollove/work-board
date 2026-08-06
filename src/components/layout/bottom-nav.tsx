@@ -8,10 +8,10 @@ import { cn } from "@/lib/utils";
 const navItems = [
   { name: "달력", href: "/", icon: Calendar },
   { name: "마인드맵", href: "/mindmap", icon: GitFork },
-  { name: "유틸리티", href: "/utilities", icon: Wrench },
-  { name: "계산기", href: "/calculators", icon: Calculator },
-  { name: "갤러리", href: "/gallery", icon: Images },
   { name: "임대현황", href: "/rentals", icon: Building2 },
+  { name: "유틸리티", href: "/utilities", icon: Wrench },
+  { name: "갤러리", href: "/gallery", icon: Images },
+  { name: "계산기", href: "/calculators", icon: Calculator },
 ];
 
 export function BottomNav() {
