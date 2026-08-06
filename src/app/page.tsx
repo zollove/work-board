@@ -1,14 +1,13 @@
 import { WorkCalendar } from "@/components/calendar/work-calendar";
 
+export const metadata = {
+  title: "캘린더 | 업무 관리 시스템",
+  description: "날씨 경보, 건물 관리 업무 유틸리티 및 월별 캘린더",
+};
+
 export default function Home() {
   return (
-    <div className="p-8 w-full space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Work Calendar</h1>
-        <p className="text-muted-foreground mt-2">
-          연간 업무 일정을 한눈에 파악하고 월별 상세 내역을 관리하세요.
-        </p>
-      </div>
+    <div className="p-4 sm:p-6 w-full space-y-6">
       <WorkCalendar />
     </div>
   );
