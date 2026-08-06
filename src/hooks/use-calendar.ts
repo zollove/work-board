@@ -2,8 +2,29 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { CalendarEvent } from "@/types";
 
+const LOCAL_STORAGE_KEY = "work_board_calendar_events_v1";
+
 export function useCalendarEvents() {
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [events, setEvents] = useState<CalendarEvent[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+        return saved ? JSON.parse(saved) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+    return [];
+  });
+
+  const saveLocal = (data: CalendarEvent[]) => {
+    setEvents(data);
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+      } catch (e) {}
+    }
+  };
 
   const fetchEvents = async () => {
     const { data, error } = await supabase
@@ -12,7 +33,7 @@ export function useCalendarEvents() {
       .order("date", { ascending: true });
 
     if (error) {
-      console.error("Error fetching calendar_event:", error);
+      console.warn("Error fetching calendar_event:", error.message);
       return;
     }
 
@@ -24,7 +45,7 @@ export function useCalendarEvents() {
         description: e.description || "",
         isImportant: e.is_important ?? e.isImportant ?? false,
       }));
-      setEvents(mapped);
+      saveLocal(mapped);
     }
   };
 
@@ -44,7 +65,16 @@ export function useCalendarEvents() {
   }, []);
 
   const addEvent = async (event: Omit<CalendarEvent, "id">) => {
+    const newEvent: CalendarEvent = {
+      ...event,
+      id: crypto.randomUUID(),
+    };
+
+    // Instant Optimistic UI Update (0ms)
+    saveLocal([...events, newEvent]);
+
     const payload = {
+      id: newEvent.id,
       date: event.date,
       title: event.title,
       description: event.description || "",
@@ -52,11 +82,14 @@ export function useCalendarEvents() {
     };
 
     const { error } = await supabase.from("calendar_event").insert([payload]);
-    if (error) console.error("Error adding event:", error);
-    else fetchEvents();
+    if (error) console.warn("Error adding calendar event to DB:", error.message);
   };
 
   const updateEvent = async (id: string, data: Partial<CalendarEvent>) => {
+    // Instant Optimistic UI Update (0ms)
+    const updated = events.map((e) => (e.id === id ? { ...e, ...data } : e));
+    saveLocal(updated);
+
     const payload: any = {};
     if (data.date !== undefined) payload.date = data.date;
     if (data.title !== undefined) payload.title = data.title;
@@ -64,14 +97,15 @@ export function useCalendarEvents() {
     if (data.isImportant !== undefined) payload.is_important = data.isImportant;
 
     const { error } = await supabase.from("calendar_event").update(payload).eq("id", id);
-    if (error) console.error("Error updating event:", error);
-    else fetchEvents();
+    if (error) console.warn("Error updating calendar event in DB:", error.message);
   };
 
   const deleteEvent = async (id: string) => {
+    // Instant Optimistic UI Update (0ms)
+    saveLocal(events.filter((e) => e.id !== id));
+
     const { error } = await supabase.from("calendar_event").delete().eq("id", id);
-    if (error) console.error("Error deleting event:", error);
-    else fetchEvents();
+    if (error) console.warn("Error deleting calendar event in DB:", error.message);
   };
 
   const getEventsByDate = (dateStr: string) => {

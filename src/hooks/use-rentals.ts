@@ -2,16 +2,35 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { Rental } from "@/types";
 
+const LOCAL_STORAGE_KEY = "work_board_rentals_v1";
+
 export function useRentals() {
-  const [rentals, setRentals] = useState<Rental[]>([]);
+  const [rentals, setRentals] = useState<Rental[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+        return saved ? JSON.parse(saved) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+    return [];
+  });
+
+  const saveLocal = (data: Rental[]) => {
+    setRentals(data);
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+      } catch (e) {}
+    }
+  };
 
   const fetchRentals = async () => {
-    const { data, error } = await supabase
-      .from("rental")
-      .select("*");
+    const { data, error } = await supabase.from("rental").select("*");
 
     if (error) {
-      console.error("Error fetching rentals:", error);
+      console.warn("Error fetching rentals:", error.message);
       return;
     }
 
@@ -28,7 +47,7 @@ export function useRentals() {
         contractEnd: r.contract_end || r.contractEnd || "",
         notes: r.notes || "",
       }));
-      setRentals(mapped);
+      saveLocal(mapped);
     }
   };
 
@@ -48,7 +67,16 @@ export function useRentals() {
   }, []);
 
   const addRental = async (rental: Omit<Rental, "id">) => {
+    const newRental: Rental = {
+      ...rental,
+      id: crypto.randomUUID(),
+    };
+
+    // Instant Optimistic UI Update (0ms)
+    saveLocal([...rentals, newRental]);
+
     const payload = {
+      id: newRental.id,
       building: rental.building,
       room: rental.room,
       tenant_name: rental.tenantName,
@@ -61,11 +89,14 @@ export function useRentals() {
     };
 
     const { error } = await supabase.from("rental").insert([payload]);
-    if (error) console.error("Error adding rental:", error);
-    else fetchRentals();
+    if (error) console.warn("Error adding rental to DB:", error.message);
   };
 
   const updateRental = async (id: string, data: Partial<Rental>) => {
+    // Instant Optimistic UI Update (0ms)
+    const updated = rentals.map((r) => (r.id === id ? { ...r, ...data } : r));
+    saveLocal(updated);
+
     const payload: any = {};
     if (data.building !== undefined) payload.building = data.building;
     if (data.room !== undefined) payload.room = data.room;
@@ -78,14 +109,15 @@ export function useRentals() {
     if (data.notes !== undefined) payload.notes = data.notes;
 
     const { error } = await supabase.from("rental").update(payload).eq("id", id);
-    if (error) console.error("Error updating rental:", error);
-    else fetchRentals();
+    if (error) console.warn("Error updating rental in DB:", error.message);
   };
 
   const deleteRental = async (id: string) => {
+    // Instant Optimistic UI Update (0ms)
+    saveLocal(rentals.filter((r) => r.id !== id));
+
     const { error } = await supabase.from("rental").delete().eq("id", id);
-    if (error) console.error("Error deleting rental:", error);
-    else fetchRentals();
+    if (error) console.warn("Error deleting rental in DB:", error.message);
   };
 
   return { rentals, addRental, updateRental, deleteRental };
