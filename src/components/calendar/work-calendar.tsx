@@ -7,7 +7,7 @@ import { useCalendarEvents } from "@/hooks/use-calendar";
 import { CalendarEvent } from "@/types";
 import { WeatherWidget } from "./weather-widget";
 import { UtilitiesView } from "@/components/utilities/utilities-view";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,7 +26,7 @@ export function WorkCalendar() {
   const [editEvent, setEditEvent] = useState<CalendarEvent | null>(null);
 
   // Collapsible toggle for Building Management Utilities section
-  const [isUtilitiesCollapsed, setIsUtilitiesCollapsed] = useState(false);
+  const [isUtilitiesCollapsed, setIsUtilitiesCollapsed] = useState(true); // Default collapsed on mobile for maximum calendar space!
 
   const [formData, setFormData] = useState({
     title: "",
@@ -128,7 +128,7 @@ export function WorkCalendar() {
   }).sort((a, b) => a.date.localeCompare(b.date));
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-24 md:pb-12">
+    <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto pb-24 md:pb-12 px-1 sm:px-4">
       {/* 1. 🌤️ 7-Day Weather & Building Hazard Warning Bar */}
       <WeatherWidget />
 
@@ -136,10 +136,10 @@ export function WorkCalendar() {
       <Card className="border rounded-2xl bg-card shadow-sm overflow-hidden">
         <div className="p-3 sm:p-4 border-b bg-muted/20 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Wrench className="w-4 h-4 text-primary" />
-            <h2 className="text-sm sm:text-base font-extrabold flex items-center gap-2">
+            <Wrench className="w-4 h-4 text-primary shrink-0" />
+            <h2 className="text-xs sm:text-base font-extrabold flex items-center gap-2 truncate">
               <span>건물관리 업무</span>
-              <Badge variant="outline" className="text-[10px] bg-primary/5 text-primary border-primary/30">
+              <Badge variant="outline" className="text-[10px] bg-primary/5 text-primary border-primary/30 hidden sm:inline-flex">
                 점검 D-Day · 비품 재고 · 비번 보관함 · 만기 D-90
               </Badge>
             </h2>
@@ -149,7 +149,7 @@ export function WorkCalendar() {
             variant="outline"
             size="sm"
             onClick={() => setIsUtilitiesCollapsed(!isUtilitiesCollapsed)}
-            className="h-7 text-xs text-muted-foreground hover:text-foreground gap-1"
+            className="h-7 text-xs text-muted-foreground hover:text-foreground gap-1 shrink-0"
           >
             <span>{isUtilitiesCollapsed ? "업무 펼치기 🔽" : "업무 접기 🔼"}</span>
             {isUtilitiesCollapsed ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronUp className="w-3.5 h-3.5" />}
@@ -163,72 +163,74 @@ export function WorkCalendar() {
         )}
       </Card>
 
-      {/* 3. 📅 단일 월 중심 캘린더 타일 & 일정 관리 */}
+      {/* 3. 📅 모바일 스마트 최적화 단일 월 캘린더 타일 */}
       <Card className="border shadow-sm overflow-hidden">
         {/* Calendar Control Header Bar */}
-        <CardHeader className="p-4 sm:p-6 border-b bg-muted/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold">
-              <CalendarIcon className="w-5 h-5" />
+        <CardHeader className="p-3 sm:p-6 border-b bg-muted/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold shrink-0">
+              <CalendarIcon className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight flex items-center gap-2">
+              <h2 className="text-lg sm:text-2xl font-extrabold tracking-tight flex items-center gap-2">
                 <span>{selectedYear}년 {selectedMonth + 1}월 캘린더</span>
-                <Sparkles className="w-4 h-4 text-amber-500" />
+                <Sparkles className="w-4 h-4 text-amber-500 hidden sm:inline" />
               </h2>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                날짜를 클릭하여 월별 업무 및 주요 일정을 바로 작성하세요.
+              <p className="text-[11px] sm:text-xs text-muted-foreground mt-0.5 hidden sm:block">
+                날짜를 터치하여 월별 업무 및 일정을 바로 작성하세요.
               </p>
             </div>
           </div>
 
-          {/* Year & Month Dropdown Controls */}
-          <div className="flex items-center gap-2 flex-wrap w-full sm:w-auto">
-            <Button variant="outline" size="sm" onClick={handlePrevMonth} className="h-9 px-2.5">
-              <ChevronLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">이전달</span>
-            </Button>
+          {/* Year & Month Dropdown Controls - Optimized for Mobile */}
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap w-full sm:w-auto justify-between sm:justify-end">
+            <div className="flex items-center gap-1">
+              <Button variant="outline" size="sm" onClick={handlePrevMonth} className="h-8 px-2 text-xs">
+                <ChevronLeft className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">이전달</span>
+              </Button>
 
-            {/* Year Dropdown */}
-            <select
-              className="h-9 rounded-md border border-input bg-background px-3 py-1 text-xs sm:text-sm font-semibold"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(Number(e.target.value))}
-            >
-              {years.map((y) => (
-                <option key={y} value={y}>{y}년</option>
-              ))}
-            </select>
+              {/* Year Dropdown */}
+              <select
+                className="h-8 rounded-md border border-input bg-background px-2 text-xs font-semibold"
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(Number(e.target.value))}
+              >
+                {years.map((y) => (
+                  <option key={y} value={y}>{y}년</option>
+                ))}
+              </select>
 
-            {/* Month Dropdown */}
-            <select
-              className="h-9 rounded-md border border-input bg-background px-3 py-1 text-xs sm:text-sm font-semibold"
-              value={selectedMonth}
-              onChange={(e) => setSelectedMonth(Number(e.target.value))}
-            >
-              {months.map((m, idx) => (
-                <option key={m} value={idx}>{m}</option>
-              ))}
-            </select>
+              {/* Month Dropdown */}
+              <select
+                className="h-8 rounded-md border border-input bg-background px-2 text-xs font-semibold"
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(Number(e.target.value))}
+              >
+                {months.map((m, idx) => (
+                  <option key={m} value={idx}>{m}</option>
+                ))}
+              </select>
 
-            <Button variant="outline" size="sm" onClick={handleNextMonth} className="h-9 px-2.5">
-              <span className="hidden sm:inline">다음달</span>
-              <ChevronRight className="w-4 h-4" />
-            </Button>
+              <Button variant="outline" size="sm" onClick={handleNextMonth} className="h-8 px-2 text-xs">
+                <span className="hidden sm:inline">다음달</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </Button>
+            </div>
 
-            <Button variant="secondary" size="sm" onClick={handleGoToday} className="h-9 text-xs font-bold">
+            <Button variant="secondary" size="sm" onClick={handleGoToday} className="h-8 text-xs font-bold px-2.5">
               오늘
             </Button>
           </div>
         </CardHeader>
 
-        {/* Main Calendar View Body: 7-Column Grid + Day Detail Sidebar */}
+        {/* Main Calendar View Body: Mobile Screen Optimized 7-Column Grid */}
         <CardContent className="p-0">
-          <div className="flex flex-col lg:flex-row min-h-[600px]">
+          <div className="flex flex-col lg:flex-row">
             {/* Left/Main: 7-Column Calendar Grid */}
             <div className="flex-1 flex flex-col overflow-hidden border-r">
               {/* Day Headers (Sun ~ Sat) */}
-              <div className="grid grid-cols-7 border-b bg-muted/40 font-bold text-xs text-center py-2.5">
+              <div className="grid grid-cols-7 border-b bg-muted/40 font-bold text-[11px] sm:text-xs text-center py-2">
                 <span className="text-red-500">일</span>
                 <span>월</span>
                 <span>화</span>
@@ -238,10 +240,10 @@ export function WorkCalendar() {
                 <span className="text-blue-500">토</span>
               </div>
 
-              {/* Date Cells Grid */}
-              <div className="grid grid-cols-7 auto-rows-[minmax(110px,1fr)] flex-1 bg-background">
+              {/* Date Cells Grid - Optimized height for mobile screens (minmax 60px on mobile, 110px on desktop) */}
+              <div className="grid grid-cols-7 auto-rows-[minmax(64px,auto)] sm:auto-rows-[minmax(110px,1fr)] bg-background">
                 {emptyDays.map((i) => (
-                  <div key={`empty-${i}`} className="border-b border-r bg-muted/5 p-1" />
+                  <div key={`empty-${i}`} className="border-b border-r bg-muted/5 p-0.5 sm:p-1" />
                 ))}
 
                 {daysInMonth.map((day) => {
@@ -255,15 +257,15 @@ export function WorkCalendar() {
                     <div
                       key={dateStr}
                       onClick={() => handleDateClick(day)}
-                      className={`p-1.5 border-b border-r cursor-pointer transition-all hover:bg-muted/40 flex flex-col ${
-                        isSelected ? "ring-2 ring-primary ring-inset bg-primary/5" : ""
+                      className={`p-1 sm:p-1.5 border-b border-r cursor-pointer transition-all hover:bg-muted/40 flex flex-col justify-between select-none ${
+                        isSelected ? "ring-2 ring-primary ring-inset bg-primary/10" : ""
                       }`}
                     >
-                      <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center justify-between">
                         <span
-                          className={`text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center ${
+                          className={`text-[11px] sm:text-xs font-bold w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center ${
                             isTodayCell
-                              ? "bg-primary text-white"
+                              ? "bg-primary text-white shadow-sm"
                               : dayOfWeek === 0
                               ? "text-red-500"
                               : dayOfWeek === 6
@@ -273,29 +275,36 @@ export function WorkCalendar() {
                         >
                           {format(day, "d")}
                         </span>
+
                         {dayEvents.length > 0 && (
-                          <span className="text-[10px] font-extrabold text-muted-foreground px-1 bg-muted rounded">
+                          <span className="text-[9px] sm:text-[10px] font-extrabold text-primary px-1 bg-primary/10 rounded">
                             {dayEvents.length}건
                           </span>
                         )}
                       </div>
 
-                      {/* Event Badges */}
-                      <div className="flex-1 space-y-1 overflow-y-auto">
-                        {dayEvents.map((event) => (
+                      {/* Event Badges - Responsive Compact View on Mobile */}
+                      <div className="flex-1 space-y-0.5 sm:space-y-1 overflow-hidden mt-0.5">
+                        {dayEvents.slice(0, 3).map((event) => (
                           <div
                             key={event.id}
                             onClick={(e) => handleEventClick(e, event, day)}
-                            className={`text-[11px] px-1.5 py-0.5 rounded truncate cursor-pointer flex items-center gap-1 font-medium ${
+                            className={`text-[9px] sm:text-[11px] px-1 py-0.2 sm:py-0.5 rounded truncate cursor-pointer flex items-center gap-0.5 font-medium leading-tight ${
                               event.isImportant
                                 ? "bg-red-500/10 text-red-600 border border-red-300 dark:border-red-900"
                                 : "bg-primary/10 text-primary hover:bg-primary/20"
                             }`}
+                            title={event.title}
                           >
-                            {event.isImportant && <span className="text-red-500 text-[10px]">★</span>}
+                            {event.isImportant && <span className="text-red-500 text-[8px] sm:text-[10px]">★</span>}
                             <span className="truncate">{event.title}</span>
                           </div>
                         ))}
+                        {dayEvents.length > 3 && (
+                          <div className="text-[8px] sm:text-[10px] text-muted-foreground text-center font-semibold">
+                            +{dayEvents.length - 3}개 더보기
+                          </div>
+                        )}
                       </div>
                     </div>
                   );
@@ -303,25 +312,25 @@ export function WorkCalendar() {
               </div>
             </div>
 
-            {/* Right: Selected Date Event Management Panel */}
-            <div className="w-full lg:w-80 bg-muted/10 flex flex-col shrink-0 border-t lg:border-t-0 p-4 space-y-4">
+            {/* Right/Bottom: Selected Date Event Management Panel */}
+            <div className="w-full lg:w-80 bg-muted/10 flex flex-col shrink-0 border-t lg:border-t-0 p-3 sm:p-4 space-y-3 sm:space-y-4">
               {selectedDate ? (
                 <>
-                  <div className="p-3 bg-card border rounded-xl font-bold text-sm flex items-center justify-between shadow-sm">
-                    <span>{format(selectedDate, "yyyy년 MM월 dd일 (EEEE)", { locale: ko })}</span>
-                    <Badge variant="outline" className="text-[10px]">
+                  <div className="p-2.5 sm:p-3 bg-card border rounded-xl font-bold text-xs sm:text-sm flex items-center justify-between shadow-sm">
+                    <span className="text-primary">{format(selectedDate, "yyyy년 MM월 dd일 (EEEE)", { locale: ko })}</span>
+                    <Badge variant="secondary" className="text-[10px]">
                       {dayEvents.length}개 일정
                     </Badge>
                   </div>
 
                   {/* Add / Edit Form */}
-                  <form onSubmit={handleSubmit} className="bg-card border rounded-xl p-4 space-y-3 shadow-sm">
-                    <h3 className="text-xs font-extrabold text-muted-foreground flex items-center justify-between">
-                      <span>{editEvent ? "일정 수정" : "+ 새 일정 추가"}</span>
+                  <form onSubmit={handleSubmit} className="bg-card border rounded-xl p-3 sm:p-4 space-y-2.5 sm:space-y-3 shadow-sm">
+                    <h3 className="text-xs font-extrabold text-foreground flex items-center justify-between">
+                      <span>{editEvent ? "일정 수정" : "+ 새 일정 작성"}</span>
                     </h3>
 
                     <div className="space-y-1">
-                      <Label htmlFor="evt-title" className="text-xs">제목</Label>
+                      <Label htmlFor="evt-title" className="text-[11px] sm:text-xs">제목</Label>
                       <Input
                         id="evt-title"
                         required
@@ -333,10 +342,10 @@ export function WorkCalendar() {
                     </div>
 
                     <div className="space-y-1">
-                      <Label htmlFor="evt-desc" className="text-xs">상세 메모</Label>
+                      <Label htmlFor="evt-desc" className="text-[11px] sm:text-xs">상세 메모</Label>
                       <Textarea
                         id="evt-desc"
-                        rows={3}
+                        rows={2}
                         placeholder="세부 특이사항 작성"
                         value={formData.description}
                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -344,7 +353,7 @@ export function WorkCalendar() {
                       />
                     </div>
 
-                    <div className="flex items-center space-x-2 py-1">
+                    <div className="flex items-center space-x-2 py-0.5">
                       <input
                         type="checkbox"
                         id="evt-important"
@@ -359,7 +368,7 @@ export function WorkCalendar() {
 
                     <div className="flex gap-1.5 pt-1">
                       <Button type="submit" size="sm" className="flex-1 text-xs h-8">
-                        {editEvent ? "수정" : "저장"}
+                        {editEvent ? "수정 저장" : "일정 저장"}
                       </Button>
                       {editEvent && (
                         <Button type="button" variant="destructive" size="sm" onClick={handleDelete} className="h-8 text-xs">
@@ -373,7 +382,7 @@ export function WorkCalendar() {
                   {dayEvents.length > 0 && (
                     <div className="space-y-2">
                       <h4 className="text-xs font-bold text-muted-foreground">이날의 등록된 일정</h4>
-                      <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+                      <div className="space-y-1.5 max-h-52 overflow-y-auto pr-1">
                         {dayEvents.map((evt) => (
                           <div
                             key={evt.id}
@@ -390,7 +399,7 @@ export function WorkCalendar() {
                               <Edit3 className="w-3 h-3 text-muted-foreground" />
                             </div>
                             {evt.description && (
-                              <p className="text-[11px] text-muted-foreground mt-1 line-clamp-2">
+                              <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">
                                 {evt.description}
                               </p>
                             )}
@@ -401,7 +410,7 @@ export function WorkCalendar() {
                   )}
                 </>
               ) : (
-                <div className="py-12 text-center text-xs text-muted-foreground">
+                <div className="py-8 text-center text-xs text-muted-foreground">
                   달력에서 날짜를 선택하세요.
                 </div>
               )}
@@ -409,9 +418,9 @@ export function WorkCalendar() {
           </div>
 
           {/* Bottom Banner: Last Year's Events for same month */}
-          <div className="border-t bg-muted/20 p-4 space-y-3">
+          <div className="border-t bg-muted/20 p-3 sm:p-4 space-y-2">
             <div className="flex items-center justify-between">
-              <h3 className="text-xs sm:text-sm font-bold text-muted-foreground">
+              <h3 className="text-xs font-bold text-muted-foreground">
                 작년 ({selectedYear - 1}년 {selectedMonth + 1}월) 주요 기록
               </h3>
               <Badge variant="outline" className="text-[10px]">
@@ -419,14 +428,14 @@ export function WorkCalendar() {
               </Badge>
             </div>
 
-            <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-none">
+            <div className="flex gap-2.5 overflow-x-auto pb-1 scrollbar-none">
               {lastYearMonthEvents.length === 0 ? (
-                <p className="text-xs text-muted-foreground italic py-2">작년 이달 기록된 일정이 없습니다.</p>
+                <p className="text-xs text-muted-foreground italic py-1">작년 이달 기록된 일정이 없습니다.</p>
               ) : (
                 lastYearMonthEvents.map((evt) => (
                   <div
                     key={evt.id}
-                    className="w-56 shrink-0 bg-card p-3 rounded-xl border shadow-sm space-y-1"
+                    className="w-48 sm:w-56 shrink-0 bg-card p-2.5 rounded-xl border shadow-sm space-y-1"
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-xs truncate flex items-center gap-1">
