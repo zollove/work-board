@@ -162,7 +162,7 @@ export function UtilitiesView() {
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight flex items-center gap-2">
-              <span>건물 관리 업무 유틸리티 Hub</span>
+              <span>건물관리 업무</span>
               <Sparkles className="w-4 h-4 text-amber-500" />
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">

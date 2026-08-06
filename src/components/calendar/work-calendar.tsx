@@ -12,9 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Sparkles, Plus, Trash2, Edit3, Check } from "lucide-react";
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Sparkles, Edit3, ChevronDown, ChevronUp, Wrench } from "lucide-react";
 
 export function WorkCalendar() {
   const today = new Date();
@@ -25,6 +24,9 @@ export function WorkCalendar() {
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
   const [selectedDate, setSelectedDate] = useState<Date | null>(today);
   const [editEvent, setEditEvent] = useState<CalendarEvent | null>(null);
+
+  // Collapsible toggle for Building Management Utilities section
+  const [isUtilitiesCollapsed, setIsUtilitiesCollapsed] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -130,10 +132,36 @@ export function WorkCalendar() {
       {/* 1. 🌤️ 7-Day Weather & Building Hazard Warning Bar */}
       <WeatherWidget />
 
-      {/* 2. 🛠️ 건물 관리 업무 유틸리티 Hub (날씨 위젯 바로 아래 배치!) */}
-      <div className="border rounded-2xl p-1 sm:p-2 bg-card shadow-sm">
-        <UtilitiesView />
-      </div>
+      {/* 2. 🛠️ 건물관리 업무 (날씨 위젯 바로 아래 배치 및 접기/펼치기 가능!) */}
+      <Card className="border rounded-2xl bg-card shadow-sm overflow-hidden">
+        <div className="p-3 sm:p-4 border-b bg-muted/20 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Wrench className="w-4 h-4 text-primary" />
+            <h2 className="text-sm sm:text-base font-extrabold flex items-center gap-2">
+              <span>건물관리 업무</span>
+              <Badge variant="outline" className="text-[10px] bg-primary/5 text-primary border-primary/30">
+                점검 D-Day · 비품 재고 · 비번 보관함 · 만기 D-90
+              </Badge>
+            </h2>
+          </div>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIsUtilitiesCollapsed(!isUtilitiesCollapsed)}
+            className="h-7 text-xs text-muted-foreground hover:text-foreground gap-1"
+          >
+            <span>{isUtilitiesCollapsed ? "업무 펼치기 🔽" : "업무 접기 🔼"}</span>
+            {isUtilitiesCollapsed ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronUp className="w-3.5 h-3.5" />}
+          </Button>
+        </div>
+
+        {!isUtilitiesCollapsed && (
+          <div className="p-1 sm:p-2">
+            <UtilitiesView />
+          </div>
+        )}
+      </Card>
 
       {/* 3. 📅 단일 월 중심 캘린더 타일 & 일정 관리 */}
       <Card className="border shadow-sm overflow-hidden">
@@ -383,8 +411,8 @@ export function WorkCalendar() {
           {/* Bottom Banner: Last Year's Events for same month */}
           <div className="border-t bg-muted/20 p-4 space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-xs font-bold text-muted-foreground">
-                작년 이맘때 ({selectedYear - 1}년 {selectedMonth + 1}월) 주요 기록
+              <h3 className="text-xs sm:text-sm font-bold text-muted-foreground">
+                작년 ({selectedYear - 1}년 {selectedMonth + 1}월) 주요 기록
               </h3>
               <Badge variant="outline" className="text-[10px]">
                 총 {lastYearMonthEvents.length}건

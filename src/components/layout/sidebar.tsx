@@ -3,16 +3,15 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Calendar, Building2, StickyNote, Contact2, GitFork, Calculator, Wrench, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { Calendar, Building2, StickyNote, Contact2, GitFork, Calculator, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
   { name: "메모", href: "/memos", icon: StickyNote },
-  { name: "Work Calendar", href: "/", icon: Calendar },
+  { name: "캘린더", href: "/", icon: Calendar },
   { name: "연간 마인드맵", href: "/mindmap", icon: GitFork },
   { name: "임대현황", href: "/rentals", icon: Building2 },
-  { name: "업무 유틸리티", href: "/utilities", icon: Wrench },
   { name: "업체 연락처 관리", href: "/contacts", icon: Contact2 },
   { name: "계산기", href: "/calculators", icon: Calculator },
 ];
