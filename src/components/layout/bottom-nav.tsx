@@ -2,16 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Calendar, Building2, StickyNote, Contact2, GitFork, Images, Calculator } from "lucide-react";
+import { Calendar, Building2, StickyNote, Contact2, GitFork, Images, Calculator, Wrench } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { name: "달력", href: "/", icon: Calendar },
   { name: "마인드맵", href: "/mindmap", icon: GitFork },
+  { name: "유틸리티", href: "/utilities", icon: Wrench },
   { name: "계산기", href: "/calculators", icon: Calculator },
   { name: "갤러리", href: "/gallery", icon: Images },
   { name: "임대현황", href: "/rentals", icon: Building2 },
-  { name: "메모", href: "/memos", icon: StickyNote },
 ];
 
 export function BottomNav() {
