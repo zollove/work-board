@@ -1,0 +1,69 @@
+{
+  "id": "/",
+  "name": "업무 관리 시스템 (Work Board)",
+  "short_name": "업무보드",
+  "description": "캘린더, 임대현황, 메모, 업체 연락처 통합 관리 앱",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "☑️ 체크리스트 바로 확인",
+      "short_name": "체크리스트",
+      "description": "오늘의 일일 업무 체크리스트 확인 및 점검",
+      "url": "/memos?view=checklist",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "📝 새 메모 빠른 작성",
+      "short_name": "새 메모",
+      "description": "새로운 업무 메모 빠른 작성 및 사진 첨부",
+      "url": "/memos?action=new",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "widgets": [
+    {
+      "name": "일일 업무 체크리스트 위젯",
+      "short_name": "체크리스트",
+      "description": "오늘의 업무 체크리스트 점검 위젯",
+      "tag": "checklist-widget",
+      "template": "checklist-template",
+      "ms_ac_template": "checklist.json",
+      "data": "/memos?view=checklist",
+      "type": "application/json",
+      "screenshots": [
+        {
+          "src": "/icons/icon-512.png",
+          "sizes": "512x512",
+          "label": "체크리스트 위젯 미리보기"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/memos",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}
