@@ -1126,10 +1126,10 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
       refundSalesAmt,
       netSalesAmt,
       categoryBreakdown: {
-        teeboxSales: Math.round(estTotalSales * 0.65),
-        lockerSales: Math.round(estTotalSales * 0.12),
-        lessonSales: Math.round(estTotalSales * 0.18),
-        goodsSales: Math.round(estTotalSales * 0.05),
+        teeboxSales: Math.round(estTotalSales * 0.95),
+        lockerSales: estTotalSales - Math.round(estTotalSales * 0.95),
+        lessonSales: 0,
+        goodsSales: 0,
       },
     };
 
@@ -1149,10 +1149,10 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
       refundSalesAmt: dailyRefundSales,
       netSalesAmt: dailyNetSales,
       categoryBreakdown: {
-        teeboxSales: is821 ? 7530000 : Math.round(dailyEstSales * 0.65),
-        lockerSales: is821 ? 380000 : Math.round(dailyEstSales * 0.12),
-        lessonSales: is821 ? 0 : Math.round(dailyEstSales * 0.18),
-        goodsSales: is821 ? 0 : Math.round(dailyEstSales * 0.05),
+        teeboxSales: is821 ? 7530000 : Math.round(dailyEstSales * 0.95),
+        lockerSales: is821 ? 380000 : dailyEstSales - (is821 ? 7530000 : Math.round(dailyEstSales * 0.95)),
+        lessonSales: 0,
+        goodsSales: 0,
       },
     };
 
