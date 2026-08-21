@@ -542,7 +542,7 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
 
     const floorNum = (i % 3) + 1;
     const teeboxNo = (i % 25) + 1;
-    const startHour = 6 + Math.floor((i / baseCount) * 15);
+    const startHour = 5 + Math.floor((i / baseCount) * 16);
     const startMin = (i * 15) % 60;
     const startTime = `${String(startHour).padStart(2, "0")}:${String(startMin).padStart(2, "0")}`;
     const endTime = `${String(startHour + 1).padStart(2, "0")}:${String(startMin).padStart(2, "0")}`;
@@ -582,23 +582,24 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
         localStorage.removeItem(getStorageKey("2026-08-21"));
       }
     } else if (isToday) {
-      if (now.getHours() < 6) {
-        storedSessions = [];
-      } else {
-        serverSessions.forEach((s) => sessionMap.set(s.id, s));
-        if (sessionMap.size === 0 && typeof window !== "undefined") {
-          const key = getStorageKey(selectedDate);
-          const raw = localStorage.getItem(key);
-          if (raw) {
-            try {
-              const list: PastelSessionRecord[] = JSON.parse(raw);
-              list.forEach((s) => sessionMap.set(s.id, s));
-            } catch (e) {}
-          }
+      serverSessions.forEach((s) => sessionMap.set(s.id, s));
+      if (sessionMap.size === 0 && typeof window !== "undefined") {
+        const key = getStorageKey(selectedDate);
+        const raw = localStorage.getItem(key);
+        if (raw) {
+          try {
+            const list: PastelSessionRecord[] = JSON.parse(raw);
+            list.forEach((s) => sessionMap.set(s.id, s));
+          } catch (e) {}
         }
-        storedSessions = Array.from(sessionMap.values());
-        if (storedSessions.length === 0) {
-          storedSessions = generateSyntheticSessionsForDate(selectedDate);
+      }
+      storedSessions = Array.from(sessionMap.values());
+      if (storedSessions.length === 0) {
+        if (now.getHours() >= 5) {
+          const currentMinStr = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+          storedSessions = generateSyntheticSessionsForDate(selectedDate).filter(s => s.startTime <= currentMinStr);
+        } else {
+          storedSessions = [];
         }
       }
     } else {
