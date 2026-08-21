@@ -526,9 +526,8 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
 
   const dayOfWeek = isNaN(d.getTime()) ? 1 : d.getDay();
   const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-  const seed = getDateSeed(dateStr);
-  const variation = (seed % 53) - 26; // -26 ~ +26 organic daily variation
-  const baseCount = Math.max(130, (isWeekend ? 260 : 185) + variation);
+  const isFriday = dayOfWeek === 5;
+  const baseCount = isWeekend ? 260 : isFriday ? 208 : 195;
   const list: PastelSessionRecord[] = [];
 
   const maleNames = ["김철수", "이영수", "박민수", "정우진", "최준호", "강현우", "윤상현", "조경민", "한승우", "임성민"];
@@ -1019,12 +1018,8 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
 
     const weeklySalesTrend: WeeklySalesTrendItem[] = weeklyDays.map((wDay) => {
       const salesAmt = wDay.totalUsers * 38000;
-      const seed = getDateSeed(wDay.dateStr);
-      // Organic daily variation for last year factor (1.08 ~ 1.18 -> growth rate approx -7.5% ~ -15.5%)
-      const variationFactor = 1.08 + ((seed % 11) / 100);
-      const lastYearPrice = 40000 + ((seed % 5) * 500);
-      const lastYearUsers = Math.max(15, Math.round(wDay.totalUsers * variationFactor));
-      const lastYearSalesAmt = lastYearUsers * lastYearPrice;
+      const lastYearUsers = Math.round(wDay.totalUsers * 1.146);
+      const lastYearSalesAmt = lastYearUsers * 40000;
       const growthPercent = Math.round(((salesAmt - lastYearSalesAmt) / (lastYearSalesAmt || 1)) * 100);
 
       return {
