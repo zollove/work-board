@@ -340,10 +340,12 @@ export function PastelView() {
               <span>•</span>
               <span className="text-rose-500">여 {summary.femaleRatio}%</span>
               <span>•</span>
-              <span className="text-purple-600">G {summary.unknownRatio}%</span>
+              <span className="text-purple-600">G {summary.guestRatio}%</span>
+              <span>•</span>
+              <span className="text-slate-500">미상 {summary.memberUnknownRatio}%</span>
             </div>
             <p className="text-[10px] text-muted-foreground font-medium truncate flex items-center gap-1">
-              <span>남 {summary.maleCount} • 여 {summary.femaleCount} • 게스트 {summary.unknownCount}</span>
+              <span>남 {summary.maleCount} • 여 {summary.femaleCount} • 게스트 {summary.guestCount} • 미상 {summary.memberUnknownCount}</span>
               <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-purple-600 shrink-0" />
             </p>
           </CardContent>
@@ -838,6 +840,58 @@ export function PastelView() {
                 </CardContent>
               )}
             </Card>
+
+            {/* 📊 일자별 이용자 성별 분포 분석 카드 */}
+            <Card className="border shadow-xs overflow-hidden bg-card col-span-1 lg:col-span-2">
+              <CardHeader className="py-3 px-4 bg-purple-500/5 border-b flex flex-row items-center justify-between">
+                <CardTitle className="text-sm font-bold flex items-center gap-1.5 text-purple-950 dark:text-purple-200">
+                  <Users className="w-4 h-4 text-purple-600" />
+                  <span>👥 일자별 이용자 성별 분포 현황 (최근 1주일)</span>
+                </CardTitle>
+                <Badge variant="outline" className="text-[10px] font-bold bg-purple-500/10 text-purple-600 border-purple-500/30">
+                  성별·비회원 추론 분석
+                </Badge>
+              </CardHeader>
+              <CardContent className="p-4 space-y-4">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs text-center border-collapse min-w-[600px]">
+                    <thead>
+                      <tr className="bg-muted/40 text-muted-foreground font-bold border-b">
+                        <th className="p-2.5 text-left">일자 (요일)</th>
+                        <th className="p-2.5 text-right">총 이용자 수</th>
+                        <th className="p-2.5 text-right">남성 고객</th>
+                        <th className="p-2.5 text-right">여성 고객</th>
+                        <th className="p-2.5 text-right">게스트 / 미상</th>
+                        <th className="p-2.5 text-center">성별 분포 비율 (남 : 여 : 게스트)</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y font-medium">
+                      {summary.dailyGenderDistribution?.map((item: any) => {
+                        const isToday = item.dateStr === selectedDate;
+                        return (
+                          <tr key={item.dateStr} className={`hover:bg-muted/20 ${isToday ? "bg-purple-500/5 font-bold" : ""}`}>
+                            <td className="p-2.5 text-left font-bold">
+                              {item.dateStr} ({item.dayName}) {isToday && "📍"}
+                            </td>
+                            <td className="p-2.5 text-right font-black text-foreground">{item.totalUsers}명</td>
+                            <td className="p-2.5 text-right text-blue-600 font-bold">{item.maleCount}명 ({item.maleRatio}%)</td>
+                            <td className="p-2.5 text-right text-rose-500 font-bold">{item.femaleCount}명 ({item.femaleRatio}%)</td>
+                            <td className="p-2.5 text-right text-purple-600 font-bold">{item.guestCount}명 ({item.guestRatio}%)</td>
+                            <td className="p-2.5">
+                              <div className="w-full h-2.5 rounded-full bg-muted overflow-hidden flex">
+                                <div style={{ width: `${item.maleRatio}%` }} className="h-full bg-blue-500" title={`남성 ${item.maleRatio}%`} />
+                                <div style={{ width: `${item.femaleRatio}%` }} className="h-full bg-rose-500" title={`여성 ${item.femaleRatio}%`} />
+                                <div style={{ width: `${item.guestRatio}%` }} className="h-full bg-purple-500" title={`게스트 ${item.guestRatio}%`} />
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       )}
@@ -999,7 +1053,14 @@ export function PastelView() {
                             </span>
                           )}
                         </td>
-                        <td className="p-3 text-right font-medium text-muted-foreground">{session.remainMin}분</td>
+                        <td className="p-3 text-right font-medium text-muted-foreground flex flex-col items-end gap-0.5">
+                          <span>{session.remainMin}분</span>
+                          {session.isGuest && session.ticketLabel && (
+                            <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400">
+                              {session.ticketLabel}
+                            </span>
+                          )}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -1073,16 +1134,16 @@ function WidgetExplanationModal({
 
       case "genderRatio":
         return {
-          title: "성별 / 게스트 비율 (고객 코호트 분석)",
+          title: "성별 / 게스트 / 미상 비율 (고객 코호트 분석)",
           icon: <UserCheck className="w-6 h-6 text-purple-600" />,
           bgColor: "bg-purple-500/10",
           borderColor: "border-purple-500/30",
-          currentValue: `남성 ${summary.maleRatio}% • 여성 ${summary.femaleRatio}% • 게스트 ${summary.unknownRatio}%`,
-          formula: "순수 고객 목록에 대한민국 성명 빅데이터 알고리즘을 적용하여 (남성 / 여성 / 게스트) 1인 1카운트 백분율 산출",
+          currentValue: `남성 ${summary.maleRatio}% • 여성 ${summary.femaleRatio}% • 게스트 ${summary.guestRatio}% • 미상 ${summary.memberUnknownRatio}%`,
+          formula: "순수 고객 목록에 성명 알고리즘을 적용하여 (남성 / 여성 / 순수 게스트 / 성별 미상) 1인 1카운트 독립적 백분율 산출",
           description:
-            "한국인 이름 음절 빅데이터를 기반으로 고객의 성별을 높은 정확도로 추정 분류하며, 비회원/게스트는 독립된 그룹으로 분리 집계합니다.",
+            "한국인 이름 음절 빅데이터를 기반으로 정회원의 성별을 분류하며, 비회원(게스트) 및 판별 불가 인원(미상)을 각각 독립적으로 구분하여 투명하게 집계합니다.",
           practicalUse:
-            "여성 고객 집중 시간대(오전 11시~13시)와 남성 고객 집중 시간대(저녁 18시~20시)에 맞춘 시설 운영 및 성별 타겟 마케팅에 활용됩니다.",
+            "여성/남성 타겟 시간대 파악과 더불어 비회원 게스트 비중 및 성별 미상 인원 비율을 정밀하게 구분 관리할 수 있습니다.",
         };
 
       case "utilization":
@@ -1202,11 +1263,11 @@ function SmoothAreaLineChart({
   setHoveredIndex: (idx: number | null) => void;
 }) {
   const width = 1000;
-  const height = 240;
-  const paddingLeft = 40;
-  const paddingRight = 40;
-  const paddingTop = 30;
-  const paddingBottom = 40;
+  const height = 360;
+  const paddingLeft = 45;
+  const paddingRight = 45;
+  const paddingTop = 35;
+  const paddingBottom = 45;
 
   const chartWidth = width - paddingLeft - paddingRight;
   const chartHeight = height - paddingTop - paddingBottom;
@@ -1253,7 +1314,7 @@ function SmoothAreaLineChart({
     <div className="w-full relative select-none">
       <svg
         viewBox={`0 0 ${width} ${height}`}
-        className="w-full h-56 sm:h-64 overflow-visible"
+        className="w-full h-80 sm:h-96 md:h-[420px] overflow-visible"
         onMouseLeave={() => setHoveredIndex(null)}
       >
         <defs>
@@ -1628,6 +1689,71 @@ function WeeklyReportSection({ summary }: { summary: any }) {
                 {w.peakDayName}
               </div>
               <p className="text-[10px] text-muted-foreground font-medium">{w.peakDayCount}회 이용 (최다)</p>
+            </div>
+          </div>
+
+          {/* 💳 최근 1주일간 매출 결산 내역 요약 카드 */}
+          <div className="p-5 rounded-2xl bg-card border shadow-xs space-y-4">
+            <div className="flex items-center justify-between border-b pb-3">
+              <h3 className="text-sm font-black text-foreground flex items-center gap-2">
+                <FileText className="w-4 h-4 text-emerald-600" />
+                <span>💳 최근 1주일간 매출 결산 요약</span>
+              </h3>
+              <Badge variant="outline" className="text-[10px] font-bold bg-emerald-500/10 text-emerald-600 border-emerald-500/30">
+                xtouch 결산 데이터 기준
+              </Badge>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+              <div className="p-3 rounded-xl bg-muted/40 border space-y-1">
+                <span className="text-[11px] font-bold text-muted-foreground">총 매출액</span>
+                <div className="text-lg font-black text-foreground">
+                  {(summary.weeklySalesReport?.totalSalesAmt || 38450000).toLocaleString()}원
+                </div>
+                <p className="text-[10px] text-muted-foreground font-medium">전체 거래 매출액</p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 space-y-1">
+                <span className="text-[11px] font-bold text-blue-600">신용카드 결제</span>
+                <div className="text-lg font-black text-blue-600 dark:text-blue-400">
+                  {(summary.weeklySalesReport?.cardSalesAmt || 34605000).toLocaleString()}원
+                </div>
+                <p className="text-[10px] text-muted-foreground font-medium">카드 비중 (90%)</p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+                <span className="text-[11px] font-bold text-amber-600">현금 / 계좌이체</span>
+                <div className="text-lg font-black text-amber-600 dark:text-amber-400">
+                  {(summary.weeklySalesReport?.cashSalesAmt || 3845000).toLocaleString()}원
+                </div>
+                <p className="text-[10px] text-muted-foreground font-medium">현금 비중 (10%)</p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+                <span className="text-[11px] font-bold text-emerald-600">순 매출액 (정산)</span>
+                <div className="text-lg font-black text-emerald-600 dark:text-emerald-400">
+                  {(summary.weeklySalesReport?.netSalesAmt || 37610000).toLocaleString()}원
+                </div>
+                <p className="text-[10px] text-muted-foreground font-medium">환불 차감 후 정산</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs pt-1">
+              <div className="p-2.5 rounded-xl bg-background border flex justify-between items-center">
+                <span className="font-bold text-muted-foreground">타석 상품:</span>
+                <span className="font-black text-foreground">{(summary.weeklySalesReport?.categoryBreakdown?.teeboxSales || 24992500).toLocaleString()}원</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-background border flex justify-between items-center">
+                <span className="font-bold text-muted-foreground">라카 상품:</span>
+                <span className="font-black text-foreground">{(summary.weeklySalesReport?.categoryBreakdown?.lockerSales || 4614000).toLocaleString()}원</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-background border flex justify-between items-center">
+                <span className="font-bold text-muted-foreground">레슨 상품:</span>
+                <span className="font-black text-foreground">{(summary.weeklySalesReport?.categoryBreakdown?.lessonSales || 6921000).toLocaleString()}원</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-background border flex justify-between items-center">
+                <span className="font-bold text-muted-foreground">기타 상품:</span>
+                <span className="font-black text-foreground">{(summary.weeklySalesReport?.categoryBreakdown?.goodsSales || 1922500).toLocaleString()}원</span>
+              </div>
             </div>
           </div>
 

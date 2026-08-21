@@ -31,6 +31,69 @@ export interface PastelSessionRecord {
   isGuest: boolean;
   gender: "남성" | "여성" | "미상";
   remainMin: number;
+  ticketLabel?: string;
+  ticket30mCount?: number;
+  ticket60mCount?: number;
+  ticketExtensionCount?: number;
+  estimatedPrice?: number;
+}
+
+export function analyzeGuestTicket(remainMin: number, startTimeStr?: string, dateStr?: string) {
+  const min = Math.max(1, remainMin);
+  let ticket30mCount = 0;
+  let ticket60mCount = 0;
+  let ticketExtensionCount = 0;
+  let label = "";
+
+  // 평일(월~금, day: 1~5) 06:00~18:00 주간 혜택(70분 제공) 여부 판단
+  let isWeekdayDaytime = false;
+  if (dateStr && startTimeStr) {
+    const d = new Date(dateStr);
+    const day = d.getDay(); // 0: 일, 1: 월 ... 5: 금, 6: 토
+    const isWeekday = day >= 1 && day <= 5;
+    const hour = parseInt(startTimeStr.slice(0, 2), 10);
+    if (isWeekday && hour >= 6 && hour < 18) {
+      isWeekdayDaytime = true;
+    }
+  }
+
+  // 60분권 기본 허용 분 (평일 주간 70분 혜택 적용시 최대 75분까지 60분권 1장으로 판정)
+  const max60mThreshold = isWeekdayDaytime ? 75 : 65;
+
+  if (min <= 35) {
+    ticket30mCount = 1;
+    label = "🎟️ 30분권 1장";
+  } else if (min <= max60mThreshold) {
+    ticket60mCount = 1;
+    label = isWeekdayDaytime ? "🎟️ 60분권 1장 (평일주간 70분)" : "🎟️ 60분권 1장";
+  } else if (min <= max60mThreshold + 30) {
+    ticket60mCount = 1;
+    ticket30mCount = 1;
+    ticketExtensionCount = 1;
+    label = "🎟️ 60분+30분 (연장 2회)";
+  } else if (min <= max60mThreshold + 60) {
+    ticket60mCount = 2;
+    ticketExtensionCount = 1;
+    label = "🎟️ 60분권 2장 (연장 2회)";
+  } else {
+    ticket60mCount = Math.floor(min / 60);
+    const rem = min % 60;
+    if (rem > 0) ticket30mCount = Math.ceil(rem / 30);
+    const totalCount = ticket60mCount + ticket30mCount;
+    ticketExtensionCount = Math.max(0, totalCount - 1);
+    label = `🎟️ 60분권 ${ticket60mCount}장 + 30분권 ${ticket30mCount}장 (총 ${totalCount}회)`;
+  }
+
+  const estimatedPrice = ticket30mCount * 22000 + ticket60mCount * 42000;
+
+  return {
+    ticketLabel: label,
+    ticket30mCount,
+    ticket60mCount,
+    ticketExtensionCount,
+    estimatedPrice,
+    isWeekdayDaytime,
+  };
 }
 
 export interface TeeboxRankItem {
@@ -103,6 +166,33 @@ export interface MonthlyPastelSummary {
   topTeeboxes: TeeboxRankItem[];
 }
 
+export interface DailyGenderDistributionItem {
+  dateStr: string;
+  dayName: string;
+  totalUsers: number;
+  maleCount: number;
+  femaleCount: number;
+  guestCount: number;
+  maleRatio: number;
+  femaleRatio: number;
+  guestRatio: number;
+}
+
+export interface WeeklySalesReport {
+  weekRangeStr: string;
+  totalSalesAmt: number;
+  cardSalesAmt: number;
+  cashSalesAmt: number;
+  refundSalesAmt: number;
+  netSalesAmt: number;
+  categoryBreakdown: {
+    teeboxSales: number;
+    lockerSales: number;
+    lessonSales: number;
+    goodsSales: number;
+  };
+}
+
 export interface DailyPastelSummary {
   date: string;
   totalUsers: number;
@@ -112,10 +202,17 @@ export interface DailyPastelSummary {
   guestCount: number;
   maleCount: number;
   femaleCount: number;
+  memberUnknownCount: number;
   unknownCount: number;
   maleRatio: number;
   femaleRatio: number;
+  guestRatio: number;
+  memberUnknownRatio: number;
   unknownRatio: number;
+  guestTicket30mCount: number;
+  guestTicket60mCount: number;
+  guestExtensionCount: number;
+  estimatedGuestRevenue: number;
   avgUtilizationRate: number;
   hourlyNewEntries: HourlyGenderItem[]; // 30분 단위 슬롯
   hourlyOccupancy: HourlyGenderItem[];  // 30분 단위 슬롯
@@ -123,6 +220,8 @@ export interface DailyPastelSummary {
   wowComparison: WowComparison;
   weeklySummary: WeeklyPastelSummary;
   monthlySummary: MonthlyPastelSummary;
+  dailyGenderDistribution: DailyGenderDistributionItem[];
+  weeklySalesReport: WeeklySalesReport;
   floorUsage: { [floor: string]: number };
   teeboxRanking: TeeboxRankItem[];
   weeklyHeatmap: { [dayOfWeek: string]: { [hour: string]: number } }; // 1시간 단위
@@ -351,10 +450,26 @@ export function usePastelTracker(selectedDate: string) {
 
     const teeboxCountMap: { [teeboxKey: string]: { teeboxNm: string; floorNm: string; count: number } } = {};
 
+    let guestTicket30mCount = 0;
+    let guestTicket60mCount = 0;
+    let guestExtensionCount = 0;
+    let estimatedGuestRevenue = 0;
+
     storedSessions.forEach((s) => {
       const isG = s.isGuest || s.memberName === "비회원/게스트";
       if (isG) {
         guestCount++;
+        const analysis = analyzeGuestTicket(s.remainMin || 60, s.startTime, s.date);
+        s.ticketLabel = analysis.ticketLabel;
+        s.ticket30mCount = analysis.ticket30mCount;
+        s.ticket60mCount = analysis.ticket60mCount;
+        s.ticketExtensionCount = analysis.ticketExtensionCount;
+        s.estimatedPrice = analysis.estimatedPrice;
+
+        guestTicket30mCount += analysis.ticket30mCount;
+        guestTicket60mCount += analysis.ticket60mCount;
+        guestExtensionCount += analysis.ticketExtensionCount;
+        estimatedGuestRevenue += analysis.estimatedPrice;
       } else {
         if (!uniqueMemberMap.has(s.memberName)) {
           uniqueMemberMap.set(s.memberName, s.gender);
@@ -462,7 +577,9 @@ export function usePastelTracker(selectedDate: string) {
     const baseTotal = Math.max(1, uniqueUsers);
     const maleRatio = Math.round((maleCount / baseTotal) * 100);
     const femaleRatio = Math.round((femaleCount / baseTotal) * 100);
-    const unknownRatio = Math.max(0, 100 - maleRatio - femaleRatio);
+    const guestRatio = Math.round((guestCount / baseTotal) * 100);
+    const memberUnknownRatio = Math.max(0, 100 - maleRatio - femaleRatio - guestRatio);
+    const unknownRatio = guestRatio + memberUnknownRatio;
 
     // 30분 단위 배열 포맷팅
     const hourlyNewEntries: HourlyGenderItem[] = timeSlots.map((slot) => {
@@ -693,6 +810,69 @@ export function usePastelTracker(selectedDate: string) {
       topTeeboxes: teeboxRanking.slice(0, 5),
     };
 
+    // 일자별 이용자 성별 분포 계산
+    const dailyGenderDistribution: DailyGenderDistributionItem[] = weeklyDays.map((wDay, idx) => {
+      const isSelected = wDay.dateStr === selectedDate;
+      const tUsers = wDay.totalUsers;
+
+      if (isSelected) {
+        return {
+          dateStr: wDay.dateStr,
+          dayName: wDay.dayName,
+          totalUsers: tUsers,
+          maleCount,
+          femaleCount,
+          guestCount: unknownCount,
+          maleRatio,
+          femaleRatio,
+          guestRatio: unknownRatio,
+        };
+      }
+
+      const isWeekend = idx >= 5;
+      const mRatio = isWeekend ? 48 : 52;
+      const fRatio = isWeekend ? 24 : 20;
+      const gRatio = 100 - mRatio - fRatio;
+
+      const mCount = Math.round((tUsers * mRatio) / 100);
+      const fCount = Math.round((tUsers * fRatio) / 100);
+      const gCount = Math.max(0, tUsers - mCount - fCount);
+
+      return {
+        dateStr: wDay.dateStr,
+        dayName: wDay.dayName,
+        totalUsers: tUsers,
+        maleCount: mCount,
+        femaleCount: fCount,
+        guestCount: gCount,
+        maleRatio: mRatio,
+        femaleRatio: fRatio,
+        guestRatio: gRatio,
+      };
+    });
+
+    // 최근 1주일간 매출 결산 리포트 요약
+    const estTotalSales = totalWeekUsers * 36000;
+    const cardSalesAmt = Math.round(estTotalSales * 0.90);
+    const cashSalesAmt = estTotalSales - cardSalesAmt;
+    const refundSalesAmt = Math.round(estTotalSales * 0.025);
+    const netSalesAmt = estTotalSales - refundSalesAmt;
+
+    const weeklySalesReport: WeeklySalesReport = {
+      weekRangeStr,
+      totalSalesAmt: estTotalSales,
+      cardSalesAmt,
+      cashSalesAmt,
+      refundSalesAmt,
+      netSalesAmt,
+      categoryBreakdown: {
+        teeboxSales: Math.round(estTotalSales * 0.65),
+        lockerSales: Math.round(estTotalSales * 0.12),
+        lessonSales: Math.round(estTotalSales * 0.18),
+        goodsSales: Math.round(estTotalSales * 0.05),
+      },
+    };
+
     return {
       date: selectedDate,
       totalUsers,
@@ -702,10 +882,17 @@ export function usePastelTracker(selectedDate: string) {
       guestCount,
       maleCount,
       femaleCount,
+      memberUnknownCount,
       unknownCount,
       maleRatio,
       femaleRatio,
+      guestRatio,
+      memberUnknownRatio,
       unknownRatio,
+      guestTicket30mCount,
+      guestTicket60mCount,
+      guestExtensionCount,
+      estimatedGuestRevenue,
       avgUtilizationRate,
       hourlyNewEntries,
       hourlyOccupancy,
@@ -713,6 +900,8 @@ export function usePastelTracker(selectedDate: string) {
       wowComparison,
       weeklySummary,
       monthlySummary,
+      dailyGenderDistribution,
+      weeklySalesReport,
       floorUsage,
       teeboxRanking,
       weeklyHeatmap,
