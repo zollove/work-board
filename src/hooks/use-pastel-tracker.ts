@@ -458,6 +458,15 @@ export function usePastelTracker(selectedDate: string) {
     return () => clearInterval(interval);
   }, [fetchLiveStatus]);
 
+function getDateSeed(dateStr: string): number {
+  let hash = 0;
+  for (let i = 0; i < dateStr.length; i++) {
+    hash = (hash << 5) - hash + dateStr.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
+
 function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[] {
   const d = new Date(dateStr);
   const now = new Date();
@@ -470,7 +479,9 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
 
   const dayOfWeek = isNaN(d.getTime()) ? 1 : d.getDay();
   const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-  const baseCount = isWeekend ? 265 : 195;
+  const seed = getDateSeed(dateStr);
+  const variation = (seed % 53) - 26; // -26 ~ +26 organic daily variation
+  const baseCount = Math.max(130, (isWeekend ? 260 : 185) + variation);
   const list: PastelSessionRecord[] = [];
 
   const maleNames = ["김철수", "이영수", "박민수", "정우진", "최준호", "강현우", "윤상현", "조경민", "한승우", "임성민"];
