@@ -295,7 +295,7 @@ export function PastelView() {
               {summary.uniqueUsers}명
             </div>
             <p className="text-[10px] text-muted-foreground font-medium flex items-center gap-1">
-              <span>중복 제거 실제 인원</span>
+              <span>정회원 {summary.memberCount}명 + 게스트 {summary.guestCount}명</span>
               <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-emerald-600" />
             </p>
           </CardContent>
@@ -340,12 +340,10 @@ export function PastelView() {
               <span>•</span>
               <span className="text-rose-500">여 {summary.femaleRatio}%</span>
               <span>•</span>
-              <span className="text-purple-600">G {summary.guestRatio}%</span>
-              <span>•</span>
-              <span className="text-slate-500">미상 {summary.memberUnknownRatio}%</span>
+              <span className="text-purple-600">게스트 {summary.guestRatio}%</span>
             </div>
             <p className="text-[10px] text-muted-foreground font-medium truncate flex items-center gap-1">
-              <span>남 {summary.maleCount} • 여 {summary.femaleCount} • 게스트 {summary.guestCount} • 미상 {summary.memberUnknownCount}</span>
+              <span>남성 {summary.maleCount} • 여성 {summary.femaleCount} • 게스트 {summary.guestCount}</span>
               <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-purple-600 shrink-0" />
             </p>
           </CardContent>

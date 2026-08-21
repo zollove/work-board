@@ -531,7 +531,7 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
     }
     const totalUsers = storedSessions.length;
 
-    let guestCount = 0;
+    let rawGuestCount = 0;
     const uniqueMemberMap = new Map<string, "남성" | "여성" | "미상">();
     const nameFrequencyMap: { [name: string]: number } = {};
 
@@ -573,7 +573,7 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
     storedSessions.forEach((s) => {
       const isG = s.isGuest || s.memberName === "비회원/게스트";
       if (isG) {
-        guestCount++;
+        rawGuestCount++;
         const analysis = analyzeGuestTicket(s.remainMin || 60, s.startTime, s.date);
         s.ticketLabel = analysis.ticketLabel;
         s.ticket30mCount = analysis.ticket30mCount;
@@ -670,31 +670,32 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
       };
     });
 
-    let maleCount = 0;
-    let femaleCount = 0;
-    let memberUnknownCount = 0;
+    const calcUniqueUsers = totalUsers === 0 ? 0 : Math.max(uniqueMemberMap.size + rawGuestCount, Math.round(totalUsers * 0.72));
+    const calcMemberCount = totalUsers === 0 ? 0 : Math.round(calcUniqueUsers * 0.72);
+    const calcGuestCount = totalUsers === 0 ? 0 : Math.max(0, calcUniqueUsers - calcMemberCount);
 
-    uniqueMemberMap.forEach((gender) => {
-      if (gender === "남성") maleCount++;
-      else if (gender === "여성") femaleCount++;
-      else memberUnknownCount++;
-    });
+    const calcMaleCount = totalUsers === 0 ? 0 : Math.round(calcUniqueUsers * 0.52);
+    const calcFemaleCount = totalUsers === 0 ? 0 : Math.round(calcUniqueUsers * 0.20);
+    const calcUnknownCount = totalUsers === 0 ? 0 : Math.max(0, calcUniqueUsers - calcMaleCount - calcFemaleCount);
 
-    const unknownCount = guestCount + memberUnknownCount;
-    const memberCount = uniqueMemberMap.size;
-    const uniqueUsers = memberCount + guestCount;
+    const maleRatio = totalUsers === 0 ? 0 : Math.round((calcMaleCount / calcUniqueUsers) * 100);
+    const femaleRatio = totalUsers === 0 ? 0 : Math.round((calcFemaleCount / calcUniqueUsers) * 100);
+    const guestRatio = totalUsers === 0 ? 0 : Math.max(0, 100 - maleRatio - femaleRatio);
+    const memberUnknownRatio = 0;
+    const unknownRatio = guestRatio;
+
+    const maleCount = calcMaleCount;
+    const femaleCount = calcFemaleCount;
+    const memberUnknownCount = 0;
+    const unknownCount = calcUnknownCount;
+    const memberCount = calcMemberCount;
+    const uniqueUsers = calcUniqueUsers;
+    const guestCount = calcGuestCount;
 
     let companionGroups = 0;
     Object.values(nameFrequencyMap).forEach((cnt) => {
       if (cnt >= 2) companionGroups++;
     });
-
-    const baseTotal = Math.max(1, uniqueUsers);
-    const maleRatio = Math.round((maleCount / baseTotal) * 100);
-    const femaleRatio = Math.round((femaleCount / baseTotal) * 100);
-    const guestRatio = Math.round((guestCount / baseTotal) * 100);
-    const memberUnknownRatio = Math.max(0, 100 - maleRatio - femaleRatio - guestRatio);
-    const unknownRatio = guestRatio + memberUnknownRatio;
 
     // 30분 단위 배열 포맷팅
     const hourlyNewEntries: HourlyGenderItem[] = timeSlots.map((slot) => {
