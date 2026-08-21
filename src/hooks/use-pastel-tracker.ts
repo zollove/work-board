@@ -899,15 +899,15 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
       avgUtilDiff,
     };
 
-    // 🌟 전년 대비(YoY) 364일전(52주전 동요일) 비교 계산
+    // 🌟 전년 대비(YoY) 364일전(52주전 동요일) 비교 계산 (2026년 전년대비 -12.4% 하락 반영)
     const lastYearDateObj = new Date(selectedDate);
     lastYearDateObj.setDate(lastYearDateObj.getDate() - 364);
     const lastYearDateStr = `${lastYearDateObj.getFullYear()}-${String(lastYearDateObj.getMonth() + 1).padStart(2, "0")}-${String(lastYearDateObj.getDate()).padStart(2, "0")}`;
     const dayNames = ["일", "월", "화", "수", "목", "금", "토"];
     const lastYearDayName = dayNames[lastYearDateObj.getDay()];
 
-    const lastYearBaseTotal = Math.max(20, Math.round(totalUsers * 0.86));
-    const lastYearEstSales = lastYearBaseTotal * 35000;
+    const lastYearBaseTotal = Math.max(20, Math.round(totalUsers * 1.15));
+    const lastYearEstSales = lastYearBaseTotal * 41000;
     const dailySalesAmt = totalUsers * 38000;
 
     const yoyDailySalesDiff = dailySalesAmt - lastYearEstSales;
@@ -928,17 +928,17 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
       },
       weekly: {
         lastYearWeekRangeStr: "2025.08.18 ~ 2025.08.24",
-        lastYearSalesAmt: 228000000,
-        lastYearTotalUsers: 6450,
-        salesPercent: 15.8,
-        usersPercent: 14.2,
+        lastYearSalesAmt: 265000000,
+        lastYearTotalUsers: 7420,
+        salesPercent: -12.4,
+        usersPercent: -11.8,
       },
       monthly: {
         lastYearMonthStr: "2025-08",
-        lastYearSalesAmt: 915000000,
-        lastYearTotalUsers: 25800,
-        salesPercent: 14.1,
-        usersPercent: 12.4,
+        lastYearSalesAmt: 1040000000,
+        lastYearTotalUsers: 29600,
+        salesPercent: -13.1,
+        usersPercent: -12.2,
       },
     };
 
@@ -997,8 +997,8 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
 
     const weeklySalesTrend: WeeklySalesTrendItem[] = weeklyDays.map((wDay) => {
       const salesAmt = wDay.totalUsers * 38000;
-      const lastYearUsers = Math.max(15, Math.round(wDay.totalUsers * 0.87));
-      const lastYearSalesAmt = lastYearUsers * 35000;
+      const lastYearUsers = Math.max(15, Math.round(wDay.totalUsers * 1.15));
+      const lastYearSalesAmt = lastYearUsers * 41000;
       const growthPercent = Math.round(((salesAmt - lastYearSalesAmt) / (lastYearSalesAmt || 1)) * 100);
 
       return {
@@ -1014,10 +1014,10 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
     });
 
     const monthlySalesTrend: MonthlySalesTrendItem[] = [
-      { weekName: "1주차 (8/1~8/7)", dateRange: "08.01 ~ 08.07", totalUsers: 1450, salesAmt: 55100000, avgUtil: 44, lastYearTotalUsers: 1270, lastYearSalesAmt: 48200000, growthPercent: 14.3 },
-      { weekName: "2주차 (8/8~8/14)", dateRange: "08.08 ~ 08.14", totalUsers: 1520, salesAmt: 57760000, avgUtil: 47, lastYearTotalUsers: 1330, lastYearSalesAmt: 50540000, growthPercent: 14.3 },
-      { weekName: "3주차 (8/15~8/21)", dateRange: "08.15 ~ 08.21", totalUsers: 1610, salesAmt: 61180000, avgUtil: 50, lastYearTotalUsers: 1410, lastYearSalesAmt: 53580000, growthPercent: 14.2 },
-      { weekName: "4주차 (8/22~8/28)", dateRange: "08.22 ~ 08.28", totalUsers: 1580, salesAmt: 60040000, avgUtil: 49, lastYearTotalUsers: 1390, lastYearSalesAmt: 52820000, growthPercent: 13.7 },
+      { weekName: "1주차 (8/1~8/7)", dateRange: "08.01 ~ 08.07", totalUsers: 1450, salesAmt: 55100000, avgUtil: 44, lastYearTotalUsers: 1680, lastYearSalesAmt: 63840000, growthPercent: -13.7 },
+      { weekName: "2주차 (8/8~8/14)", dateRange: "08.08 ~ 08.14", totalUsers: 1520, salesAmt: 57760000, avgUtil: 47, lastYearTotalUsers: 1750, lastYearSalesAmt: 66500000, growthPercent: -13.1 },
+      { weekName: "3주차 (8/15~8/21)", dateRange: "08.15 ~ 08.21", totalUsers: 1610, salesAmt: 61180000, avgUtil: 50, lastYearTotalUsers: 1840, lastYearSalesAmt: 69920000, growthPercent: -12.5 },
+      { weekName: "4주차 (8/22~8/28)", dateRange: "08.22 ~ 08.28", totalUsers: 1580, salesAmt: 60040000, avgUtil: 49, lastYearTotalUsers: 1810, lastYearSalesAmt: 68780000, growthPercent: -12.7 },
     ];
 
     const weeklySummary: WeeklyPastelSummary = {

@@ -55,9 +55,9 @@ async function collect2025HistoricalData() {
     const dayOfWeek = curr.getDay(); // 0: Sun, 6: Sat
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
-    // 2025 base numbers (approx 12-15% lower than 2026 for growth metrics)
-    const baseUsers = isWeekend ? 230 + (dayOfWeek * 4) : 160 + (dayOfWeek * 3);
-    const estTotalSales = baseUsers * 35000;
+    // 2025 base numbers (2026 sales declined by approx -12.5% compared to 2025 peak)
+    const baseUsers = isWeekend ? 295 + (dayOfWeek * 4) : 225 + (dayOfWeek * 3);
+    const estTotalSales = baseUsers * 42000;
     const cardSalesAmt = Math.round(estTotalSales * 0.89);
     const cashSalesAmt = estTotalSales - cardSalesAmt;
     const refundSalesAmt = Math.round(estTotalSales * 0.025);

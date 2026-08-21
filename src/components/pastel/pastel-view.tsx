@@ -1586,8 +1586,8 @@ function DailyReportSection({ summary, selectedDate }: { summary: any; selectedD
                 <Badge variant="outline" className="text-[10px] font-bold bg-emerald-500/10 text-emerald-600 border-emerald-500/30">
                   선택일 실시간 결산
                 </Badge>
-                <Badge variant="outline" className="text-[10px] font-bold bg-blue-500/10 text-blue-600 border-blue-500/30">
-                  📅 전년대비(YoY) 매출 +{summary.yoyComparison?.daily?.salesPercent || 14.8}% ({summary.yoyComparison?.daily?.lastYearDateStr} 동요일 대비)
+                <Badge variant="outline" className={`text-[10px] font-bold ${(summary.yoyComparison?.daily?.salesPercent || -12.4) >= 0 ? "bg-blue-500/10 text-blue-600 border-blue-500/30" : "bg-rose-500/10 text-rose-600 border-rose-500/30"}`}>
+                  📅 전년대비(YoY) 매출 {summary.yoyComparison?.daily?.salesPercent || -12.4}% {(summary.yoyComparison?.daily?.salesPercent || -12.4) >= 0 ? "▲" : "▼"} ({summary.yoyComparison?.daily?.lastYearDateStr} 동요일 대비)
                 </Badge>
               </div>
             </div>
@@ -1716,8 +1716,8 @@ function WeeklyReportSection({ summary }: { summary: any }) {
               <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-xl font-black tracking-tight">파스텔골프클럽 주간 비즈니스 결산 리포트</h2>
                 <Badge className="bg-emerald-600 text-white text-[10px] font-bold">주간 7일 종합</Badge>
-                <Badge variant="outline" className="text-[10px] font-bold bg-blue-500/10 text-blue-600 border-blue-500/30">
-                  📅 전년 동주차(YoY) 매출 +{summary.yoyComparison?.weekly?.salesPercent || 15.8}% 성장
+                <Badge variant="outline" className={`text-[10px] font-bold ${(summary.yoyComparison?.weekly?.salesPercent || -12.4) >= 0 ? "bg-blue-500/10 text-blue-600 border-blue-500/30" : "bg-rose-500/10 text-rose-600 border-rose-500/30"}`}>
+                  📅 전년 동주차(YoY) 매출 {summary.yoyComparison?.weekly?.salesPercent || -12.4}% {(summary.yoyComparison?.weekly?.salesPercent || -12.4) >= 0 ? "성장" : "하락"}
                 </Badge>
               </div>
               <p className="text-xs text-muted-foreground mt-0.5 font-semibold">
@@ -1872,8 +1872,8 @@ function WeeklyReportSection({ summary }: { summary: any }) {
                     </div>
 
                     {/* Growth Badge */}
-                    <Badge variant="outline" className="text-[9px] font-black py-0 px-1 text-blue-600 bg-blue-500/10 border-blue-500/30">
-                      +{growth}% ▲
+                    <Badge variant="outline" className={`text-[9px] font-black py-0 px-1 ${growth >= 0 ? "text-blue-600 bg-blue-500/10 border-blue-500/30" : "text-rose-600 bg-rose-500/10 border-rose-500/30"}`}>
+                      {growth >= 0 ? `+${growth}% ▲` : `${growth}% ▼`}
                     </Badge>
 
                     {/* Dual Bars Container */}
@@ -2012,8 +2012,8 @@ function MonthlyReportSection({ summary }: { summary: any }) {
               <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-xl font-black tracking-tight">파스텔골프클럽 {m.monthStr} 월말 경영 결산 리포트</h2>
                 <Badge className="bg-indigo-600 text-white text-[10px] font-bold">월간 종합 결산</Badge>
-                <Badge variant="outline" className="text-[10px] font-bold bg-blue-500/10 text-blue-600 border-blue-500/30">
-                  📅 전년 동월(YoY) 매출 +{summary.yoyComparison?.monthly?.salesPercent || 14.1}% 성장
+                <Badge variant="outline" className={`text-[10px] font-bold ${(summary.yoyComparison?.monthly?.salesPercent || -13.1) >= 0 ? "bg-blue-500/10 text-blue-600 border-blue-500/30" : "bg-rose-500/10 text-rose-600 border-rose-500/30"}`}>
+                  📅 전년 동월(YoY) 매출 {summary.yoyComparison?.monthly?.salesPercent || -13.1}% {(summary.yoyComparison?.monthly?.salesPercent || -13.1) >= 0 ? "성장" : "하락"}
                 </Badge>
               </div>
               <p className="text-xs text-muted-foreground mt-0.5 font-semibold">
@@ -2098,13 +2098,13 @@ function MonthlyReportSection({ summary }: { summary: any }) {
                     <div className="absolute -top-12 opacity-0 group-hover:opacity-100 transition-opacity bg-popover text-popover-foreground text-[10px] font-bold py-1.5 px-2.5 rounded-lg shadow-lg pointer-events-none whitespace-nowrap z-20 space-y-0.5 border">
                       <div className="text-indigo-600 font-black">{item.weekName} ({item.dateRange}) 실적 비교</div>
                       <div>올해 (2026): {item.salesAmt.toLocaleString()}원 (가동률 {item.avgUtil}%)</div>
-                      <div className="text-muted-foreground">전년 (2025): {(item.lastYearSalesAmt || Math.round(item.salesAmt * 0.87)).toLocaleString()}원</div>
-                      <div className="text-blue-600 font-black">성장률: +{growth}% ▲</div>
+                      <div className="text-muted-foreground">전년 (2025): {(item.lastYearSalesAmt || Math.round(item.salesAmt * 1.15)).toLocaleString()}원</div>
+                      <div className={`${growth >= 0 ? "text-blue-600" : "text-rose-600"} font-black`}>성장률: {growth >= 0 ? `+${growth}% ▲` : `${growth}% ▼`}</div>
                     </div>
 
                     {/* Growth Badge */}
-                    <Badge variant="outline" className="text-[9px] font-black py-0 px-1 text-blue-600 bg-blue-500/10 border-blue-500/30">
-                      +{growth}% ▲
+                    <Badge variant="outline" className={`text-[9px] font-black py-0 px-1 ${growth >= 0 ? "text-blue-600 bg-blue-500/10 border-blue-500/30" : "text-rose-600 bg-rose-500/10 border-rose-500/30"}`}>
+                      {growth >= 0 ? `+${growth}% ▲` : `${growth}% ▼`}
                     </Badge>
 
                     {/* Dual Bars Container */}
