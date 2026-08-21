@@ -1133,13 +1133,13 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
       },
     };
 
-    // 선택일 하루 매출 현황 계산 (8/21 실측 xtouch 데이터 연동)
+    // 선택일 하루 매출 현황 계산 (8/21 xtouch 실제 매출 7,910,000원 연동)
     const is821 = selectedDate === "2026-08-21";
-    const dailyEstSales = is821 ? 10330000 : totalUsers * 38000;
-    const dailyCardSales = is821 ? 9297000 : Math.round(dailyEstSales * 0.90);
-    const dailyCashSales = is821 ? 1033000 : dailyEstSales - dailyCardSales;
-    const dailyRefundSales = is821 ? 1142000 : Math.round(dailyEstSales * 0.022);
-    const dailyNetSales = is821 ? 9188000 : dailyEstSales - dailyRefundSales;
+    const dailyEstSales = is821 ? 7910000 : totalUsers * 38000;
+    const dailyCardSales = is821 ? 7119000 : Math.round(dailyEstSales * 0.90);
+    const dailyCashSales = is821 ? 791000 : dailyEstSales - dailyCardSales;
+    const dailyRefundSales = is821 ? 820000 : Math.round(dailyEstSales * 0.022);
+    const dailyNetSales = is821 ? 7090000 : dailyEstSales - dailyRefundSales;
 
     const dailySalesReport: DailySalesReport = {
       dateStr: selectedDate,
@@ -1149,7 +1149,7 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
       refundSalesAmt: dailyRefundSales,
       netSalesAmt: dailyNetSales,
       categoryBreakdown: {
-        teeboxSales: is821 ? 9950000 : Math.round(dailyEstSales * 0.65),
+        teeboxSales: is821 ? 7530000 : Math.round(dailyEstSales * 0.65),
         lockerSales: is821 ? 380000 : Math.round(dailyEstSales * 0.12),
         lessonSales: is821 ? 0 : Math.round(dailyEstSales * 0.18),
         goodsSales: is821 ? 0 : Math.round(dailyEstSales * 0.05),
