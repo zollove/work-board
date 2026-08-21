@@ -9,12 +9,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-02",
@@ -23,12 +23,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-03",
@@ -37,12 +37,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-04",
@@ -51,12 +51,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-05",
@@ -65,12 +65,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-06",
@@ -79,12 +79,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-07",
@@ -93,12 +93,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-08",
@@ -107,12 +107,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-09",
@@ -121,12 +121,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-10",
@@ -135,12 +135,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-11",
@@ -149,12 +149,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-12",
@@ -163,12 +163,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-13",
@@ -177,12 +177,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-14",
@@ -191,12 +191,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-15",
@@ -205,12 +205,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-16",
@@ -219,12 +219,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-17",
@@ -233,12 +233,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-18",
@@ -247,12 +247,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-19",
@@ -261,12 +261,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-20",
@@ -275,12 +275,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-21",
@@ -289,12 +289,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-22",
@@ -303,12 +303,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-23",
@@ -317,12 +317,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-24",
@@ -331,12 +331,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-25",
@@ -345,12 +345,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-26",
@@ -359,12 +359,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-27",
@@ -373,12 +373,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-28",
@@ -387,12 +387,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-29",
@@ -401,12 +401,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-30",
@@ -415,12 +415,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-01-31",
@@ -429,12 +429,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-01",
@@ -443,12 +443,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-02",
@@ -457,12 +457,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-03",
@@ -471,12 +471,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-04",
@@ -485,12 +485,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-05",
@@ -499,12 +499,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-06",
@@ -513,12 +513,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-07",
@@ -527,12 +527,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-08",
@@ -541,12 +541,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-09",
@@ -555,12 +555,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-10",
@@ -569,12 +569,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-11",
@@ -583,12 +583,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-12",
@@ -597,12 +597,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-13",
@@ -611,12 +611,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-14",
@@ -625,12 +625,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-15",
@@ -639,12 +639,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-16",
@@ -653,12 +653,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-17",
@@ -667,12 +667,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-18",
@@ -681,12 +681,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-19",
@@ -695,12 +695,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-20",
@@ -709,12 +709,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-21",
@@ -723,12 +723,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-22",
@@ -737,12 +737,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-23",
@@ -751,12 +751,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-24",
@@ -765,12 +765,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-25",
@@ -779,12 +779,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-26",
@@ -793,12 +793,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-27",
@@ -807,12 +807,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-02-28",
@@ -821,12 +821,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-01",
@@ -835,12 +835,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-02",
@@ -849,12 +849,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-03",
@@ -863,12 +863,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-04",
@@ -877,12 +877,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-05",
@@ -891,12 +891,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-06",
@@ -905,12 +905,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-07",
@@ -919,12 +919,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-08",
@@ -933,12 +933,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-09",
@@ -947,12 +947,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-10",
@@ -961,12 +961,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-11",
@@ -975,12 +975,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-12",
@@ -989,12 +989,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-13",
@@ -1003,12 +1003,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-14",
@@ -1017,12 +1017,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-15",
@@ -1031,12 +1031,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-16",
@@ -1045,12 +1045,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-17",
@@ -1059,12 +1059,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-18",
@@ -1073,12 +1073,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-19",
@@ -1087,12 +1087,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-20",
@@ -1101,12 +1101,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-21",
@@ -1115,12 +1115,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-22",
@@ -1129,12 +1129,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-23",
@@ -1143,12 +1143,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-24",
@@ -1157,12 +1157,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-25",
@@ -1171,12 +1171,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-26",
@@ -1185,12 +1185,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-27",
@@ -1199,12 +1199,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-28",
@@ -1213,12 +1213,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-29",
@@ -1227,12 +1227,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-30",
@@ -1241,12 +1241,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-03-31",
@@ -1255,12 +1255,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-01",
@@ -1269,12 +1269,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-02",
@@ -1283,12 +1283,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-03",
@@ -1297,12 +1297,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-04",
@@ -1311,12 +1311,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-05",
@@ -1325,12 +1325,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-06",
@@ -1339,12 +1339,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-07",
@@ -1353,12 +1353,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-08",
@@ -1367,12 +1367,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-09",
@@ -1381,12 +1381,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-10",
@@ -1395,12 +1395,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-11",
@@ -1409,12 +1409,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-12",
@@ -1423,12 +1423,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-13",
@@ -1437,12 +1437,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-14",
@@ -1451,12 +1451,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-15",
@@ -1465,12 +1465,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-16",
@@ -1479,12 +1479,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-17",
@@ -1493,12 +1493,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-18",
@@ -1507,12 +1507,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-19",
@@ -1521,12 +1521,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-20",
@@ -1535,12 +1535,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-21",
@@ -1549,12 +1549,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-22",
@@ -1563,12 +1563,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-23",
@@ -1577,12 +1577,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-24",
@@ -1591,12 +1591,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-25",
@@ -1605,12 +1605,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-26",
@@ -1619,12 +1619,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-27",
@@ -1633,12 +1633,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-28",
@@ -1647,12 +1647,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-29",
@@ -1661,12 +1661,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-04-30",
@@ -1675,12 +1675,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-01",
@@ -1689,12 +1689,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-02",
@@ -1703,12 +1703,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-03",
@@ -1717,12 +1717,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-04",
@@ -1731,12 +1731,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-05",
@@ -1745,12 +1745,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-06",
@@ -1759,12 +1759,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-07",
@@ -1773,12 +1773,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-08",
@@ -1787,12 +1787,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-09",
@@ -1801,12 +1801,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-10",
@@ -1815,12 +1815,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-11",
@@ -1829,12 +1829,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-12",
@@ -1843,12 +1843,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-13",
@@ -1857,12 +1857,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-14",
@@ -1871,12 +1871,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-15",
@@ -1885,12 +1885,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-16",
@@ -1899,12 +1899,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-17",
@@ -1913,12 +1913,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-18",
@@ -1927,12 +1927,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-19",
@@ -1941,12 +1941,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-20",
@@ -1955,12 +1955,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-21",
@@ -1969,12 +1969,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-22",
@@ -1983,12 +1983,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-23",
@@ -1997,12 +1997,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-24",
@@ -2011,12 +2011,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-25",
@@ -2025,12 +2025,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-26",
@@ -2039,12 +2039,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-27",
@@ -2053,12 +2053,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-28",
@@ -2067,12 +2067,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-29",
@@ -2081,12 +2081,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-30",
@@ -2095,12 +2095,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-05-31",
@@ -2109,12 +2109,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-01",
@@ -2123,12 +2123,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-02",
@@ -2137,12 +2137,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-03",
@@ -2151,12 +2151,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-04",
@@ -2165,12 +2165,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-05",
@@ -2179,12 +2179,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-06",
@@ -2193,12 +2193,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-07",
@@ -2207,12 +2207,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-08",
@@ -2221,12 +2221,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-09",
@@ -2235,12 +2235,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-10",
@@ -2249,12 +2249,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-11",
@@ -2263,12 +2263,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-12",
@@ -2277,12 +2277,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-13",
@@ -2291,12 +2291,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-14",
@@ -2305,12 +2305,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-15",
@@ -2319,12 +2319,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-16",
@@ -2333,12 +2333,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-17",
@@ -2347,12 +2347,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-18",
@@ -2361,12 +2361,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-19",
@@ -2375,12 +2375,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-20",
@@ -2389,12 +2389,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-21",
@@ -2403,12 +2403,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-22",
@@ -2417,12 +2417,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-23",
@@ -2431,12 +2431,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-24",
@@ -2445,12 +2445,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-25",
@@ -2459,12 +2459,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-26",
@@ -2473,12 +2473,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-27",
@@ -2487,12 +2487,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-28",
@@ -2501,12 +2501,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-29",
@@ -2515,12 +2515,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-06-30",
@@ -2529,12 +2529,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-01",
@@ -2543,12 +2543,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-02",
@@ -2557,12 +2557,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-03",
@@ -2571,12 +2571,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-04",
@@ -2585,12 +2585,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-05",
@@ -2599,12 +2599,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-06",
@@ -2613,12 +2613,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-07",
@@ -2627,12 +2627,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-08",
@@ -2641,12 +2641,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-09",
@@ -2655,12 +2655,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-10",
@@ -2669,12 +2669,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-11",
@@ -2683,12 +2683,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-12",
@@ -2697,12 +2697,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-13",
@@ -2711,12 +2711,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-14",
@@ -2725,12 +2725,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-15",
@@ -2739,12 +2739,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-16",
@@ -2753,12 +2753,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-17",
@@ -2767,12 +2767,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-18",
@@ -2781,12 +2781,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-19",
@@ -2795,12 +2795,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-20",
@@ -2809,12 +2809,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-21",
@@ -2823,12 +2823,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-22",
@@ -2837,12 +2837,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-23",
@@ -2851,12 +2851,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-24",
@@ -2865,12 +2865,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-25",
@@ -2879,12 +2879,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-26",
@@ -2893,12 +2893,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-27",
@@ -2907,12 +2907,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-28",
@@ -2921,12 +2921,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-29",
@@ -2935,12 +2935,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-30",
@@ -2949,12 +2949,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-07-31",
@@ -2963,12 +2963,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-01",
@@ -2977,12 +2977,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-02",
@@ -2991,12 +2991,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-03",
@@ -3005,12 +3005,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-04",
@@ -3019,12 +3019,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-05",
@@ -3033,12 +3033,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-06",
@@ -3047,12 +3047,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-07",
@@ -3061,12 +3061,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-08",
@@ -3075,12 +3075,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-09",
@@ -3089,12 +3089,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-10",
@@ -3103,12 +3103,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-11",
@@ -3117,12 +3117,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-12",
@@ -3131,12 +3131,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-13",
@@ -3145,12 +3145,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-14",
@@ -3159,12 +3159,12 @@
       "totalSalesAmt": 7600000,
       "cardSalesAmt": 6840000,
       "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "refundSalesAmt": 190000,
+      "netSalesAmt": 7410000,
+      "teeboxSales": 7220000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-15",
@@ -3173,12 +3173,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-16",
@@ -3187,12 +3187,12 @@
       "totalSalesAmt": 9880000,
       "cardSalesAmt": 8892000,
       "cashSalesAmt": 988000,
-      "refundSalesAmt": 197600,
-      "netSalesAmt": 9682400,
-      "teeboxSales": 6422000,
-      "lockerSales": 1185600,
-      "lessonSales": 1778400,
-      "goodsSales": 494000
+      "refundSalesAmt": 247000,
+      "netSalesAmt": 9633000,
+      "teeboxSales": 9386000,
+      "lockerSales": 494000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-17",
@@ -3201,12 +3201,12 @@
       "totalSalesAmt": 6992000,
       "cardSalesAmt": 6292800,
       "cashSalesAmt": 699200,
-      "refundSalesAmt": 139840,
-      "netSalesAmt": 6852160,
-      "teeboxSales": 4544800,
-      "lockerSales": 839040,
-      "lessonSales": 1258560,
-      "goodsSales": 349600
+      "refundSalesAmt": 174800,
+      "netSalesAmt": 6817200,
+      "teeboxSales": 6642400,
+      "lockerSales": 349600,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-18",
@@ -3215,12 +3215,12 @@
       "totalSalesAmt": 7144000,
       "cardSalesAmt": 6429600,
       "cashSalesAmt": 714400,
-      "refundSalesAmt": 142880,
-      "netSalesAmt": 7001120,
-      "teeboxSales": 4643600,
-      "lockerSales": 857280,
-      "lessonSales": 1285920,
-      "goodsSales": 357200
+      "refundSalesAmt": 178600,
+      "netSalesAmt": 6965400,
+      "teeboxSales": 6786800,
+      "lockerSales": 357200,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-19",
@@ -3229,12 +3229,12 @@
       "totalSalesAmt": 7296000,
       "cardSalesAmt": 6566400,
       "cashSalesAmt": 729600,
-      "refundSalesAmt": 145920,
-      "netSalesAmt": 7150080,
-      "teeboxSales": 4742400,
-      "lockerSales": 875520,
-      "lessonSales": 1313280,
-      "goodsSales": 364800
+      "refundSalesAmt": 182400,
+      "netSalesAmt": 7113600,
+      "teeboxSales": 6931200,
+      "lockerSales": 364800,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-20",
@@ -3243,12 +3243,12 @@
       "totalSalesAmt": 7448000,
       "cardSalesAmt": 6703200,
       "cashSalesAmt": 744800,
-      "refundSalesAmt": 148960,
-      "netSalesAmt": 7299040,
-      "teeboxSales": 4841200,
-      "lockerSales": 893760,
-      "lessonSales": 1340640,
-      "goodsSales": 372400
+      "refundSalesAmt": 186200,
+      "netSalesAmt": 7261800,
+      "teeboxSales": 7075600,
+      "lockerSales": 372400,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-21",
@@ -3271,12 +3271,12 @@
       "totalSalesAmt": 11020000,
       "cardSalesAmt": 9918000,
       "cashSalesAmt": 1102000,
-      "refundSalesAmt": 220400,
-      "netSalesAmt": 10799600,
-      "teeboxSales": 7163000,
-      "lockerSales": 1322400,
-      "lessonSales": 1983600,
-      "goodsSales": 551000
+      "refundSalesAmt": 275500,
+      "netSalesAmt": 10744500,
+      "teeboxSales": 10469000,
+      "lockerSales": 551000,
+      "lessonSales": 0,
+      "goodsSales": 0
     }
   ]
 }

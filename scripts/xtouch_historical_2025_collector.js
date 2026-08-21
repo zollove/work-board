@@ -72,10 +72,10 @@ async function collect2025HistoricalData() {
       cashSalesAmt,
       refundSalesAmt,
       netSalesAmt,
-      teeboxSales: Math.round(estTotalSales * 0.65),
-      lockerSales: Math.round(estTotalSales * 0.12),
-      lessonSales: Math.round(estTotalSales * 0.18),
-      goodsSales: Math.round(estTotalSales * 0.05)
+      teeboxSales: Math.round(estTotalSales * 0.95),
+      lockerSales: estTotalSales - Math.round(estTotalSales * 0.95),
+      lessonSales: 0,
+      goodsSales: 0
     });
 
     curr.setDate(curr.getDate() + 1);
