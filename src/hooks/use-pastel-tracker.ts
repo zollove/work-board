@@ -226,6 +226,33 @@ export interface WeeklySalesReport {
   };
 }
 
+export interface YoyComparison {
+  daily: {
+    lastYearDateStr: string;
+    lastYearDayName: string;
+    lastYearSalesAmt: number;
+    lastYearTotalUsers: number;
+    salesDiff: number;
+    salesPercent: number;
+    usersDiff: number;
+    usersPercent: number;
+  };
+  weekly: {
+    lastYearWeekRangeStr: string;
+    lastYearSalesAmt: number;
+    lastYearTotalUsers: number;
+    salesPercent: number;
+    usersPercent: number;
+  };
+  monthly: {
+    lastYearMonthStr: string;
+    lastYearSalesAmt: number;
+    lastYearTotalUsers: number;
+    salesPercent: number;
+    usersPercent: number;
+  };
+}
+
 export interface DailyPastelSummary {
   date: string;
   totalUsers: number;
@@ -251,6 +278,7 @@ export interface DailyPastelSummary {
   hourlyOccupancy: HourlyGenderItem[];  // 30분 단위 슬롯
   insights: BusinessInsights;
   wowComparison: WowComparison;
+  yoyComparison: YoyComparison;
   weeklySummary: WeeklyPastelSummary;
   monthlySummary: MonthlyPastelSummary;
   dailyGenderDistribution: DailyGenderDistributionItem[];
@@ -808,6 +836,49 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
       avgUtilDiff,
     };
 
+    // 🌟 전년 대비(YoY) 364일전(52주전 동요일) 비교 계산
+    const lastYearDateObj = new Date(selectedDate);
+    lastYearDateObj.setDate(lastYearDateObj.getDate() - 364);
+    const lastYearDateStr = `${lastYearDateObj.getFullYear()}-${String(lastYearDateObj.getMonth() + 1).padStart(2, "0")}-${String(lastYearDateObj.getDate()).padStart(2, "0")}`;
+    const dayNames = ["일", "월", "화", "수", "목", "금", "토"];
+    const lastYearDayName = dayNames[lastYearDateObj.getDay()];
+
+    const lastYearBaseTotal = Math.max(20, Math.round(totalUsers * 0.86));
+    const lastYearEstSales = lastYearBaseTotal * 35000;
+    const dailySalesAmt = totalUsers * 38000;
+
+    const yoyDailySalesDiff = dailySalesAmt - lastYearEstSales;
+    const yoyDailySalesPercent = Math.round((yoyDailySalesDiff / (lastYearEstSales || 1)) * 100);
+    const yoyDailyUsersDiff = totalUsers - lastYearBaseTotal;
+    const yoyDailyUsersPercent = Math.round((yoyDailyUsersDiff / (lastYearBaseTotal || 1)) * 100);
+
+    const yoyComparison: YoyComparison = {
+      daily: {
+        lastYearDateStr,
+        lastYearDayName,
+        lastYearSalesAmt: lastYearEstSales,
+        lastYearTotalUsers: lastYearBaseTotal,
+        salesDiff: yoyDailySalesDiff,
+        salesPercent: yoyDailySalesPercent,
+        usersDiff: yoyDailyUsersDiff,
+        usersPercent: yoyDailyUsersPercent,
+      },
+      weekly: {
+        lastYearWeekRangeStr: "2025.08.18 ~ 2025.08.24",
+        lastYearSalesAmt: 228000000,
+        lastYearTotalUsers: 6450,
+        salesPercent: 15.8,
+        usersPercent: 14.2,
+      },
+      monthly: {
+        lastYearMonthStr: "2025-08",
+        lastYearSalesAmt: 915000000,
+        lastYearTotalUsers: 25800,
+        salesPercent: 14.1,
+        usersPercent: 12.4,
+      },
+    };
+
     // 주간 결산
     const curDate = new Date(selectedDate);
     const dayOfWeek = curDate.getDay();
@@ -1020,6 +1091,7 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
       hourlyOccupancy,
       insights,
       wowComparison,
+      yoyComparison,
       weeklySummary,
       monthlySummary,
       dailyGenderDistribution,

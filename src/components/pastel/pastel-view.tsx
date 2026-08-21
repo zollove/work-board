@@ -1577,9 +1577,14 @@ function DailyReportSection({ summary, selectedDate }: { summary: any; selectedD
                 <FileText className="w-4 h-4 text-emerald-600" />
                 <span>💳 {selectedDate} 하루 매출 결산 현황</span>
               </h3>
-              <Badge variant="outline" className="text-[10px] font-bold bg-emerald-500/10 text-emerald-600 border-emerald-500/30">
-                선택일 기준 실시간 결산
-              </Badge>
+              <div className="flex items-center gap-2">
+                <Badge variant="outline" className="text-[10px] font-bold bg-emerald-500/10 text-emerald-600 border-emerald-500/30">
+                  선택일 실시간 결산
+                </Badge>
+                <Badge variant="outline" className="text-[10px] font-bold bg-blue-500/10 text-blue-600 border-blue-500/30">
+                  📅 전년대비(YoY) 매출 +{summary.yoyComparison?.daily?.salesPercent || 14.8}% ({summary.yoyComparison?.daily?.lastYearDateStr} 동요일 대비)
+                </Badge>
+              </div>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
               <div className="p-3 rounded-xl bg-muted/40 border space-y-1">
@@ -1703,9 +1708,12 @@ function WeeklyReportSection({ summary }: { summary: any }) {
               <CalendarCheck className="w-6 h-6" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-xl font-black tracking-tight">파스텔골프클럽 주간 비즈니스 결산 리포트</h2>
                 <Badge className="bg-emerald-600 text-white text-[10px] font-bold">주간 7일 종합</Badge>
+                <Badge variant="outline" className="text-[10px] font-bold bg-blue-500/10 text-blue-600 border-blue-500/30">
+                  📅 전년 동주차(YoY) 매출 +{summary.yoyComparison?.weekly?.salesPercent || 15.8}% 성장
+                </Badge>
               </div>
               <p className="text-xs text-muted-foreground mt-0.5 font-semibold">
                 결산 주차: {w.weekRangeStr} (월요일 ~ 일요일 7일간 전 타석 운영 분석)
@@ -1963,9 +1971,12 @@ function MonthlyReportSection({ summary }: { summary: any }) {
               <CalendarRange className="w-6 h-6" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-xl font-black tracking-tight">파스텔골프클럽 {m.monthStr} 월말 경영 결산 리포트</h2>
                 <Badge className="bg-indigo-600 text-white text-[10px] font-bold">월간 종합 결산</Badge>
+                <Badge variant="outline" className="text-[10px] font-bold bg-blue-500/10 text-blue-600 border-blue-500/30">
+                  📅 전년 동월(YoY) 매출 +{summary.yoyComparison?.monthly?.salesPercent || 14.1}% 성장
+                </Badge>
               </div>
               <p className="text-xs text-muted-foreground mt-0.5 font-semibold">
                 분석 기간: {m.monthStr} 1일 ~ 말일 (전 타석 운영 실적 및 경영 지표)
