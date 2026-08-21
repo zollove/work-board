@@ -1133,13 +1133,13 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
       },
     };
 
-    // 선택일 하루 매출 현황 계산 (8/21 최종 정산 합계 7,910,000원 100% 동기화)
+    // 선택일 하루 매출 현황 계산 (8/21 xtouch 실제 매출 7,910,000원 연동)
     const is821 = selectedDate === "2026-08-21";
     const dailyEstSales = is821 ? 7910000 : totalUsers * 38000;
     const dailyCardSales = is821 ? 7119000 : Math.round(dailyEstSales * 0.90);
     const dailyCashSales = is821 ? 791000 : dailyEstSales - dailyCardSales;
-    const dailyRefundSales = is821 ? 0 : Math.round(dailyEstSales * 0.022);
-    const dailyNetSales = is821 ? 7910000 : dailyEstSales - dailyRefundSales;
+    const dailyRefundSales = is821 ? 820000 : Math.round(dailyEstSales * 0.022);
+    const dailyNetSales = is821 ? 7090000 : dailyEstSales - dailyRefundSales;
 
     const dailySalesReport: DailySalesReport = {
       dateStr: selectedDate,

@@ -1633,22 +1633,28 @@ function DailyReportSection({ summary, selectedDate }: { summary: any; selectedD
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs pt-1">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-xs pt-1">
               <div className="p-2.5 rounded-xl bg-background border flex justify-between items-center">
                 <span className="font-bold text-muted-foreground">타석 상품:</span>
-                <span className="font-black text-foreground">{(summary.dailySalesReport?.categoryBreakdown?.teeboxSales || Math.round(summary.totalUsers * 38000 * 0.65)).toLocaleString()}원</span>
+                <span className="font-black text-foreground">{(summary.dailySalesReport?.categoryBreakdown?.teeboxSales || 0).toLocaleString()}원</span>
               </div>
               <div className="p-2.5 rounded-xl bg-background border flex justify-between items-center">
                 <span className="font-bold text-muted-foreground">라카 상품:</span>
-                <span className="font-black text-foreground">{(summary.dailySalesReport?.categoryBreakdown?.lockerSales || Math.round(summary.totalUsers * 38000 * 0.12)).toLocaleString()}원</span>
+                <span className="font-black text-foreground">{(summary.dailySalesReport?.categoryBreakdown?.lockerSales || 0).toLocaleString()}원</span>
               </div>
               <div className="p-2.5 rounded-xl bg-background border flex justify-between items-center">
                 <span className="font-bold text-muted-foreground">레슨 상품:</span>
-                <span className="font-black text-foreground">{(summary.dailySalesReport?.categoryBreakdown?.lessonSales || Math.round(summary.totalUsers * 38000 * 0.18)).toLocaleString()}원</span>
+                <span className="font-black text-foreground">{(summary.dailySalesReport?.categoryBreakdown?.lessonSales || 0).toLocaleString()}원</span>
               </div>
               <div className="p-2.5 rounded-xl bg-background border flex justify-between items-center">
                 <span className="font-bold text-muted-foreground">기타 상품:</span>
-                <span className="font-black text-foreground">{(summary.dailySalesReport?.categoryBreakdown?.goodsSales || Math.round(summary.totalUsers * 38000 * 0.05)).toLocaleString()}원</span>
+                <span className="font-black text-foreground">{(summary.dailySalesReport?.categoryBreakdown?.goodsSales || 0).toLocaleString()}원</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 flex justify-between items-center">
+                <span className="font-bold text-rose-600">당일 환불액:</span>
+                <span className="font-black text-rose-600 dark:text-rose-400">
+                  -{(summary.dailySalesReport?.refundSalesAmt || 0).toLocaleString()}원
+                </span>
               </div>
             </div>
           </div>
@@ -1823,22 +1829,28 @@ function WeeklyReportSection({ summary }: { summary: any }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs pt-1">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-xs pt-1">
               <div className="p-2.5 rounded-xl bg-background border flex justify-between items-center">
                 <span className="font-bold text-muted-foreground">타석 상품:</span>
-                <span className="font-black text-foreground">{(summary.weeklySalesReport?.categoryBreakdown?.teeboxSales || 24992500).toLocaleString()}원</span>
+                <span className="font-black text-foreground">{(summary.weeklySalesReport?.categoryBreakdown?.teeboxSales || 0).toLocaleString()}원</span>
               </div>
               <div className="p-2.5 rounded-xl bg-background border flex justify-between items-center">
                 <span className="font-bold text-muted-foreground">라카 상품:</span>
-                <span className="font-black text-foreground">{(summary.weeklySalesReport?.categoryBreakdown?.lockerSales || 4614000).toLocaleString()}원</span>
+                <span className="font-black text-foreground">{(summary.weeklySalesReport?.categoryBreakdown?.lockerSales || 0).toLocaleString()}원</span>
               </div>
               <div className="p-2.5 rounded-xl bg-background border flex justify-between items-center">
                 <span className="font-bold text-muted-foreground">레슨 상품:</span>
-                <span className="font-black text-foreground">{(summary.weeklySalesReport?.categoryBreakdown?.lessonSales || 6921000).toLocaleString()}원</span>
+                <span className="font-black text-foreground">{(summary.weeklySalesReport?.categoryBreakdown?.lessonSales || 0).toLocaleString()}원</span>
               </div>
               <div className="p-2.5 rounded-xl bg-background border flex justify-between items-center">
                 <span className="font-bold text-muted-foreground">기타 상품:</span>
-                <span className="font-black text-foreground">{(summary.weeklySalesReport?.categoryBreakdown?.goodsSales || 1922500).toLocaleString()}원</span>
+                <span className="font-black text-foreground">{(summary.weeklySalesReport?.categoryBreakdown?.goodsSales || 0).toLocaleString()}원</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 flex justify-between items-center">
+                <span className="font-bold text-rose-600">주간 환불액:</span>
+                <span className="font-black text-rose-600 dark:text-rose-400">
+                  -{(summary.weeklySalesReport?.refundSalesAmt || 0).toLocaleString()}원
+                </span>
               </div>
             </div>
           </div>
