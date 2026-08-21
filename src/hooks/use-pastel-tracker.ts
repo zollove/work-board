@@ -160,6 +160,9 @@ export interface WeeklySalesTrendItem {
   totalUsers: number;
   salesAmt: number;
   avgUtil: number;
+  lastYearTotalUsers: number;
+  lastYearSalesAmt: number;
+  growthPercent: number;
 }
 
 export interface MonthlySalesTrendItem {
@@ -168,6 +171,9 @@ export interface MonthlySalesTrendItem {
   totalUsers: number;
   salesAmt: number;
   avgUtil: number;
+  lastYearTotalUsers: number;
+  lastYearSalesAmt: number;
+  growthPercent: number;
 }
 
 export interface WeeklyPastelSummary {
@@ -954,20 +960,27 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
 
     const weeklySalesTrend: WeeklySalesTrendItem[] = weeklyDays.map((wDay) => {
       const salesAmt = wDay.totalUsers * 38000;
+      const lastYearUsers = Math.max(15, Math.round(wDay.totalUsers * 0.87));
+      const lastYearSalesAmt = lastYearUsers * 35000;
+      const growthPercent = Math.round(((salesAmt - lastYearSalesAmt) / (lastYearSalesAmt || 1)) * 100);
+
       return {
         dateStr: wDay.dateStr,
         dayName: wDay.dayName,
         totalUsers: wDay.totalUsers,
         salesAmt,
         avgUtil: wDay.avgUtil,
+        lastYearTotalUsers: lastYearUsers,
+        lastYearSalesAmt,
+        growthPercent,
       };
     });
 
     const monthlySalesTrend: MonthlySalesTrendItem[] = [
-      { weekName: "1주차 (8/1~8/7)", dateRange: "08.01 ~ 08.07", totalUsers: 1450, salesAmt: 55100000, avgUtil: 44 },
-      { weekName: "2주차 (8/8~8/14)", dateRange: "08.08 ~ 08.14", totalUsers: 1520, salesAmt: 57760000, avgUtil: 47 },
-      { weekName: "3주차 (8/15~8/21)", dateRange: "08.15 ~ 08.21", totalUsers: 1610, salesAmt: 61180000, avgUtil: 50 },
-      { weekName: "4주차 (8/22~8/28)", dateRange: "08.22 ~ 08.28", totalUsers: 1580, salesAmt: 60040000, avgUtil: 49 },
+      { weekName: "1주차 (8/1~8/7)", dateRange: "08.01 ~ 08.07", totalUsers: 1450, salesAmt: 55100000, avgUtil: 44, lastYearTotalUsers: 1270, lastYearSalesAmt: 48200000, growthPercent: 14.3 },
+      { weekName: "2주차 (8/8~8/14)", dateRange: "08.08 ~ 08.14", totalUsers: 1520, salesAmt: 57760000, avgUtil: 47, lastYearTotalUsers: 1330, lastYearSalesAmt: 50540000, growthPercent: 14.3 },
+      { weekName: "3주차 (8/15~8/21)", dateRange: "08.15 ~ 08.21", totalUsers: 1610, salesAmt: 61180000, avgUtil: 50, lastYearTotalUsers: 1410, lastYearSalesAmt: 53580000, growthPercent: 14.2 },
+      { weekName: "4주차 (8/22~8/28)", dateRange: "08.22 ~ 08.28", totalUsers: 1580, salesAmt: 60040000, avgUtil: 49, lastYearTotalUsers: 1390, lastYearSalesAmt: 52820000, growthPercent: 13.7 },
     ];
 
     const weeklySummary: WeeklyPastelSummary = {

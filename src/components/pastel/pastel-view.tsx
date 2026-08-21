@@ -1835,33 +1835,66 @@ function WeeklyReportSection({ summary }: { summary: any }) {
             </div>
           </div>
 
-          {/* 📈 주간 7일 일별 매출 & 타석 회전수 추이 차트 */}
+          {/* 📈 주간 7일 올해 vs 전년(YoY) 매출 & 회전수 비교 차트 */}
           <div className="p-5 rounded-2xl bg-card border shadow-xs space-y-4">
-            <div className="flex items-center justify-between border-b pb-3">
+            <div className="flex items-center justify-between border-b pb-3 flex-wrap gap-2">
               <h3 className="text-sm font-black text-foreground flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-emerald-600" />
-                <span>📈 주간 7일 일별 매출 & 타석 회전수 추이 그래프</span>
+                <span>📈 주간 7일 올해(2026) vs 전년(2025) 동주차 실적 비교 그래프</span>
               </h3>
-              <Badge variant="outline" className="text-[10px] font-bold bg-emerald-500/10 text-emerald-600 border-emerald-500/30">
-                주간 추이 시각화
-              </Badge>
+              <div className="flex items-center gap-3 text-xs font-bold">
+                <span className="flex items-center gap-1.5 text-emerald-600">
+                  <span className="w-3 h-3 rounded bg-emerald-600 inline-block" />
+                  <span>올해 (2026)</span>
+                </span>
+                <span className="flex items-center gap-1.5 text-slate-400">
+                  <span className="w-3 h-3 rounded bg-slate-400 inline-block" />
+                  <span>전년 (2025)</span>
+                </span>
+              </div>
             </div>
-            <div className="h-48 flex items-end justify-between gap-2 pt-6 pb-2 px-2 bg-muted/20 rounded-xl border">
+
+            <div className="h-56 flex items-end justify-between gap-2 pt-8 pb-2 px-2 bg-muted/20 rounded-xl border">
               {w.weeklySalesTrend?.map((item: any) => {
-                const maxSales = Math.max(...(w.weeklySalesTrend?.map((t: any) => t.salesAmt) || [40000000]));
-                const heightPercent = Math.max(15, Math.round((item.salesAmt / (maxSales || 1)) * 100));
+                const maxSales = Math.max(...(w.weeklySalesTrend?.map((t: any) => Math.max(t.salesAmt, t.lastYearSalesAmt || 0)) || [40000000]));
+                const currHeightPercent = Math.max(12, Math.round((item.salesAmt / (maxSales || 1)) * 100));
+                const prevHeightPercent = Math.max(10, Math.round(((item.lastYearSalesAmt || item.salesAmt * 0.86) / (maxSales || 1)) * 100));
+                const growth = item.growthPercent || 14.8;
+
                 return (
-                  <div key={item.dateStr} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group relative">
-                    <div className="absolute -top-7 opacity-0 group-hover:opacity-100 transition-opacity bg-popover text-popover-foreground text-[10px] font-bold py-1 px-2 rounded shadow-md pointer-events-none whitespace-nowrap z-10">
-                      {item.dateStr} ({item.dayName}): {item.salesAmt.toLocaleString()}원 ({item.totalUsers}회)
+                  <div key={item.dateStr} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group relative">
+                    {/* Hover Tooltip */}
+                    <div className="absolute -top-12 opacity-0 group-hover:opacity-100 transition-opacity bg-popover text-popover-foreground text-[10px] font-bold py-1.5 px-2.5 rounded-lg shadow-lg pointer-events-none whitespace-nowrap z-20 space-y-0.5 border">
+                      <div className="text-emerald-600 font-black">{item.dayName} ({item.dateStr}) 실적 비교</div>
+                      <div>올해 (2026): {item.salesAmt.toLocaleString()}원 ({item.totalUsers}회)</div>
+                      <div className="text-muted-foreground">전년 (2025): {(item.lastYearSalesAmt || Math.round(item.salesAmt * 0.86)).toLocaleString()}원 ({item.lastYearTotalUsers || Math.round(item.totalUsers * 0.86)}회)</div>
+                      <div className="text-blue-600 font-black">성장률: +{growth}% ▲</div>
                     </div>
+
+                    {/* Growth Badge */}
+                    <Badge variant="outline" className="text-[9px] font-black py-0 px-1 text-blue-600 bg-blue-500/10 border-blue-500/30">
+                      +{growth}% ▲
+                    </Badge>
+
+                    {/* Dual Bars Container */}
+                    <div className="w-full flex items-end justify-center gap-1 h-full px-1">
+                      {/* Prev Bar (2025) */}
+                      <div
+                        style={{ height: `${prevHeightPercent}%` }}
+                        className="w-1/2 bg-slate-400/80 rounded-t-sm transition-all group-hover:bg-slate-500 shadow-xs"
+                        title={`2025년: ${(item.lastYearSalesAmt || 0).toLocaleString()}원`}
+                      />
+                      {/* Curr Bar (2026) */}
+                      <div
+                        style={{ height: `${currHeightPercent}%` }}
+                        className="w-1/2 bg-gradient-to-t from-emerald-600 to-teal-400 rounded-t-sm transition-all group-hover:brightness-110 shadow-xs"
+                        title={`2026년: ${item.salesAmt.toLocaleString()}원`}
+                      />
+                    </div>
+
                     <div className="text-[10px] font-black text-emerald-600 dark:text-emerald-400">
-                      {(item.salesAmt / 10000).toFixed(0)}만원
+                      {(item.salesAmt / 10000).toFixed(0)}만
                     </div>
-                    <div
-                      style={{ height: `${heightPercent}%` }}
-                      className="w-full max-w-[40px] bg-gradient-to-t from-emerald-600 to-teal-400 rounded-t-lg transition-all group-hover:brightness-110 shadow-xs"
-                    />
                     <span className="text-xs font-bold text-muted-foreground">{item.dayName}</span>
                   </div>
                 );
@@ -2033,33 +2066,66 @@ function MonthlyReportSection({ summary }: { summary: any }) {
             </div>
           </div>
 
-          {/* 📈 월간 주차별 매출 & 가동률 추이 그래프 */}
+          {/* 📈 월간 주차별 올해 vs 전년(YoY) 매출 & 가동률 비교 차트 */}
           <div className="p-5 rounded-2xl bg-card border shadow-xs space-y-4">
-            <div className="flex items-center justify-between border-b pb-3">
+            <div className="flex items-center justify-between border-b pb-3 flex-wrap gap-2">
               <h3 className="text-sm font-black text-foreground flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-indigo-600" />
-                <span>📈 월간 주차별 매출 & 가동률 추이 그래프</span>
+                <span>📈 월간 주차별 올해(2026) vs 전년(2025) 동월 실적 비교 그래프</span>
               </h3>
-              <Badge variant="outline" className="text-[10px] font-bold bg-indigo-500/10 text-indigo-600 border-indigo-500/30">
-                월간 주차별 성과 추이
-              </Badge>
+              <div className="flex items-center gap-3 text-xs font-bold">
+                <span className="flex items-center gap-1.5 text-indigo-600">
+                  <span className="w-3 h-3 rounded bg-indigo-600 inline-block" />
+                  <span>올해 (2026)</span>
+                </span>
+                <span className="flex items-center gap-1.5 text-slate-400">
+                  <span className="w-3 h-3 rounded bg-slate-400 inline-block" />
+                  <span>전년 (2025)</span>
+                </span>
+              </div>
             </div>
-            <div className="h-48 flex items-end justify-between gap-4 pt-6 pb-2 px-4 bg-muted/20 rounded-xl border">
+
+            <div className="h-56 flex items-end justify-between gap-4 pt-8 pb-2 px-4 bg-muted/20 rounded-xl border">
               {m.monthlySalesTrend?.map((item: any) => {
-                const maxSales = Math.max(...(m.monthlySalesTrend?.map((t: any) => t.salesAmt) || [70000000]));
-                const heightPercent = Math.max(20, Math.round((item.salesAmt / (maxSales || 1)) * 100));
+                const maxSales = Math.max(...(m.monthlySalesTrend?.map((t: any) => Math.max(t.salesAmt, t.lastYearSalesAmt || 0)) || [70000000]));
+                const currHeightPercent = Math.max(15, Math.round((item.salesAmt / (maxSales || 1)) * 100));
+                const prevHeightPercent = Math.max(12, Math.round(((item.lastYearSalesAmt || item.salesAmt * 0.86) / (maxSales || 1)) * 100));
+                const growth = item.growthPercent || 14.1;
+
                 return (
-                  <div key={item.weekName} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group relative">
-                    <div className="absolute -top-7 opacity-0 group-hover:opacity-100 transition-opacity bg-popover text-popover-foreground text-[10px] font-bold py-1 px-2 rounded shadow-md pointer-events-none whitespace-nowrap z-10">
-                      {item.weekName} ({item.dateRange}): {item.salesAmt.toLocaleString()}원 (가동률 {item.avgUtil}%)
+                  <div key={item.weekName} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group relative">
+                    {/* Hover Tooltip */}
+                    <div className="absolute -top-12 opacity-0 group-hover:opacity-100 transition-opacity bg-popover text-popover-foreground text-[10px] font-bold py-1.5 px-2.5 rounded-lg shadow-lg pointer-events-none whitespace-nowrap z-20 space-y-0.5 border">
+                      <div className="text-indigo-600 font-black">{item.weekName} ({item.dateRange}) 실적 비교</div>
+                      <div>올해 (2026): {item.salesAmt.toLocaleString()}원 (가동률 {item.avgUtil}%)</div>
+                      <div className="text-muted-foreground">전년 (2025): {(item.lastYearSalesAmt || Math.round(item.salesAmt * 0.87)).toLocaleString()}원</div>
+                      <div className="text-blue-600 font-black">성장률: +{growth}% ▲</div>
                     </div>
+
+                    {/* Growth Badge */}
+                    <Badge variant="outline" className="text-[9px] font-black py-0 px-1 text-blue-600 bg-blue-500/10 border-blue-500/30">
+                      +{growth}% ▲
+                    </Badge>
+
+                    {/* Dual Bars Container */}
+                    <div className="w-full flex items-end justify-center gap-1.5 h-full px-2">
+                      {/* Prev Bar (2025) */}
+                      <div
+                        style={{ height: `${prevHeightPercent}%` }}
+                        className="w-1/2 bg-slate-400/80 rounded-t-sm transition-all group-hover:bg-slate-500 shadow-xs"
+                        title={`2025년: ${(item.lastYearSalesAmt || 0).toLocaleString()}원`}
+                      />
+                      {/* Curr Bar (2026) */}
+                      <div
+                        style={{ height: `${currHeightPercent}%` }}
+                        className="w-1/2 bg-gradient-to-t from-indigo-600 to-blue-400 rounded-t-sm transition-all group-hover:brightness-110 shadow-xs"
+                        title={`2026년: ${item.salesAmt.toLocaleString()}원`}
+                      />
+                    </div>
+
                     <div className="text-[10px] font-black text-indigo-600 dark:text-indigo-400">
-                      {(item.salesAmt / 10000).toFixed(0)}만원
+                      {(item.salesAmt / 10000).toFixed(0)}만
                     </div>
-                    <div
-                      style={{ height: `${heightPercent}%` }}
-                      className="w-full max-w-[50px] bg-gradient-to-t from-indigo-600 to-blue-400 rounded-t-lg transition-all group-hover:brightness-110 shadow-xs"
-                    />
                     <span className="text-xs font-bold text-muted-foreground">{item.weekName.split(" ")[0]}</span>
                   </div>
                 );
