@@ -916,13 +916,11 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
       const dObj = new Date(mondayObj);
       dObj.setDate(mondayObj.getDate() + idx);
       const dStr = `${dObj.getFullYear()}-${String(dObj.getMonth() + 1).padStart(2, "0")}-${String(dObj.getDate()).padStart(2, "0")}`;
-      const isSelected = dStr === selectedDate;
-      const isWeekend = idx >= 5;
-      const factor = isWeekend ? 1.3 : idx === 3 ? 1.0 : 0.9;
 
-      const dayTotal = isSelected ? totalUsers : Math.round(totalUsers * factor);
-      const dayUnique = isSelected ? uniqueUsers : Math.round(uniqueUsers * factor);
-      const dayUtil = isSelected ? avgUtilizationRate : Math.min(100, Math.round(avgUtilizationRate * factor));
+      const daySessions = generateSyntheticSessionsForDate(dStr);
+      const dayTotal = daySessions.length;
+      const dayUnique = Math.round(dayTotal * 0.72);
+      const dayUtil = Math.min(100, Math.round((dayTotal / (79 * 5)) * 100));
 
       return {
         dayName: dName,
