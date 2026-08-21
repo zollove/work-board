@@ -139,6 +139,37 @@ export interface DayStatsItem {
   avgUtil: number;
 }
 
+export interface DailySalesReport {
+  dateStr: string;
+  totalSalesAmt: number;
+  cardSalesAmt: number;
+  cashSalesAmt: number;
+  refundSalesAmt: number;
+  netSalesAmt: number;
+  categoryBreakdown: {
+    teeboxSales: number;
+    lockerSales: number;
+    lessonSales: number;
+    goodsSales: number;
+  };
+}
+
+export interface WeeklySalesTrendItem {
+  dateStr: string;
+  dayName: string;
+  totalUsers: number;
+  salesAmt: number;
+  avgUtil: number;
+}
+
+export interface MonthlySalesTrendItem {
+  weekName: string;
+  dateRange: string;
+  totalUsers: number;
+  salesAmt: number;
+  avgUtil: number;
+}
+
 export interface WeeklyPastelSummary {
   weekRangeStr: string;
   totalWeekUsers: number;
@@ -151,6 +182,7 @@ export interface WeeklyPastelSummary {
   guestRatio: number;
   days: DayStatsItem[];
   topTeeboxes: TeeboxRankItem[];
+  weeklySalesTrend: WeeklySalesTrendItem[];
 }
 
 export interface MonthlyPastelSummary {
@@ -164,6 +196,7 @@ export interface MonthlyPastelSummary {
   guestRatio: number;
   dayOfWeekStats: { dayName: string; avgUsers: number; avgUtil: number }[];
   topTeeboxes: TeeboxRankItem[];
+  monthlySalesTrend: MonthlySalesTrendItem[];
 }
 
 export interface DailyGenderDistributionItem {
@@ -222,6 +255,7 @@ export interface DailyPastelSummary {
   monthlySummary: MonthlyPastelSummary;
   dailyGenderDistribution: DailyGenderDistributionItem[];
   weeklySalesReport: WeeklySalesReport;
+  dailySalesReport: DailySalesReport;
   floorUsage: { [floor: string]: number };
   teeboxRanking: TeeboxRankItem[];
   weeklyHeatmap: { [dayOfWeek: string]: { [hour: string]: number } }; // 1시간 단위
@@ -767,19 +801,6 @@ export function usePastelTracker(selectedDate: string) {
     const totalWeekUniqueUsers = Math.round(totalWeekUsers * 0.72);
     const weekAvgUtilRate = Math.round(weeklyDays.reduce((sum, d) => sum + d.avgUtil, 0) / 7);
 
-    const weeklySummary: WeeklyPastelSummary = {
-      weekRangeStr,
-      totalWeekUsers,
-      totalWeekUniqueUsers,
-      weekAvgUtilRate,
-      peakDayName: "토요일",
-      peakDayCount: Math.round(totalUsers * 1.35),
-      maleRatio,
-      femaleRatio,
-      guestRatio: unknownRatio,
-      days: weeklyDays,
-      topTeeboxes: teeboxRanking.slice(0, 5),
-    };
 
     // 월간 결산
     const monthStr = selectedDate.slice(0, 7);
@@ -797,6 +818,39 @@ export function usePastelTracker(selectedDate: string) {
       };
     });
 
+    const weeklySalesTrend: WeeklySalesTrendItem[] = weeklyDays.map((wDay) => {
+      const salesAmt = wDay.totalUsers * 38000;
+      return {
+        dateStr: wDay.dateStr,
+        dayName: wDay.dayName,
+        totalUsers: wDay.totalUsers,
+        salesAmt,
+        avgUtil: wDay.avgUtil,
+      };
+    });
+
+    const monthlySalesTrend: MonthlySalesTrendItem[] = [
+      { weekName: "1주차 (8/1~8/7)", dateRange: "08.01 ~ 08.07", totalUsers: 1450, salesAmt: 55100000, avgUtil: 44 },
+      { weekName: "2주차 (8/8~8/14)", dateRange: "08.08 ~ 08.14", totalUsers: 1520, salesAmt: 57760000, avgUtil: 47 },
+      { weekName: "3주차 (8/15~8/21)", dateRange: "08.15 ~ 08.21", totalUsers: 1610, salesAmt: 61180000, avgUtil: 50 },
+      { weekName: "4주차 (8/22~8/28)", dateRange: "08.22 ~ 08.28", totalUsers: 1580, salesAmt: 60040000, avgUtil: 49 },
+    ];
+
+    const weeklySummary: WeeklyPastelSummary = {
+      weekRangeStr,
+      totalWeekUsers,
+      totalWeekUniqueUsers,
+      weekAvgUtilRate,
+      peakDayName: "토요일",
+      peakDayCount: Math.max(...weeklyDays.map((d) => d.totalUsers)),
+      maleRatio: 51,
+      femaleRatio: 21,
+      guestRatio: 28,
+      days: weeklyDays,
+      topTeeboxes: teeboxRanking.slice(0, 5),
+      weeklySalesTrend,
+    };
+
     const monthlySummary: MonthlyPastelSummary = {
       monthStr,
       totalMonthUsers,
@@ -808,6 +862,7 @@ export function usePastelTracker(selectedDate: string) {
       guestRatio: unknownRatio,
       dayOfWeekStats,
       topTeeboxes: teeboxRanking.slice(0, 5),
+      monthlySalesTrend,
     };
 
     // 일자별 이용자 성별 분포 계산
@@ -873,6 +928,28 @@ export function usePastelTracker(selectedDate: string) {
       },
     };
 
+    // 선택일 하루 매출 현황 계산
+    const dailyEstSales = totalUsers * 38000;
+    const dailyCardSales = Math.round(dailyEstSales * 0.90);
+    const dailyCashSales = dailyEstSales - dailyCardSales;
+    const dailyRefundSales = Math.round(dailyEstSales * 0.022);
+    const dailyNetSales = dailyEstSales - dailyRefundSales;
+
+    const dailySalesReport: DailySalesReport = {
+      dateStr: selectedDate,
+      totalSalesAmt: dailyEstSales,
+      cardSalesAmt: dailyCardSales,
+      cashSalesAmt: dailyCashSales,
+      refundSalesAmt: dailyRefundSales,
+      netSalesAmt: dailyNetSales,
+      categoryBreakdown: {
+        teeboxSales: Math.round(dailyEstSales * 0.65),
+        lockerSales: Math.round(dailyEstSales * 0.12),
+        lessonSales: Math.round(dailyEstSales * 0.18),
+        goodsSales: Math.round(dailyEstSales * 0.05),
+      },
+    };
+
     return {
       date: selectedDate,
       totalUsers,
@@ -902,6 +979,7 @@ export function usePastelTracker(selectedDate: string) {
       monthlySummary,
       dailyGenderDistribution,
       weeklySalesReport,
+      dailySalesReport,
       floorUsage,
       teeboxRanking,
       weeklyHeatmap,
