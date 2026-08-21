@@ -460,6 +460,14 @@ export function usePastelTracker(selectedDate: string) {
 
 function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[] {
   const d = new Date(dateStr);
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+  // 🌟 오늘 날짜이면서 영업 개시 전(오전 06시 이전)인 경우 0명 반환
+  if (dateStr === todayStr && now.getHours() < 6) {
+    return [];
+  }
+
   const dayOfWeek = isNaN(d.getTime()) ? 1 : d.getDay();
   const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
   const baseCount = isWeekend ? 265 : 195;
