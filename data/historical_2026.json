@@ -3267,14 +3267,14 @@
     {
       "date": "2026-08-22",
       "dayOfWeek": "토",
-      "totalUsers": 290,
-      "totalSalesAmt": 11020000,
-      "cardSalesAmt": 9918000,
-      "cashSalesAmt": 1102000,
-      "refundSalesAmt": 275500,
-      "netSalesAmt": 10744500,
-      "teeboxSales": 10469000,
-      "lockerSales": 551000,
+      "totalUsers": 1,
+      "totalSalesAmt": 310000,
+      "cardSalesAmt": 310000,
+      "cashSalesAmt": 0,
+      "refundSalesAmt": 0,
+      "netSalesAmt": 310000,
+      "teeboxSales": 310000,
+      "lockerSales": 0,
       "lessonSales": 0,
       "goodsSales": 0
     }

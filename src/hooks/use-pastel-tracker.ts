@@ -1137,13 +1137,15 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
       },
     };
 
-    // 선택일 하루 매출 현황 계산 (8/21 xtouch 실제 매출 7,910,000원 연동)
+    // 선택일 하루 매출 현황 계산 (8/21 및 8/22 xtouch 실측 데이터 동기화)
     const is821 = selectedDate === "2026-08-21";
-    const dailyEstSales = totalUsers === 0 ? 0 : (is821 ? 7910000 : totalUsers * 38000);
-    const dailyCardSales = totalUsers === 0 ? 0 : (is821 ? 7119000 : Math.round(dailyEstSales * 0.90));
-    const dailyCashSales = totalUsers === 0 ? 0 : (is821 ? 791000 : dailyEstSales - dailyCardSales);
-    const dailyRefundSales = totalUsers === 0 ? 0 : (is821 ? 820000 : Math.round(dailyEstSales * 0.022));
-    const dailyNetSales = totalUsers === 0 ? 0 : (is821 ? 7090000 : dailyEstSales - dailyRefundSales);
+    const is822 = selectedDate === "2026-08-22";
+
+    const dailyEstSales = is822 ? 310000 : is821 ? 7910000 : (totalUsers === 0 ? 0 : totalUsers * 38000);
+    const dailyCardSales = is822 ? 310000 : is821 ? 7119000 : (totalUsers === 0 ? 0 : Math.round(dailyEstSales * 0.90));
+    const dailyCashSales = is822 ? 0 : is821 ? 791000 : (totalUsers === 0 ? 0 : dailyEstSales - dailyCardSales);
+    const dailyRefundSales = is822 ? 0 : is821 ? 820000 : (totalUsers === 0 ? 0 : Math.round(dailyEstSales * 0.022));
+    const dailyNetSales = is822 ? 310000 : is821 ? 7090000 : (totalUsers === 0 ? 0 : dailyEstSales - dailyRefundSales);
 
     const dailySalesReport: DailySalesReport = {
       dateStr: selectedDate,
@@ -1153,8 +1155,8 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
       refundSalesAmt: dailyRefundSales,
       netSalesAmt: dailyNetSales,
       categoryBreakdown: {
-        teeboxSales: totalUsers === 0 ? 0 : (is821 ? 7530000 : Math.round(dailyEstSales * 0.95)),
-        lockerSales: totalUsers === 0 ? 0 : (is821 ? 380000 : dailyEstSales - (is821 ? 7530000 : Math.round(dailyEstSales * 0.95))),
+        teeboxSales: is822 ? 310000 : is821 ? 7530000 : (totalUsers === 0 ? 0 : Math.round(dailyEstSales * 0.95)),
+        lockerSales: is822 ? 0 : is821 ? 380000 : (totalUsers === 0 ? 0 : dailyEstSales - (is821 ? 7530000 : Math.round(dailyEstSales * 0.95))),
         lessonSales: 0,
         goodsSales: 0,
       },
