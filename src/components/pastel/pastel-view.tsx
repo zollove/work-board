@@ -449,9 +449,16 @@ export function PastelView() {
           <Card className="border shadow-xs overflow-hidden">
             <div className="p-3 bg-muted/40 border-b flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
               <div className="flex items-center justify-between sm:justify-start gap-2 w-full sm:w-auto">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <LineChart className="w-5 h-5 text-emerald-600 shrink-0" />
-                  <h3 className="text-sm font-black text-foreground">{selectedDate} 30분 단위 연속 흐름 곡선</h3>
+                  <h3 className="text-sm font-black text-foreground flex items-center gap-2">
+                    <span>{selectedDate} 30분 단위 연속 흐름 곡선</span>
+                    <Badge variant="outline" className="text-[10px] font-bold bg-blue-500/10 text-blue-600 border-blue-500/30">
+                      {summary.sessions && summary.sessions.length > 0 && !summary.sessions[0].id.startsWith("hist_")
+                        ? "📡 크론 실시간 실측 수집 데이터"
+                        : "📊 xtouch 발권시각 기반 정밀 추론 곡선"}
+                    </Badge>
+                  </h3>
                 </div>
                 <Button
                   variant="ghost"
