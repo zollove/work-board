@@ -3253,16 +3253,16 @@
     {
       "date": "2026-08-21",
       "dayOfWeek": "금",
-      "totalUsers": 200,
-      "totalSalesAmt": 7600000,
-      "cardSalesAmt": 6840000,
-      "cashSalesAmt": 760000,
-      "refundSalesAmt": 152000,
-      "netSalesAmt": 7448000,
-      "teeboxSales": 4940000,
-      "lockerSales": 912000,
-      "lessonSales": 1368000,
-      "goodsSales": 380000
+      "totalUsers": 248,
+      "totalSalesAmt": 10330000,
+      "cardSalesAmt": 9297000,
+      "cashSalesAmt": 1033000,
+      "refundSalesAmt": 1142000,
+      "netSalesAmt": 9188000,
+      "teeboxSales": 9950000,
+      "lockerSales": 380000,
+      "lessonSales": 0,
+      "goodsSales": 0
     },
     {
       "date": "2026-08-22",
