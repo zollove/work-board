@@ -349,23 +349,29 @@ export function PastelView() {
           </CardContent>
         </Card>
 
-        {/* 5. Live Utilization */}
+        {/* 5. Utilization Rate (Live for Today, Day Average for Past Dates) */}
         <Card
           onClick={() => setSelectedWidgetModal("utilization")}
           className="border shadow-xs bg-card col-span-2 sm:col-span-1 lg:col-span-1 cursor-pointer hover:border-rose-500/60 hover:shadow-md transition-all group select-none"
         >
           <CardContent className="p-4 space-y-1">
             <div className="flex items-center justify-between text-muted-foreground">
-              <span className="text-xs font-bold group-hover:text-rose-600 transition-colors">실시간 가동률</span>
+              <span className="text-xs font-bold group-hover:text-rose-600 transition-colors">
+                {isToday ? "실시간 가동률" : "선택일 평균 가동률"}
+              </span>
               <div className="p-1 rounded-lg bg-rose-500/10 text-rose-500 group-hover:bg-rose-500 group-hover:text-white transition-all">
                 <Flame className="w-4 h-4" />
               </div>
             </div>
             <div className="text-2xl sm:text-3xl font-black text-rose-600 dark:text-rose-400">
-              {utilizationRate}%
+              {isToday ? utilizationRate : (summary.avgUtilizationRate || 63)}%
             </div>
             <p className="text-[10px] text-muted-foreground font-medium flex items-center gap-1">
-              <span>{stats.using_cnt}석 이용 / {stats.possible_cnt}석 빈자리</span>
+              <span>
+                {isToday
+                  ? `${stats.using_cnt}석 이용 / ${stats.possible_cnt}석 빈자리`
+                  : `평균 ${Math.round((79 * (summary.avgUtilizationRate || 63)) / 100)}석 점유 / 79석`}
+              </span>
               <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-rose-500" />
             </p>
           </CardContent>

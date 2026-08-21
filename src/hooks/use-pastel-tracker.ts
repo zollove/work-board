@@ -728,9 +728,9 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
     const calcMemberCount = totalUsers === 0 ? 0 : Math.round(calcUniqueUsers * 0.72);
     const calcGuestCount = totalUsers === 0 ? 0 : Math.max(0, calcUniqueUsers - calcMemberCount);
 
-    const calcMaleCount = totalUsers === 0 ? 0 : Math.round(calcUniqueUsers * 0.52);
-    const calcFemaleCount = totalUsers === 0 ? 0 : Math.round(calcUniqueUsers * 0.20);
-    const calcUnknownCount = totalUsers === 0 ? 0 : Math.max(0, calcUniqueUsers - calcMaleCount - calcFemaleCount);
+    const calcMaleCount = totalUsers === 0 ? 0 : Math.round(calcMemberCount * 0.72);
+    const calcFemaleCount = totalUsers === 0 ? 0 : Math.max(0, calcMemberCount - calcMaleCount);
+    const calcUnknownCount = calcGuestCount;
 
     const maleRatio = totalUsers === 0 ? 0 : Math.round((calcMaleCount / calcUniqueUsers) * 100);
     const femaleRatio = totalUsers === 0 ? 0 : Math.round((calcFemaleCount / calcUniqueUsers) * 100);
