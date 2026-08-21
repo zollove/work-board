@@ -257,126 +257,128 @@ export function PastelView() {
         </div>
       </div>
 
-      {/* 📊 Key Metrics Summary Cards (5 Cards - 클릭 시 상세 산출 모달 팝업) */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-        {/* 1. Daily Total Users */}
-        <Card
-          onClick={() => setSelectedWidgetModal("totalUsers")}
-          className="border shadow-xs bg-card cursor-pointer hover:border-blue-500/60 hover:shadow-md transition-all group select-none"
-        >
-          <CardContent className="p-4 space-y-1">
-            <div className="flex items-center justify-between text-muted-foreground">
-              <span className="text-xs font-bold group-hover:text-blue-600 transition-colors">선택일 총 이용</span>
-              <div className="p-1 rounded-lg bg-blue-500/10 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                <Layers className="w-4 h-4" />
+      {/* 📊 Key Metrics Summary Cards (5 Cards - 실시간/차트 탭에서만 표출) */}
+      {(activeTab === "live" || activeTab === "charts") && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+          {/* 1. Daily Total Users */}
+          <Card
+            onClick={() => setSelectedWidgetModal("totalUsers")}
+            className="border shadow-xs bg-card cursor-pointer hover:border-blue-500/60 hover:shadow-md transition-all group select-none"
+          >
+            <CardContent className="p-4 space-y-1">
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span className="text-xs font-bold group-hover:text-blue-600 transition-colors">선택일 총 이용</span>
+                <div className="p-1 rounded-lg bg-blue-500/10 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                  <Layers className="w-4 h-4" />
+                </div>
               </div>
-            </div>
-            <div className="text-2xl sm:text-3xl font-black text-foreground">{summary.totalUsers}회</div>
-            <p className="text-[10px] text-muted-foreground font-medium flex items-center gap-1">
-              <span>총 타석 회전수</span>
-              <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-blue-600" />
-            </p>
-          </CardContent>
-        </Card>
+              <div className="text-2xl sm:text-3xl font-black text-foreground">{summary.totalUsers}회</div>
+              <p className="text-[10px] text-muted-foreground font-medium flex items-center gap-1">
+                <span>총 타석 회전수</span>
+                <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-blue-600" />
+              </p>
+            </CardContent>
+          </Card>
 
-        {/* 2. Unique Real Visitors */}
-        <Card
-          onClick={() => setSelectedWidgetModal("uniqueUsers")}
-          className="border shadow-xs bg-card cursor-pointer hover:border-emerald-500/60 hover:shadow-md transition-all group select-none"
-        >
-          <CardContent className="p-4 space-y-1">
-            <div className="flex items-center justify-between text-muted-foreground">
-              <span className="text-xs font-bold group-hover:text-emerald-600 transition-colors">순수 방문 고객</span>
-              <div className="p-1 rounded-lg bg-emerald-500/10 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all">
-                <Users className="w-4 h-4" />
+          {/* 2. Unique Real Visitors */}
+          <Card
+            onClick={() => setSelectedWidgetModal("uniqueUsers")}
+            className="border shadow-xs bg-card cursor-pointer hover:border-emerald-500/60 hover:shadow-md transition-all group select-none"
+          >
+            <CardContent className="p-4 space-y-1">
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span className="text-xs font-bold group-hover:text-emerald-600 transition-colors">순수 방문 고객</span>
+                <div className="p-1 rounded-lg bg-emerald-500/10 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                  <Users className="w-4 h-4" />
+                </div>
               </div>
-            </div>
-            <div className="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">
-              {summary.uniqueUsers}명
-            </div>
-            <p className="text-[10px] text-muted-foreground font-medium flex items-center gap-1">
-              <span>정회원 {summary.memberCount}명 + 게스트 {summary.guestCount}명</span>
-              <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-emerald-600" />
-            </p>
-          </CardContent>
-        </Card>
+              <div className="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">
+                {summary.uniqueUsers}명
+              </div>
+              <p className="text-[10px] text-muted-foreground font-medium flex items-center gap-1">
+                <span>정회원 {summary.memberCount}명 + 게스트 {summary.guestCount}명</span>
+                <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-emerald-600" />
+              </p>
+            </CardContent>
+          </Card>
 
-        {/* 3. Peak Hour */}
-        <Card
-          onClick={() => setSelectedWidgetModal("peakHour")}
-          className="border shadow-xs bg-card cursor-pointer hover:border-amber-500/60 hover:shadow-md transition-all group select-none"
-        >
-          <CardContent className="p-4 space-y-1">
-            <div className="flex items-center justify-between text-muted-foreground">
-              <span className="text-xs font-bold group-hover:text-amber-600 transition-colors">최대 피크 시간</span>
-              <div className="p-1 rounded-lg bg-amber-500/10 text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-all">
-                <Zap className="w-4 h-4" />
+          {/* 3. Peak Hour */}
+          <Card
+            onClick={() => setSelectedWidgetModal("peakHour")}
+            className="border shadow-xs bg-card cursor-pointer hover:border-amber-500/60 hover:shadow-md transition-all group select-none"
+          >
+            <CardContent className="p-4 space-y-1">
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span className="text-xs font-bold group-hover:text-amber-600 transition-colors">최대 피크 시간</span>
+                <div className="p-1 rounded-lg bg-amber-500/10 text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-all">
+                  <Zap className="w-4 h-4" />
+                </div>
               </div>
-            </div>
-            <div className="text-2xl sm:text-3xl font-black text-amber-600 dark:text-amber-400">
-              {summary.insights.bestSalesHour}
-            </div>
-            <p className="text-[10px] text-muted-foreground font-medium truncate flex items-center gap-1">
-              <span>신규 유입 {summary.insights.bestSalesCount}명 (최다)</span>
-              <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-amber-500 shrink-0" />
-            </p>
-          </CardContent>
-        </Card>
+              <div className="text-2xl sm:text-3xl font-black text-amber-600 dark:text-amber-400">
+                {summary.insights.bestSalesHour}
+              </div>
+              <p className="text-[10px] text-muted-foreground font-medium truncate flex items-center gap-1">
+                <span>신규 유입 {summary.insights.bestSalesCount}명 (최다)</span>
+                <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-amber-500 shrink-0" />
+              </p>
+            </CardContent>
+          </Card>
 
-        {/* 4. Gender & Guest/Unknown Ratio */}
-        <Card
-          onClick={() => setSelectedWidgetModal("genderRatio")}
-          className="border shadow-xs bg-card cursor-pointer hover:border-purple-500/60 hover:shadow-md transition-all group select-none"
-        >
-          <CardContent className="p-4 space-y-1">
-            <div className="flex items-center justify-between text-muted-foreground">
-              <span className="text-xs font-bold group-hover:text-purple-600 transition-colors">성별 / 게스트 비율</span>
-              <div className="p-1 rounded-lg bg-purple-500/10 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-all">
-                <UserCheck className="w-4 h-4" />
+          {/* 4. Gender & Guest/Unknown Ratio */}
+          <Card
+            onClick={() => setSelectedWidgetModal("genderRatio")}
+            className="border shadow-xs bg-card cursor-pointer hover:border-purple-500/60 hover:shadow-md transition-all group select-none"
+          >
+            <CardContent className="p-4 space-y-1">
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span className="text-xs font-bold group-hover:text-purple-600 transition-colors">성별 / 게스트 비율</span>
+                <div className="p-1 rounded-lg bg-purple-500/10 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-all">
+                  <UserCheck className="w-4 h-4" />
+                </div>
               </div>
-            </div>
-            <div className="text-xs sm:text-sm font-black text-foreground flex items-center gap-1 pt-0.5 flex-wrap leading-tight">
-              <span className="text-blue-600">남 {summary.maleRatio}%</span>
-              <span>•</span>
-              <span className="text-rose-500">여 {summary.femaleRatio}%</span>
-              <span>•</span>
-              <span className="text-purple-600">게스트 {summary.guestRatio}%</span>
-            </div>
-            <p className="text-[10px] text-muted-foreground font-medium truncate flex items-center gap-1">
-              <span>남성 {summary.maleCount} • 여성 {summary.femaleCount} • 게스트 {summary.guestCount}</span>
-              <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-purple-600 shrink-0" />
-            </p>
-          </CardContent>
-        </Card>
+              <div className="text-xs sm:text-sm font-black text-foreground flex items-center gap-1 pt-0.5 flex-wrap leading-tight">
+                <span className="text-blue-600">남 {summary.maleRatio}%</span>
+                <span>•</span>
+                <span className="text-rose-500">여 {summary.femaleRatio}%</span>
+                <span>•</span>
+                <span className="text-purple-600">게스트 {summary.guestRatio}%</span>
+              </div>
+              <p className="text-[10px] text-muted-foreground font-medium truncate flex items-center gap-1">
+                <span>남성 {summary.maleCount} • 여성 {summary.femaleCount} • 게스트 {summary.guestCount}</span>
+                <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-purple-600 shrink-0" />
+              </p>
+            </CardContent>
+          </Card>
 
-        {/* 5. Utilization Rate (Live for Today, Day Average for Past Dates) */}
-        <Card
-          onClick={() => setSelectedWidgetModal("utilization")}
-          className="border shadow-xs bg-card col-span-2 sm:col-span-1 lg:col-span-1 cursor-pointer hover:border-rose-500/60 hover:shadow-md transition-all group select-none"
-        >
-          <CardContent className="p-4 space-y-1">
-            <div className="flex items-center justify-between text-muted-foreground">
-              <span className="text-xs font-bold group-hover:text-rose-600 transition-colors">
-                {isToday ? "실시간 가동률" : "선택일 평균 가동률"}
-              </span>
-              <div className="p-1 rounded-lg bg-rose-500/10 text-rose-500 group-hover:bg-rose-500 group-hover:text-white transition-all">
-                <Flame className="w-4 h-4" />
+          {/* 5. Utilization Rate (Live for Today, Day Average for Past Dates) */}
+          <Card
+            onClick={() => setSelectedWidgetModal("utilization")}
+            className="border shadow-xs bg-card col-span-2 sm:col-span-1 lg:col-span-1 cursor-pointer hover:border-rose-500/60 hover:shadow-md transition-all group select-none"
+          >
+            <CardContent className="p-4 space-y-1">
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span className="text-xs font-bold group-hover:text-rose-600 transition-colors">
+                  {isToday ? "실시간 가동률" : "선택일 평균 가동률"}
+                </span>
+                <div className="p-1 rounded-lg bg-rose-500/10 text-rose-500 group-hover:bg-rose-500 group-hover:text-white transition-all">
+                  <Flame className="w-4 h-4" />
+                </div>
               </div>
-            </div>
-            <div className="text-2xl sm:text-3xl font-black text-rose-600 dark:text-rose-400">
-              {isToday ? utilizationRate : (summary.avgUtilizationRate || 63)}%
-            </div>
-            <p className="text-[10px] text-muted-foreground font-medium flex items-center gap-1">
-              <span>
-                {isToday
-                  ? `${stats.using_cnt}석 이용 / ${stats.possible_cnt}석 빈자리`
-                  : `평균 ${Math.round((79 * (summary.avgUtilizationRate || 63)) / 100)}석 점유 / 79석`}
-              </span>
-              <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-rose-500" />
-            </p>
-          </CardContent>
-        </Card>
-      </div>
+              <div className="text-2xl sm:text-3xl font-black text-rose-600 dark:text-rose-400">
+                {isToday ? utilizationRate : (summary.avgUtilizationRate || 63)}%
+              </div>
+              <p className="text-[10px] text-muted-foreground font-medium flex items-center gap-1">
+                <span>
+                  {isToday
+                    ? `${stats.using_cnt}석 이용 / ${stats.possible_cnt}석 빈자리`
+                    : `평균 ${Math.round((79 * (summary.avgUtilizationRate || 63)) / 100)}석 점유 / 79석`}
+                </span>
+                <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-rose-500" />
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* 🌟 위젯 상세 산출 공식 모달 팝업 */}
       {selectedWidgetModal && (

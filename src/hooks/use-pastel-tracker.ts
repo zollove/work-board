@@ -1014,8 +1014,12 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
 
     const weeklySalesTrend: WeeklySalesTrendItem[] = weeklyDays.map((wDay) => {
       const salesAmt = wDay.totalUsers * 38000;
-      const lastYearUsers = Math.max(15, Math.round(wDay.totalUsers * 1.15));
-      const lastYearSalesAmt = lastYearUsers * 41000;
+      const seed = getDateSeed(wDay.dateStr);
+      // Organic daily variation for last year factor (1.08 ~ 1.18 -> growth rate approx -7.5% ~ -15.5%)
+      const variationFactor = 1.08 + ((seed % 11) / 100);
+      const lastYearPrice = 40000 + ((seed % 5) * 500);
+      const lastYearUsers = Math.max(15, Math.round(wDay.totalUsers * variationFactor));
+      const lastYearSalesAmt = lastYearUsers * lastYearPrice;
       const growthPercent = Math.round(((salesAmt - lastYearSalesAmt) / (lastYearSalesAmt || 1)) * 100);
 
       return {
