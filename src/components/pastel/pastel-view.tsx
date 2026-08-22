@@ -269,7 +269,10 @@ export function PastelView() {
           >
             <CardContent className="p-4 space-y-1">
               <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-xs font-bold group-hover:text-indigo-600 transition-colors">XP 유료 승인표</span>
+                <span className="text-xs font-bold group-hover:text-indigo-600 transition-colors flex items-center gap-1">
+                  <span className="px-1.5 py-0.5 rounded-md bg-indigo-500/10 text-indigo-600 text-[10px] font-black">1번</span>
+                  <span>XP 유료 승인표</span>
+                </span>
                 <div className="p-1 rounded-lg bg-indigo-500/10 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all">
                   <CreditCard className="w-4 h-4" />
                 </div>
@@ -296,7 +299,10 @@ export function PastelView() {
           >
             <CardContent className="p-4 space-y-1">
               <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-xs font-bold group-hover:text-amber-600 transition-colors">최초 신규 입장객 수</span>
+                <span className="text-xs font-bold group-hover:text-amber-600 transition-colors flex items-center gap-1">
+                  <span className="px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-600 text-[10px] font-black">2번</span>
+                  <span>최초 신규 입장객 수</span>
+                </span>
                 <div className="p-1 rounded-lg bg-amber-500/10 text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-all">
                   <UserCheck className="w-4 h-4" />
                 </div>
@@ -323,7 +329,10 @@ export function PastelView() {
           >
             <CardContent className="p-4 space-y-1">
               <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-xs font-bold group-hover:text-emerald-600 transition-colors">실제 골프장 방문자 수</span>
+                <span className="text-xs font-bold group-hover:text-emerald-600 transition-colors flex items-center gap-1">
+                  <span className="px-1.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 text-[10px] font-black">3번</span>
+                  <span>실제 골프장 방문자 수</span>
+                </span>
                 <div className="p-1 rounded-lg bg-emerald-500/10 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all">
                   <Users className="w-4 h-4" />
                 </div>
@@ -350,7 +359,10 @@ export function PastelView() {
           >
             <CardContent className="p-4 space-y-1">
               <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-xs font-bold group-hover:text-blue-600 transition-colors">타석 총 배정 회전수</span>
+                <span className="text-xs font-bold group-hover:text-blue-600 transition-colors flex items-center gap-1">
+                  <span className="px-1.5 py-0.5 rounded-md bg-blue-500/10 text-blue-600 text-[10px] font-black">4번</span>
+                  <span>타석 총 배정 회전수</span>
+                </span>
                 <div className="p-1 rounded-lg bg-blue-500/10 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
                   <Layers className="w-4 h-4" />
                 </div>
@@ -363,14 +375,17 @@ export function PastelView() {
             </CardContent>
           </Card>
 
-          {/* 3. Peak Hour */}
+          {/* 5. Peak Hour */}
           <Card
             onClick={() => setSelectedWidgetModal("peakHour")}
             className="border shadow-xs bg-card cursor-pointer hover:border-amber-500/60 hover:shadow-md transition-all group select-none"
           >
             <CardContent className="p-4 space-y-1">
               <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-xs font-bold group-hover:text-amber-600 transition-colors">최대 피크 시간</span>
+                <span className="text-xs font-bold group-hover:text-amber-600 transition-colors flex items-center gap-1">
+                  <span className="px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-500 text-[10px] font-black">5번</span>
+                  <span>최대 피크 시간</span>
+                </span>
                 <div className="p-1 rounded-lg bg-amber-500/10 text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-all">
                   <Zap className="w-4 h-4" />
                 </div>
@@ -385,14 +400,17 @@ export function PastelView() {
             </CardContent>
           </Card>
 
-          {/* 4. Gender & Guest/Unknown Ratio */}
+          {/* 6. Gender & Guest/Unknown Ratio */}
           <Card
             onClick={() => setSelectedWidgetModal("genderRatio")}
             className="border shadow-xs bg-card cursor-pointer hover:border-purple-500/60 hover:shadow-md transition-all group select-none"
           >
             <CardContent className="p-4 space-y-1">
               <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-xs font-bold group-hover:text-purple-600 transition-colors">성별 / 게스트 비율</span>
+                <span className="text-xs font-bold group-hover:text-purple-600 transition-colors flex items-center gap-1">
+                  <span className="px-1.5 py-0.5 rounded-md bg-purple-500/10 text-purple-600 text-[10px] font-black">6번</span>
+                  <span>성별 / 게스트 비율</span>
+                </span>
                 <div className="p-1 rounded-lg bg-purple-500/10 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-all">
                   <UserCheck className="w-4 h-4" />
                 </div>
@@ -411,15 +429,16 @@ export function PastelView() {
             </CardContent>
           </Card>
 
-          {/* 5. Utilization Rate (Live for Today, Day Average for Past Dates) */}
+          {/* 7. Utilization Rate (Live for Today, Day Average for Past Dates) */}
           <Card
             onClick={() => setSelectedWidgetModal("utilization")}
             className="border shadow-xs bg-card col-span-2 sm:col-span-1 lg:col-span-1 cursor-pointer hover:border-rose-500/60 hover:shadow-md transition-all group select-none"
           >
             <CardContent className="p-4 space-y-1">
               <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-xs font-bold group-hover:text-rose-600 transition-colors">
-                  {isToday ? "실시간 가동률" : "선택일 평균 가동률"}
+                <span className="text-xs font-bold group-hover:text-rose-600 transition-colors flex items-center gap-1">
+                  <span className="px-1.5 py-0.5 rounded-md bg-rose-500/10 text-rose-500 text-[10px] font-black">7번</span>
+                  <span>{isToday ? "실시간 가동률" : "선택일 평균 가동률"}</span>
                 </span>
                 <div className="p-1 rounded-lg bg-rose-500/10 text-rose-500 group-hover:bg-rose-500 group-hover:text-white transition-all">
                   <Flame className="w-4 h-4" />

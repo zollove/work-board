@@ -755,7 +755,9 @@ export function usePastelTracker(selectedDate: string) {
       bestMaintenanceOccupancy: minOccupancy,
     };
 
-    const avgUtilizationRate = isFutureDate || totalUsers === 0 ? 0 : Math.min(100, Math.round((totalUsers / (79 * 5)) * 100));
+    // 영업시간 16시간 (06:00~22:00) 기준 하루 최대 가동 수용량 = 79석 × 16시간 = 1,264회
+    const maxDailyCapacity = 79 * 16;
+    const avgUtilizationRate = isFutureDate || totalUsers === 0 ? 0 : Math.min(100, Math.round((totalUsers / maxDailyCapacity) * 100));
 
     const teeboxRanking = Object.values(teeboxCountMap)
       .sort((a, b) => b.count - a.count)
