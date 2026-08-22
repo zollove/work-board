@@ -32,6 +32,8 @@ import {
   Lightbulb,
   Info,
   X,
+  Ticket,
+  CreditCard,
 } from "lucide-react";
 
 export function PastelView() {
@@ -272,27 +274,49 @@ export function PastelView() {
                   <Layers className="w-4 h-4" />
                 </div>
               </div>
-              <div className="flex items-baseline justify-between gap-1">
-                <div className="text-2xl sm:text-3xl font-black text-foreground">{summary.totalUsers}회</div>
-                <Badge variant="outline" className="text-[10px] font-bold bg-blue-500/10 text-blue-600 border-blue-500/30">
-                  XP: {summary.xpartnersCount}명
-                </Badge>
-              </div>
+              <div className="text-2xl sm:text-3xl font-black text-foreground">{summary.totalUsers}회</div>
               <p className="text-[10px] text-muted-foreground font-medium flex items-center justify-between gap-1">
-                <span>총 타석 회전수 (XP 포스: {summary.xpartnersCount}명)</span>
+                <span>총 타석 배정 회전수</span>
                 <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-blue-600 shrink-0" />
               </p>
             </CardContent>
           </Card>
 
-          {/* 2. Unique Real Visitors */}
+          {/* 2. XP Pos Paid Count (XP 유료 승인 건수) */}
+          <Card
+            onClick={() => setSelectedWidgetModal("uniqueUsers")}
+            className="border shadow-xs bg-card cursor-pointer hover:border-indigo-500/60 hover:shadow-md transition-all group select-none"
+          >
+            <CardContent className="p-4 space-y-1">
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span className="text-xs font-bold group-hover:text-indigo-600 transition-colors">XP 유료 승인 건수</span>
+                <div className="p-1 rounded-lg bg-indigo-500/10 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                  <CreditCard className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="flex items-baseline justify-between gap-1">
+                <div className="text-2xl sm:text-3xl font-black text-indigo-600 dark:text-indigo-400">
+                  {summary.xpartnersCount}건
+                </div>
+                <Badge variant="outline" className="text-[10px] font-bold bg-indigo-500/10 text-indigo-600 border-indigo-500/30">
+                  XP 포스 전산
+                </Badge>
+              </div>
+              <p className="text-[10px] text-muted-foreground font-medium flex items-center justify-between gap-1">
+                <span>엑스파트너스 포스에 기록된 순수 유료 승인 건수</span>
+                <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-indigo-600 shrink-0" />
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 3. Unique Real Visitors (실제 타석 이용 인원) */}
           <Card
             onClick={() => setSelectedWidgetModal("uniqueUsers")}
             className="border shadow-xs bg-card cursor-pointer hover:border-emerald-500/60 hover:shadow-md transition-all group select-none"
           >
             <CardContent className="p-4 space-y-1">
               <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-xs font-bold group-hover:text-emerald-600 transition-colors">순수 방문 고객</span>
+                <span className="text-xs font-bold group-hover:text-emerald-600 transition-colors">실제 타석 이용 인원</span>
                 <div className="p-1 rounded-lg bg-emerald-500/10 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all">
                   <Users className="w-4 h-4" />
                 </div>
@@ -302,11 +326,11 @@ export function PastelView() {
                   {summary.uniqueUsers}명
                 </div>
                 <Badge variant="outline" className="text-[10px] font-bold bg-emerald-500/10 text-emerald-600 border-emerald-500/30">
-                  XP 523명 대비 100% 실측
+                  실시간 센싱
                 </Badge>
               </div>
               <p className="text-[10px] text-muted-foreground font-medium flex items-center justify-between gap-1">
-                <span>정회원 {summary.memberCount}명 + 게스트 {summary.guestCount}명</span>
+                <span>실제로 타석에 와서 타석을 사용한 진짜 총 인원</span>
                 <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-emerald-600 shrink-0" />
               </p>
             </CardContent>

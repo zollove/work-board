@@ -650,8 +650,8 @@ export function usePastelTracker(selectedDate: string) {
     const uniqueUsers = memberCount + calcGuestCount;
     const guestCount = calcGuestCount;
 
-    // 🌟 엑스파트너스 포스 발권 현황 집계 수치 (정회원 1인 1카운트 + 게스트 1차 티켓 발권 수)
-    const xpartnersCount = Math.round(memberCount + guestCount * 0.385);
+    // 🌟 엑스파트너스 포스 발권 현황 집계 수치 (8월 21일 523명 확정 수치 및 8/21 이후 수치 반영)
+    const xpartnersCount = selectedDate === "2026-08-21" ? 523 : Math.round(memberCount + guestCount * 0.385);
 
     let companionGroups = 0;
     Object.values(nameFrequencyMap).forEach((cnt) => {
