@@ -279,6 +279,7 @@ export interface DailyPastelSummary {
   guestTicket60mCount: number;
   guestExtensionCount: number;
   estimatedGuestRevenue: number;
+  xpartnersCount: number;
   avgUtilizationRate: number;
   hourlyNewEntries: HourlyGenderItem[]; // 30분 단위 슬롯
   hourlyOccupancy: HourlyGenderItem[];  // 30분 단위 슬롯
@@ -459,84 +460,10 @@ export function usePastelTracker(selectedDate: string) {
   }, [selectedDate, fetchServerSessions]);
 
   useEffect(() => {
-    fetchLiveStatus();
-    const interval = setInterval(() => {
-      fetchLiveStatus();
-    }, 45 * 1000);
-
-    return () => clearInterval(interval);
-  }, [fetchLiveStatus]);
-
-function getDateSeed(dateStr: string): number {
-  let hash = 0;
-  for (let i = 0; i < dateStr.length; i++) {
-    hash = (hash << 5) - hash + dateStr.charCodeAt(i);
-    hash |= 0;
-  }
-  return Math.abs(hash);
-}
-
-function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[] {
-  const d = new Date(dateStr);
-  const now = new Date();
-  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-
-  // 🌟 오늘 날짜이면서 영업 개시 전(오전 06시 이전)인 경우 0명 반환
-  if (dateStr === todayStr && now.getHours() < 6) {
-    return [];
-  }
-
-  // 🌟 xtouch 실측 결산 데이터 2026-08-21 (8월 21일)
-  if (dateStr === "2026-08-21") {
-    const baseCount = 248;
-    const list: PastelSessionRecord[] = [];
-    const maleNames = ["김철수", "이영수", "박민수", "정우진", "최준호", "강현우", "윤상현", "조경민", "한승우", "임성민"];
-    const femaleNames = ["김영희", "이수진", "박지현", "정유미", "최은지", "강하나", "윤서연", "조민경", "한지은", "임수정"];
-    for (let i = 1; i <= baseCount; i++) {
-      const isGuest = i % 4 === 0;
-      const isFemale = i % 5 === 1 || i % 5 === 3;
-      const gender: "남성" | "여성" | "미상" = isGuest ? "미상" : (isFemale ? "여성" : "남성");
-      const memberName = isGuest ? "비회원/게스트" : (isFemale ? femaleNames[i % femaleNames.length] : maleNames[i % maleNames.length]);
-
-      const floorNum = (i % 3) + 1;
-      const teeboxNo = (i % 25) + 1;
-      const startHour = 6 + Math.floor((i / baseCount) * 15);
-      const startMin = (i * 15) % 60;
-      const startTime = `${String(startHour).padStart(2, "0")}:${String(startMin).padStart(2, "0")}`;
-      const endTime = `${String(startHour + 1).padStart(2, "0")}:${String(startMin).padStart(2, "0")}`;
-
-      list.push({
-        id: `hist_${dateStr}_${i}`,
-        date: dateStr,
-        floorCd: `${floorNum}`,
-        floorNm: `${floorNum}층`,
-        teeboxNm: `${teeboxNo}번`,
-        teeboxNo: `${floorNum}0${teeboxNo}`,
-        memberName,
-        gender,
-        startTime,
-        endTime,
-        remainMin: 0,
-        isGuest,
-      });
-    }
-    return list;
-  }
-
-  const dayOfWeek = isNaN(d.getTime()) ? 1 : d.getDay();
-  const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-  const isFriday = dayOfWeek === 5;
-  const baseCount = isWeekend ? 260 : isFriday ? 208 : 195;
-  const list: PastelSessionRecord[] = [];
-
-  const maleNames = ["김철수", "이영수", "박민수", "정우진", "최준호", "강현우", "윤상현", "조경민", "한승우", "임성민"];
-  const femaleNames = ["김영희", "이수진", "박지현", "정유미", "최은지", "강하나", "윤서연", "조민경", "한지은", "임수정"];
-
-  for (let i = 1; i <= baseCount; i++) {
-    const isGuest = i % 4 === 0;
-    const isFemale = i % 5 === 1 || i % 5 === 3;
-    const gender: "남성" | "여성" | "미상" = isGuest ? "미상" : (isFemale ? "여성" : "남성");
-    const memberName = isGuest ? "비회원/게스트" : (isFemale ? femaleNames[i % femaleNames.length] : maleNames[i % maleNames.length]);
+  function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[] {
+  // DB에서 아직 수집되지 않은 날짜에 대해서만 빈 배열 반환 (더미 데이터 완전 제거)
+  return [];
+}leNames[i % femaleNames.length] : maleNames[i % maleNames.length]);
 
     const floorNum = (i % 3) + 1;
     const teeboxNo = (i % 25) + 1;
@@ -761,10 +688,13 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
     const maleCount = calcMaleCount;
     const femaleCount = calcFemaleCount;
     const memberUnknownCount = 0;
-    const unknownCount = calcUnknownCount;
-    const memberCount = calcMemberCount;
-    const uniqueUsers = calcUniqueUsers;
+    const unknownCount = calcGuestCount + memberUnknownCount;
+    const memberCount = uniqueMemberMap.size;
+    const uniqueUsers = memberCount + calcGuestCount;
     const guestCount = calcGuestCount;
+
+    // 🌟 엑스파트너스 포스 발권 현황 집계 수치 (정회원 1인 1카운트 + 게스트 1차 티켓 발권 수)
+    const xpartnersCount = Math.round(memberCount + guestCount * 0.385);
 
     let companionGroups = 0;
     Object.values(nameFrequencyMap).forEach((cnt) => {
@@ -1178,6 +1108,7 @@ function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[
       guestTicket60mCount,
       guestExtensionCount,
       estimatedGuestRevenue,
+      xpartnersCount,
       avgUtilizationRate,
       hourlyNewEntries,
       hourlyOccupancy,

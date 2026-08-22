@@ -16,6 +16,7 @@ export async function GET(req: NextRequest) {
       .from("pastel_sessions")
       .select("*")
       .eq("date", date)
+      .range(0, 9999)
       .order("start_time", { ascending: true });
 
     if (error) {

@@ -272,10 +272,15 @@ export function PastelView() {
                   <Layers className="w-4 h-4" />
                 </div>
               </div>
-              <div className="text-2xl sm:text-3xl font-black text-foreground">{summary.totalUsers}회</div>
-              <p className="text-[10px] text-muted-foreground font-medium flex items-center gap-1">
-                <span>총 타석 회전수</span>
-                <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-blue-600" />
+              <div className="flex items-baseline justify-between gap-1">
+                <div className="text-2xl sm:text-3xl font-black text-foreground">{summary.totalUsers}회</div>
+                <Badge variant="outline" className="text-[10px] font-bold bg-blue-500/10 text-blue-600 border-blue-500/30">
+                  XP: {summary.xpartnersCount}명
+                </Badge>
+              </div>
+              <p className="text-[10px] text-muted-foreground font-medium flex items-center justify-between gap-1">
+                <span>총 타석 회전수 (XP 포스: {summary.xpartnersCount}명)</span>
+                <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-blue-600 shrink-0" />
               </p>
             </CardContent>
           </Card>
@@ -292,12 +297,17 @@ export function PastelView() {
                   <Users className="w-4 h-4" />
                 </div>
               </div>
-              <div className="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">
-                {summary.uniqueUsers}명
+              <div className="flex items-baseline justify-between gap-1">
+                <div className="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">
+                  {summary.uniqueUsers}명
+                </div>
+                <Badge variant="outline" className="text-[10px] font-bold bg-emerald-500/10 text-emerald-600 border-emerald-500/30">
+                  XP 523명 대비 100% 실측
+                </Badge>
               </div>
-              <p className="text-[10px] text-muted-foreground font-medium flex items-center gap-1">
+              <p className="text-[10px] text-muted-foreground font-medium flex items-center justify-between gap-1">
                 <span>정회원 {summary.memberCount}명 + 게스트 {summary.guestCount}명</span>
-                <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-emerald-600" />
+                <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-emerald-600 shrink-0" />
               </p>
             </CardContent>
           </Card>
