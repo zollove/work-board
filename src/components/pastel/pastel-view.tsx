@@ -262,34 +262,14 @@ export function PastelView() {
       {/* 📊 Key Metrics Summary Cards (5 Cards - 실시간/차트 탭에서만 표출) */}
       {(activeTab === "live" || activeTab === "charts") && (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-          {/* 1. Daily Total Users */}
-          <Card
-            onClick={() => setSelectedWidgetModal("totalUsers")}
-            className="border shadow-xs bg-card cursor-pointer hover:border-blue-500/60 hover:shadow-md transition-all group select-none"
-          >
-            <CardContent className="p-4 space-y-1">
-              <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-xs font-bold group-hover:text-blue-600 transition-colors">선택일 총 이용</span>
-                <div className="p-1 rounded-lg bg-blue-500/10 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                  <Layers className="w-4 h-4" />
-                </div>
-              </div>
-              <div className="text-2xl sm:text-3xl font-black text-foreground">{summary.totalUsers}회</div>
-              <p className="text-[10px] text-muted-foreground font-medium flex items-center justify-between gap-1">
-                <span>총 타석 배정 회전수</span>
-                <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-blue-600 shrink-0" />
-              </p>
-            </CardContent>
-          </Card>
-
-          {/* 2. XP Pos Paid Count (XP 유료 승인 건수) */}
+          {/* 1. XP Pos Paid Count (XP 유료 승인표) */}
           <Card
             onClick={() => setSelectedWidgetModal("uniqueUsers")}
             className="border shadow-xs bg-card cursor-pointer hover:border-indigo-500/60 hover:shadow-md transition-all group select-none"
           >
             <CardContent className="p-4 space-y-1">
               <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-xs font-bold group-hover:text-indigo-600 transition-colors">XP 유료 승인 건수</span>
+                <span className="text-xs font-bold group-hover:text-indigo-600 transition-colors">XP 유료 승인표</span>
                 <div className="p-1 rounded-lg bg-indigo-500/10 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all">
                   <CreditCard className="w-4 h-4" />
                 </div>
@@ -303,20 +283,47 @@ export function PastelView() {
                 </Badge>
               </div>
               <p className="text-[10px] text-muted-foreground font-medium flex items-center justify-between gap-1">
-                <span>엑스파트너스 포스에 기록된 순수 유료 승인 건수</span>
+                <span>무료/쿠폰/직원표 제외 유료 결제건</span>
                 <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-indigo-600 shrink-0" />
               </p>
             </CardContent>
           </Card>
 
-          {/* 3. Unique Real Visitors (실제 타석 이용 인원) */}
+          {/* 2. Initial Entry Count (최초 신규 입장객 수) */}
+          <Card
+            onClick={() => setSelectedWidgetModal("uniqueUsers")}
+            className="border shadow-xs bg-card cursor-pointer hover:border-amber-500/60 hover:shadow-md transition-all group select-none"
+          >
+            <CardContent className="p-4 space-y-1">
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span className="text-xs font-bold group-hover:text-amber-600 transition-colors">최초 신규 입장객 수</span>
+                <div className="p-1 rounded-lg bg-amber-500/10 text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-all">
+                  <UserCheck className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="flex items-baseline justify-between gap-1">
+                <div className="text-2xl sm:text-3xl font-black text-amber-600 dark:text-amber-400">
+                  {summary.initialEntryCount}명
+                </div>
+                <Badge variant="outline" className="text-[10px] font-bold bg-amber-500/10 text-amber-600 border-amber-500/30">
+                  1차 신규 입장
+                </Badge>
+              </div>
+              <p className="text-[10px] text-muted-foreground font-medium flex items-center justify-between gap-1">
+                <span>게스트 연장 이용을 제외한 1차 최초 신규 입장 인원</span>
+                <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-amber-600 shrink-0" />
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 3. Real Visitors Count (실제 골프장 방문자 수) */}
           <Card
             onClick={() => setSelectedWidgetModal("uniqueUsers")}
             className="border shadow-xs bg-card cursor-pointer hover:border-emerald-500/60 hover:shadow-md transition-all group select-none"
           >
             <CardContent className="p-4 space-y-1">
               <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-xs font-bold group-hover:text-emerald-600 transition-colors">실제 타석 이용 인원</span>
+                <span className="text-xs font-bold group-hover:text-emerald-600 transition-colors">실제 골프장 방문자 수</span>
                 <div className="p-1 rounded-lg bg-emerald-500/10 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all">
                   <Users className="w-4 h-4" />
                 </div>
@@ -330,8 +337,28 @@ export function PastelView() {
                 </Badge>
               </div>
               <p className="text-[10px] text-muted-foreground font-medium flex items-center justify-between gap-1">
-                <span>실제로 타석에 와서 타석을 사용한 진짜 총 인원</span>
+                <span>진짜 걸어 들어온 손님 머릿수</span>
                 <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-emerald-600 shrink-0" />
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 4. Total Teebox Turnover (타석 총 배정 회전수) */}
+          <Card
+            onClick={() => setSelectedWidgetModal("totalUsers")}
+            className="border shadow-xs bg-card cursor-pointer hover:border-blue-500/60 hover:shadow-md transition-all group select-none"
+          >
+            <CardContent className="p-4 space-y-1">
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span className="text-xs font-bold group-hover:text-blue-600 transition-colors">타석 총 배정 회전수</span>
+                <div className="p-1 rounded-lg bg-blue-500/10 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                  <Layers className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="text-2xl sm:text-3xl font-black text-foreground">{summary.totalUsers}회</div>
+              <p className="text-[10px] text-muted-foreground font-medium flex items-center justify-between gap-1">
+                <span>연장 이용 포함 타석이 작동한 총 횟수</span>
+                <Info className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 text-blue-600 shrink-0" />
               </p>
             </CardContent>
           </Card>

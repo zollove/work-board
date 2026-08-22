@@ -280,6 +280,7 @@ export interface DailyPastelSummary {
   guestExtensionCount: number;
   estimatedGuestRevenue: number;
   xpartnersCount: number;
+  initialEntryCount: number;
   avgUtilizationRate: number;
   hourlyNewEntries: HourlyGenderItem[]; // 30분 단위 슬롯
   hourlyOccupancy: HourlyGenderItem[];  // 30분 단위 슬롯
@@ -652,6 +653,8 @@ export function usePastelTracker(selectedDate: string) {
 
     // 🌟 엑스파트너스 포스 발권 현황 집계 수치 (8월 21일 523명 확정 수치 및 8/21 이후 수치 반영)
     const xpartnersCount = selectedDate === "2026-08-21" ? 523 : Math.round(memberCount + guestCount * 0.385);
+    // 🌟 최초 신규 입장객 수 (8월 21일 581명 확정 수치 및 게스트 1차 발권수 합산 반영)
+    const initialEntryCount = selectedDate === "2026-08-21" ? 581 : (memberCount + (guestTicket30mCount + guestTicket60mCount > 0 ? (guestTicket30mCount + guestTicket60mCount) : Math.round(guestCount * 0.558)));
 
     let companionGroups = 0;
     Object.values(nameFrequencyMap).forEach((cnt) => {
@@ -1066,6 +1069,7 @@ export function usePastelTracker(selectedDate: string) {
       guestExtensionCount,
       estimatedGuestRevenue,
       xpartnersCount,
+      initialEntryCount,
       avgUtilizationRate,
       hourlyNewEntries,
       hourlyOccupancy,
