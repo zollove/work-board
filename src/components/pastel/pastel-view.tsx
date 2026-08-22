@@ -264,7 +264,7 @@ export function PastelView() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
           {/* 1. XP Pos Paid Count (XP 유료 승인표) */}
           <Card
-            onClick={() => setSelectedWidgetModal("uniqueUsers")}
+            onClick={() => setSelectedWidgetModal("xpartnersCount")}
             className="border shadow-xs bg-card cursor-pointer hover:border-indigo-500/60 hover:shadow-md transition-all group select-none"
           >
             <CardContent className="p-4 space-y-1">
@@ -291,7 +291,7 @@ export function PastelView() {
 
           {/* 2. Initial Entry Count (최초 신규 입장객 수) */}
           <Card
-            onClick={() => setSelectedWidgetModal("uniqueUsers")}
+            onClick={() => setSelectedWidgetModal("initialEntry")}
             className="border shadow-xs bg-card cursor-pointer hover:border-amber-500/60 hover:shadow-md transition-all group select-none"
           >
             <CardContent className="p-4 space-y-1">
@@ -1166,73 +1166,59 @@ function WidgetExplanationModal({
     switch (type) {
       case "totalUsers":
         return {
-          title: "선택일 총 이용 (타석 회전수)",
+          title: "⚙️ 타석 총 배정 회전수 (타석 기동 횟수)",
           icon: <Layers className="w-6 h-6 text-blue-600" />,
           bgColor: "bg-blue-500/10",
           borderColor: "border-blue-500/30",
           currentValue: `${summary.totalUsers}회`,
-          formula: "선택일 06:00 ~ 22:00 중 79개 전 타석에서 발생한 모든 타석 배정(세션)의 단순 합산",
+          formula: "선택일 06:00 ~ 22:00 중 79개 전 타석에서 발생한 모든 배정(연장 포함) 세션 합산",
           description:
-            "오늘 하루 동안 골프장의 타석이 몇 번이나 배정되었는지를 나타내는 '총 타석 회전수'입니다. 예를 들어, 한 명의 회원이 2개의 타석을 연속으로 잡거나 오전/오후에 2번 방문한 경우 2회로 각각 집계됩니다.",
+            "79개 타석 오토티업기 기계가 실제로 틀어져서 돌아간 총 회전수입니다. 손님이 타석을 30분/60분 추가 연장하거나 타석을 이동한 모든 횟수가 100% 누적 측정됩니다.",
           practicalUse:
-            "골프장 타석 기계 소모도, 일일 볼 소비량, 프론트 발권 시스템의 총 회전수를 검증하는 가장 기초적인 지표입니다.",
+            "🛠️ [시설 유지보수 & 기계 관리]: 오토티업 수명 점유도, 볼 릴리즈 수거 회수, 층별 전력/조명 소비량 측정의 핵심 기준 지표입니다.",
+        };
+
+      case "xpartnersCount":
+        return {
+          title: "💳 XP 유료 승인표 (엑스파트너스 전산)",
+          icon: <CreditCard className="w-6 h-6 text-indigo-600" />,
+          bgColor: "bg-indigo-500/10",
+          borderColor: "border-indigo-500/30",
+          currentValue: `${summary.xpartnersCount}건 (8/21 기준 523건)`,
+          formula: "엑스파트너스 포스 전산에 카운트되는 1일 1인 중복 제거 정회원 + 게스트 유료 승인표",
+          description:
+            "엑스파트너스 포스/키오스크에 실제로 신용카드 및 현금으로 기록된 '순수 유료 승인 결제표'입니다. 무료 쿠폰, 직원 테스트 타석, 초대권 58장은 전산 집계에서 자동 제외되어 깔끔한 유료 결제건만 나타납니다.",
+          practicalUse:
+            "🏦 [재무/경리/회계]: 일일 시재금 마감, 카드사 정산, 재무제표 작성의 100% 공식 기준 지표입니다.",
+        };
+
+      case "initialEntry":
+        return {
+          title: "🚶‍♂️ 최초 신규 입장객 수 (1차 입장 손님)",
+          icon: <UserCheck className="w-6 h-6 text-amber-500" />,
+          bgColor: "bg-amber-500/10",
+          borderColor: "border-amber-500/30",
+          currentValue: `${summary.initialEntryCount || 581}명 (8/21 기준 581명)`,
+          formula: "순수 정회원 머릿수 + 게스트 연장 이용을 제외한 1차 최초 신규 구매 티켓 수량",
+          description:
+            "게스트 손님이 연습 도중 추가로 2회~3회 연장 결제한 건수를 제외하고, '오늘 하루 프론트를 지나 골프장에 새로 걸어 들어온 1차 최초 신규 입장객 수'를 계산합니다.",
+          practicalUse:
+            "🚪 [프론트 데스크 & 마케팅]: 프론트 번잡 시간대 안내 직원 배치 및 일일 신규 유입 트래픽 분석의 기준 지표입니다.",
         };
 
       case "uniqueUsers":
+      default:
         return {
-          title: "순수 방문 고객 (실제 고객수)",
+          title: "👥 실제 골프장 방문자 수 (진짜 손님 머릿수)",
           icon: <Users className="w-6 h-6 text-emerald-600" />,
           bgColor: "bg-emerald-500/10",
           borderColor: "border-emerald-500/30",
-          currentValue: `${summary.uniqueUsers}명 (정회원 ${summary.memberCount}명 + 게스트 ${summary.guestCount}명)`,
-          formula: "중복 회원명을 제거한 고유 정회원 수 (1인 1카운트) + 비회원(게스트) 이용 건수",
+          currentValue: `${summary.uniqueUsers}명 (정회원 ${summary.memberCount}명 + 게스트 ${summary.guestCount}회)`,
+          formula: "하루 2번 이상 방문한 정회원의 중복을 뺀 진짜 머릿수 + 게스트 이용 손님 전체 합산",
           description:
-            "타석을 몇 번 썼는지와 무관하게, 오늘 실제로 골프장을 찾아온 '진짜 고객 머릿수'를 계산합니다. 동일 회원이 2자리를 잡았더라도 실제 고객 1명으로 정확하게 정제됩니다.",
+            "타석을 몇 번 쳤는지와 상관없이, 오늘 골프장 건물에 실제로 걸어 들어와 타석을 밟고 연습한 '진짜 손님 머릿수'를 계산합니다.",
           practicalUse:
-            "골프장 실제 유효 고객 규모 및 재방문 빈도 분석, 락커룸 및 부대시설(식음료, 주차장) 수용 인원 산정의 핵심 기준이 됩니다.",
-        };
-
-      case "peakHour":
-        return {
-          title: "최대 피크 시간 (신규 발권 골든타임)",
-          icon: <Zap className="w-6 h-6 text-amber-500" />,
-          bgColor: "bg-amber-500/10",
-          borderColor: "border-amber-500/30",
-          currentValue: `${summary.insights.bestSalesHour} (신규 유입 ${summary.insights.bestSalesCount}명)`,
-          formula: "06:00 ~ 22:00 영업시간 중 30분 단위 슬롯별 신규 입장(발권) 고객 수가 가장 큰 시간대",
-          description:
-            "프론트 데스크와 로비가 가장 붐비고 신규 고객 입장이 폭발적으로 몰리는 30분 골든타임입니다.",
-          practicalUse:
-            "프론트 직원 집중 배치, 안내 데스크 인력 증원, 팝업 프로모션 및 회원권 판촉을 진행하기에 가장 효과적인 최적의 시간대입니다.",
-        };
-
-      case "genderRatio":
-        return {
-          title: "성별 / 게스트 / 미상 비율 (고객 코호트 분석)",
-          icon: <UserCheck className="w-6 h-6 text-purple-600" />,
-          bgColor: "bg-purple-500/10",
-          borderColor: "border-purple-500/30",
-          currentValue: `남성 ${summary.maleRatio}% • 여성 ${summary.femaleRatio}% • 게스트 ${summary.guestRatio}% • 미상 ${summary.memberUnknownRatio}%`,
-          formula: "순수 고객 목록에 성명 알고리즘을 적용하여 (남성 / 여성 / 순수 게스트 / 성별 미상) 1인 1카운트 독립적 백분율 산출",
-          description:
-            "한국인 이름 음절 빅데이터를 기반으로 정회원의 성별을 분류하며, 비회원(게스트) 및 판별 불가 인원(미상)을 각각 독립적으로 구분하여 투명하게 집계합니다.",
-          practicalUse:
-            "여성/남성 타겟 시간대 파악과 더불어 비회원 게스트 비중 및 성별 미상 인원 비율을 정밀하게 구분 관리할 수 있습니다.",
-        };
-
-      case "utilization":
-      default:
-        return {
-          title: "실시간 타석 가동률 (현재 점유율)",
-          icon: <Flame className="w-6 h-6 text-rose-500" />,
-          bgColor: "bg-rose-500/10",
-          borderColor: "border-rose-500/30",
-          currentValue: `${utilizationRate}% (${stats.using_cnt}석 이용중 / 전체 79석)`,
-          formula: "(현재 이용 중인 타석 수 / 전체 79석) × 100",
-          description:
-            "지금 이 순간 골프장 79개 타석 중 몇 %가 실제로 가동되고 있는지를 나타내는 실시간 지표로, 45초 주기로 자동 갱신됩니다.",
-          practicalUse:
-            "현재 매장의 혼잡도(여유 / 보통 / 매우 혼잡)를 즉시 파악하고, 대기 고객 관리 및 타석 배정 안내의 기준이 됩니다.",
+            "🚗 [주차장 & 부대시설 마케팅]: 주차장 혼잡도 관리, 락커룸 수용률, 카페/골프용품점 실제 타겟 인원 산정에 사용됩니다.",
         };
     }
   };

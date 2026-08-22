@@ -448,7 +448,9 @@ export function usePastelTracker(selectedDate: string) {
         if (typeof window !== "undefined") {
           localStorage.setItem(key, JSON.stringify(fullUniqueList));
         }
-        setServerSessions(fullUniqueList);
+        if (selectedDate === todayStr) {
+          setServerSessions(fullUniqueList);
+        }
         saveSessionsToServer(newDetectedSessions);
       }
     } catch (err) {
