@@ -1183,61 +1183,103 @@ function WidgetExplanationModal({
 }) {
   const getModalContent = () => {
     switch (type) {
+      case "xpartnersCount":
+        return {
+          title: "1번 XP 유료 승인표 (엑스파트너스 전산)",
+          icon: <CreditCard className="w-6 h-6 text-indigo-600" />,
+          bgColor: "bg-indigo-500/10",
+          borderColor: "border-indigo-500/30",
+          currentValue: `${summary.xpartnersCount}건`,
+          formula: "선택일 엑스파트너스 포스 승인건 = (1일 1인 중복제거 정회원 표) + (게스트 1차 유료 승인표) - (무료/쿠폰/직원표 58장 자동 제외)",
+          description:
+            "포스/키오스크에 실제로 신용카드 및 현금 결제로 기록된 '순수 유료 승인 결제표'입니다. 무료 쿠폰(30장), 직원 테스트표(15장), 초대권(13장) 등 총 58장의 무료표는 전산 자동 제외됩니다.",
+          practicalUse:
+            "🏦 [재무/경리/회계]: 일일 시재금 마감, 카드사 매출 정산, 재무제표 작성의 100% 공식 기준 지표입니다.",
+        };
+
+      case "initialEntry":
+        return {
+          title: "2번 최초 신규 입장객 수 (1차 유입 손님)",
+          icon: <UserCheck className="w-6 h-6 text-amber-500" />,
+          bgColor: "bg-amber-500/10",
+          borderColor: "border-amber-500/30",
+          currentValue: `${summary.initialEntryCount}명`,
+          formula: "최초 신규 입장객 수 = 순수 정회원 머릿수 + 게스트 1차 신규 구매 티켓 수량 (연장 2~3회 결제 제외)",
+          description:
+            "게스트 손님이 연습 도중 추가로 2회~3회 연장 결제한 횟수를 제외하고, 오늘 아침부터 밤까지 프론트를 지나 골프장에 새로 걸어 들어온 '1차 최초 신규 입장객 수'를 정밀 산출합니다.",
+          practicalUse:
+            "🚪 [프론트 데스크 & 마케팅]: 프론트 번잡 시간대 안내 직원 배치 및 일일 신규 유입 트래픽 분석의 기준 지표입니다.",
+        };
+
+      case "uniqueUsers":
+        return {
+          title: "3번 실제 골프장 방문자 수 (진짜 머릿수)",
+          icon: <Users className="w-6 h-6 text-emerald-600" />,
+          bgColor: "bg-emerald-500/10",
+          borderColor: "border-emerald-500/30",
+          currentValue: `${summary.uniqueUsers}명 (정회원 ${summary.memberCount}명 + 게스트 ${summary.guestCount}회)`,
+          formula: "실제 골프장 방문자 수 = (하루 2번 방문 회원의 중복을 뺀 진짜 회원 머릿수) + (게스트 이용 손님 세션 전체)",
+          description:
+            "타석을 몇 번 쳤는지와 상관없이, 오늘 골프장 건물에 실제로 걸어 들어와 타석을 밟고 연습한 '진짜 손님 머릿수'를 정밀 계산합니다.",
+          practicalUse:
+            "🚗 [주차장 & 부대시설 마케팅]: 주차장 혼잡도 관리, 락커룸 수용률, 카페/골프용품점 실제 타겟 인원 산정에 사용됩니다.",
+        };
+
       case "totalUsers":
         return {
-          title: "⚙️ 타석 총 배정 회전수 (타석 기동 횟수)",
+          title: "4번 타석 총 배정 회전수 (기계 작동 횟수)",
           icon: <Layers className="w-6 h-6 text-blue-600" />,
           bgColor: "bg-blue-500/10",
           borderColor: "border-blue-500/30",
           currentValue: `${summary.totalUsers}회`,
-          formula: "선택일 06:00 ~ 22:00 중 79개 전 타석에서 발생한 모든 배정(연장 포함) 세션 합산",
+          formula: "타석 총 배정 회전수 = 06:00 ~ 22:00 전 79개 타석에서 발생한 모든 배정(연장/재배정 포함) 세션 단순 누적 합산",
           description:
             "79개 타석 오토티업기 기계가 실제로 틀어져서 돌아간 총 회전수입니다. 손님이 타석을 30분/60분 추가 연장하거나 타석을 이동한 모든 횟수가 100% 누적 측정됩니다.",
           practicalUse:
             "🛠️ [시설 유지보수 & 기계 관리]: 오토티업 수명 점유도, 볼 릴리즈 수거 회수, 층별 전력/조명 소비량 측정의 핵심 기준 지표입니다.",
         };
 
-      case "xpartnersCount":
+      case "peakHour":
         return {
-          title: "💳 XP 유료 승인표 (엑스파트너스 전산)",
-          icon: <CreditCard className="w-6 h-6 text-indigo-600" />,
-          bgColor: "bg-indigo-500/10",
-          borderColor: "border-indigo-500/30",
-          currentValue: `${summary.xpartnersCount}건`,
-          formula: "엑스파트너스 포스 전산에 카운트되는 1일 1인 중복 제거 정회원 + 게스트 유료 승인표",
-          description:
-            "엑스파트너스 포스/키오스크에 실제로 신용카드 및 현금으로 기록된 '순수 유료 승인 결제표'입니다. 무료 쿠폰, 직원 테스트 타석, 초대권 58장은 전산 집계에서 자동 제외되어 깔끔한 유료 결제건만 나타납니다.",
-          practicalUse:
-            "🏦 [재무/경리/회계]: 일일 시재금 마감, 카드사 정산, 재무제표 작성의 100% 공식 기준 지표입니다.",
-        };
-
-      case "initialEntry":
-        return {
-          title: "🚶‍♂️ 최초 신규 입장객 수 (1차 입장 손님)",
-          icon: <UserCheck className="w-6 h-6 text-amber-500" />,
+          title: "5번 최대 피크 시간 (신규 발권 골든타임)",
+          icon: <Zap className="w-6 h-6 text-amber-500" />,
           bgColor: "bg-amber-500/10",
           borderColor: "border-amber-500/30",
-          currentValue: `${summary.initialEntryCount || 581}명`,
-          formula: "순수 정회원 머릿수 + 게스트 연장 이용을 제외한 1차 최초 신규 구매 티켓 수량",
+          currentValue: `${summary.insights.bestSalesHour} (신규 유입 ${summary.insights.bestSalesCount}명)`,
+          formula: "최대 피크 시간 = 06:00 ~ 22:00 영업시간 중 30분 단위 슬롯별 신규 입장(발권) 고객 수가 최다 발생한 시간대 추출",
           description:
-            "게스트 손님이 연습 도중 추가로 2회~3회 연장 결제한 건수를 제외하고, '오늘 하루 프론트를 지나 골프장에 새로 걸어 들어온 1차 최초 신규 입장객 수'를 계산합니다.",
+            "프론트 데스크와 로비가 가장 붐비고 신규 고객 입장이 폭발적으로 몰리는 30분 골든타임입니다.",
           practicalUse:
-            "🚪 [프론트 데스크 & 마케팅]: 프론트 번잡 시간대 안내 직원 배치 및 일일 신규 유입 트래픽 분석의 기준 지표입니다.",
+            "⚡ [프론트 데스크 & 마케팅]: 프론트 직원 집중 배치, 안내 인력 증원 및 회원권 판촉 프로모션을 진행하기에 가장 효과적인 최적의 시간대입니다.",
         };
 
-      case "uniqueUsers":
+      case "genderRatio":
+        return {
+          title: "6번 성별 / 게스트 비율 (고객 코호트 분석)",
+          icon: <UserCheck className="w-6 h-6 text-purple-600" />,
+          bgColor: "bg-purple-500/10",
+          borderColor: "border-purple-500/30",
+          currentValue: `남성 ${summary.maleRatio}% • 여성 ${summary.femaleRatio}% • 게스트 ${summary.guestRatio}%`,
+          formula: "성별 비율(%) = (당일 남성/여성/게스트 실측 인원 ÷ 당일 실제 방문자 수) × 100",
+          description:
+            "한국인 이름 음절 빅데이터를 기반으로 정회원의 성별을 분류하며, 비회원 게스트 비중을 정밀하게 독립 구분하여 집계합니다.",
+          practicalUse:
+            "🎯 [고객 분석 & 마케팅]: 남성/여성 타겟 마케팅 및 비회원 게스트를 정회원으로 유치하는 회원가입 프로모션 설계의 핵심 기준입니다.",
+        };
+
+      case "utilization":
       default:
         return {
-          title: "👥 실제 골프장 방문자 수 (진짜 손님 머릿수)",
-          icon: <Users className="w-6 h-6 text-emerald-600" />,
-          bgColor: "bg-emerald-500/10",
-          borderColor: "border-emerald-500/30",
-          currentValue: `${summary.uniqueUsers}명 (정회원 ${summary.memberCount}명 + 게스트 ${summary.guestCount}회)`,
-          formula: "하루 2번 이상 방문한 정회원의 중복을 뺀 진짜 머릿수 + 게스트 이용 손님 전체 합산",
+          title: "7번 선택일 평균 가동률 (16시간 풀가동 기준)",
+          icon: <Flame className="w-6 h-6 text-rose-500" />,
+          bgColor: "bg-rose-500/10",
+          borderColor: "border-rose-500/30",
+          currentValue: `${summary.avgUtilizationRate}%`,
+          formula: "선택일 평균 가동률(%) = (당일 총 회전수 ÷ 16시간 풀가동 이론상 수용량 1,264회) × 100",
           description:
-            "타석을 몇 번 쳤는지와 상관없이, 오늘 골프장 건물에 실제로 걸어 들어와 타석을 밟고 연습한 '진짜 손님 머릿수'를 계산합니다.",
+            "하루 영업시간 16시간(06:00~22:00) 동안 79개 전 타석의 이론상 최대 가능 회전수(1,264회) 대비 실제 가동된 정밀 백분율입니다.",
           practicalUse:
-            "🚗 [주차장 & 부대시설 마케팅]: 주차장 혼잡도 관리, 락커룸 수용률, 카페/골프용품점 실제 타겟 인원 산정에 사용됩니다.",
+            "🔥 [운용 효율 & 매출 최적화]: 매장의 시간대별 가동 효율 분석 및 주중 틈새 시간대 모닝 쿠폰 프로모션 설계 기준 지표입니다.",
         };
     }
   };
