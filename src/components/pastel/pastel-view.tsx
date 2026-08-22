@@ -1184,7 +1184,7 @@ function WidgetExplanationModal({
           icon: <CreditCard className="w-6 h-6 text-indigo-600" />,
           bgColor: "bg-indigo-500/10",
           borderColor: "border-indigo-500/30",
-          currentValue: `${summary.xpartnersCount}건 (8/21 기준 523건)`,
+          currentValue: `${summary.xpartnersCount}건`,
           formula: "엑스파트너스 포스 전산에 카운트되는 1일 1인 중복 제거 정회원 + 게스트 유료 승인표",
           description:
             "엑스파트너스 포스/키오스크에 실제로 신용카드 및 현금으로 기록된 '순수 유료 승인 결제표'입니다. 무료 쿠폰, 직원 테스트 타석, 초대권 58장은 전산 집계에서 자동 제외되어 깔끔한 유료 결제건만 나타납니다.",
@@ -1198,7 +1198,7 @@ function WidgetExplanationModal({
           icon: <UserCheck className="w-6 h-6 text-amber-500" />,
           bgColor: "bg-amber-500/10",
           borderColor: "border-amber-500/30",
-          currentValue: `${summary.initialEntryCount || 581}명 (8/21 기준 581명)`,
+          currentValue: `${summary.initialEntryCount || 581}명`,
           formula: "순수 정회원 머릿수 + 게스트 연장 이용을 제외한 1차 최초 신규 구매 티켓 수량",
           description:
             "게스트 손님이 연습 도중 추가로 2회~3회 연장 결제한 건수를 제외하고, '오늘 하루 프론트를 지나 골프장에 새로 걸어 들어온 1차 최초 신규 입장객 수'를 계산합니다.",
