@@ -12,20 +12,35 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const { data, error } = await supabase
-      .from("pastel_sessions")
-      .select("*")
-      .eq("date", date)
-      .range(0, 9999)
-      .order("start_time", { ascending: true });
+    let allRows: any[] = [];
+    let page = 0;
+    const pageSize = 1000;
+    let hasMore = true;
 
-    if (error) {
-      console.error("Supabase fetch error:", error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    while (hasMore && page < 20) {
+      const from = page * pageSize;
+      const to = from + pageSize - 1;
+      const { data, error } = await supabase
+        .from("pastel_sessions")
+        .select("*")
+        .eq("date", date)
+        .range(from, to)
+        .order("start_time", { ascending: true });
+
+      if (error || !data || data.length === 0) {
+        hasMore = false;
+      } else {
+        allRows = allRows.concat(data);
+        if (data.length < pageSize) {
+          hasMore = false;
+        } else {
+          page++;
+        }
+      }
     }
 
     // Map database snake_case columns to camelCase
-    const sessions = (data || []).map((row: any) => ({
+    const sessions = allRows.map((row: any) => ({
       id: row.id,
       date: row.date,
       startTime: row.start_time,
