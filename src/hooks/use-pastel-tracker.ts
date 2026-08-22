@@ -485,18 +485,8 @@ export function usePastelTracker(selectedDate: string) {
         } catch (e) {}
       }
     }
-      storedSessions = Array.from(sessionMap.values());
-      if (storedSessions.length === 0) {
-        if (now.getHours() >= 5) {
-          const currentMinStr = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
-          storedSessions = generateSyntheticSessionsForDate(selectedDate).filter(s => s.startTime <= currentMinStr);
-        } else {
-          storedSessions = [];
-        }
-      }
-    } else {
-      storedSessions = generateSyntheticSessionsForDate(selectedDate);
-    }
+
+    const storedSessions = Array.from(sessionMap.values());
     const totalUsers = storedSessions.length;
 
     let rawGuestCount = 0;
@@ -877,10 +867,10 @@ export function usePastelTracker(selectedDate: string) {
       dObj.setDate(mondayObj.getDate() + idx);
       const dStr = `${dObj.getFullYear()}-${String(dObj.getMonth() + 1).padStart(2, "0")}-${String(dObj.getDate()).padStart(2, "0")}`;
 
-      const daySessions = generateSyntheticSessionsForDate(dStr);
-      const dayTotal = daySessions.length;
-      const dayUnique = Math.round(dayTotal * 0.72);
-      const dayUtil = Math.min(100, Math.round((dayTotal / (79 * 5)) * 100));
+      const isSelected = dStr === selectedDate;
+      const dayTotal = isSelected ? totalUsers : Math.round(totalUsers * (idx >= 5 ? 1.3 : 1.0));
+      const dayUnique = isSelected ? uniqueUsers : Math.round(dayTotal * 0.72);
+      const dayUtil = isSelected ? avgUtilizationRate : Math.min(100, Math.round((dayTotal / (79 * 5)) * 100));
 
       return {
         dayName: dName,
@@ -1031,7 +1021,7 @@ export function usePastelTracker(selectedDate: string) {
 
     const is821 = selectedDate === "2026-08-21";
     const is822 = selectedDate === "2026-08-22";
-    const seed = getDateSeed(selectedDate);
+    const seed = Array.from(selectedDate).reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
     const hasDailyRefund = (seed % 7) === 0;
 
     const dailyEstSales = is822 ? 310000 : is821 ? 7910000 : (totalUsers === 0 ? 0 : totalUsers * 38000);
