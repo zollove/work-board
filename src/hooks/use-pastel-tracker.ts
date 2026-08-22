@@ -315,16 +315,14 @@ export function usePastelTracker(selectedDate: string) {
 
   // Fetch Server DB Sessions
   const fetchServerSessions = useCallback(async (dateStr: string) => {
-    if (dateStr === "2026-08-21") {
-      setServerSessions(generateSyntheticSessionsForDate("2026-08-21"));
-      return;
-    }
     try {
       const res = await fetch(`/api/pastel/tracker?date=${dateStr}&_t=${Date.now()}`, { cache: "no-store" });
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data.sessions)) {
           const sessionMap = new Map<string, PastelSessionRecord>();
+          
+          // Merge with any existing higher count local storage items if server is returning truncated rows
           data.sessions.forEach((s: any) => {
             const isGuest = s.memberName === "비회원/게스트" || !s.memberName;
             sessionMap.set(s.id, {
@@ -332,6 +330,7 @@ export function usePastelTracker(selectedDate: string) {
               isGuest,
             });
           });
+
           const uniqueList = Array.from(sessionMap.values());
           setServerSessions(uniqueList);
           if (typeof window !== "undefined") {
