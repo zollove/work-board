@@ -460,64 +460,31 @@ export function usePastelTracker(selectedDate: string) {
   }, [selectedDate, fetchServerSessions]);
 
   useEffect(() => {
-  function generateSyntheticSessionsForDate(dateStr: string): PastelSessionRecord[] {
-  // DB에서 아직 수집되지 않은 날짜에 대해서만 빈 배열 반환 (더미 데이터 완전 제거)
-  return [];
-}leNames[i % femaleNames.length] : maleNames[i % maleNames.length]);
+    fetchLiveStatus();
+    const interval = setInterval(() => {
+      fetchLiveStatus();
+    }, 45 * 1000);
 
-    const floorNum = (i % 3) + 1;
-    const teeboxNo = (i % 25) + 1;
-    const startHour = 5 + Math.floor((i / baseCount) * 16);
-    const startMin = (i * 15) % 60;
-    const startTime = `${String(startHour).padStart(2, "0")}:${String(startMin).padStart(2, "0")}`;
-    const endTime = `${String(startHour + 1).padStart(2, "0")}:${String(startMin).padStart(2, "0")}`;
-
-    list.push({
-      id: `hist_${dateStr}_${i}`,
-      date: dateStr,
-      floorCd: `${floorNum}`,
-      floorNm: `${floorNum}층`,
-      teeboxNm: `${teeboxNo}번`,
-      teeboxNo: `${floorNum}0${teeboxNo}`,
-      memberName,
-      gender,
-      startTime,
-      endTime,
-      remainMin: 0,
-      isGuest,
-    });
-  }
-
-  return list;
-}
+    return () => clearInterval(interval);
+  }, [fetchLiveStatus]);
 
   // Compute Full Advanced Daily, Weekly, and Monthly Summary with 30-Minute Precision
   const selectedSummary = useMemo<DailyPastelSummary>(() => {
     const sessionMap = new Map<string, PastelSessionRecord>();
 
-    const now = new Date();
-    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-    const isToday = selectedDate === todayStr;
+    // Always use serverSessions loaded from DB
+    serverSessions.forEach((s) => sessionMap.set(s.id, s));
 
-    let storedSessions: PastelSessionRecord[] = [];
-
-    if (selectedDate === "2026-08-21") {
-      storedSessions = generateSyntheticSessionsForDate("2026-08-21");
-      if (typeof window !== "undefined") {
-        localStorage.removeItem(getStorageKey("2026-08-21"));
+    if (sessionMap.size === 0 && typeof window !== "undefined") {
+      const key = getStorageKey(selectedDate);
+      const raw = localStorage.getItem(key);
+      if (raw) {
+        try {
+          const list: PastelSessionRecord[] = JSON.parse(raw);
+          list.forEach((s) => sessionMap.set(s.id, s));
+        } catch (e) {}
       }
-    } else if (isToday) {
-      serverSessions.forEach((s) => sessionMap.set(s.id, s));
-      if (sessionMap.size === 0 && typeof window !== "undefined") {
-        const key = getStorageKey(selectedDate);
-        const raw = localStorage.getItem(key);
-        if (raw) {
-          try {
-            const list: PastelSessionRecord[] = JSON.parse(raw);
-            list.forEach((s) => sessionMap.set(s.id, s));
-          } catch (e) {}
-        }
-      }
+    }
       storedSessions = Array.from(sessionMap.values());
       if (storedSessions.length === 0) {
         if (now.getHours() >= 5) {
