@@ -80,8 +80,7 @@ export function MailView() {
   const naverCount = useMemo(() => mails.filter((m) => m.provider === "naver").length, [mails]);
   const unreadCount = useMemo(() => mails.filter((m) => !m.isRead).length, [mails]);
 
-  const toggleSelectMail = (e: React.MouseEvent | React.ChangeEvent, mailId: string) => {
-    e.stopPropagation();
+  const toggleSelectMail = (mailId: string) => {
     setSelectedMailIds((prev) =>
       prev.includes(mailId) ? prev.filter((id) => id !== mailId) : [...prev, mailId]
     );
@@ -349,14 +348,20 @@ export function MailView() {
 
                       {/* 우측 선택 체크박스 */}
                       <div
-                        onClick={(e) => toggleSelectMail(e, mail.id)}
-                        className="p-1 hover:bg-muted rounded-md cursor-pointer flex items-center justify-center shrink-0"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleSelectMail(mail.id);
+                        }}
+                        className="p-1.5 hover:bg-muted/80 rounded-lg cursor-pointer flex items-center justify-center shrink-0"
                         title="선택"
                       >
                         <input
                           type="checkbox"
                           checked={isChecked}
-                          onChange={(e) => toggleSelectMail(e, mail.id)}
+                          onChange={(e) => {
+                            e.stopPropagation();
+                            toggleSelectMail(mail.id);
+                          }}
                           className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer accent-indigo-600"
                         />
                       </div>
