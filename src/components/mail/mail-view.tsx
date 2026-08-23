@@ -347,11 +347,8 @@ export function MailView() {
                       </Button>
 
                       {/* 우측 선택 체크박스 */}
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleSelectMail(mail.id);
-                        }}
+                      <label
+                        onClick={(e) => e.stopPropagation()}
                         className="p-1.5 hover:bg-muted/80 rounded-lg cursor-pointer flex items-center justify-center shrink-0"
                         title="선택"
                       >
@@ -364,7 +361,7 @@ export function MailView() {
                           }}
                           className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer accent-indigo-600"
                         />
-                      </div>
+                      </label>
                     </div>
                   </div>
                 </div>
