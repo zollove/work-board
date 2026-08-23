@@ -32,6 +32,7 @@ export function MailView() {
   const [selectedMail, setSelectedMail] = useState<MailItem | null>(null);
   const [replyText, setReplyText] = useState("");
   const [replySuccess, setReplySuccess] = useState(false);
+  const [selectedMailIds, setSelectedMailIds] = useState<string[]>([]);
 
   const fetchMails = async (provider = selectedProvider) => {
     setLoading(true);
@@ -51,11 +52,13 @@ export function MailView() {
 
   useEffect(() => {
     fetchMails(selectedProvider);
+    setSelectedMailIds([]);
   }, [selectedProvider]);
 
   const handleRefresh = () => {
     setRefreshing(true);
     fetchMails(selectedProvider);
+    setSelectedMailIds([]);
   };
 
   const filteredMails = useMemo(() => {
@@ -76,6 +79,27 @@ export function MailView() {
   const gmailCount = useMemo(() => mails.filter((m) => m.provider === "gmail").length, [mails]);
   const naverCount = useMemo(() => mails.filter((m) => m.provider === "naver").length, [mails]);
   const unreadCount = useMemo(() => mails.filter((m) => !m.isRead).length, [mails]);
+
+  const toggleSelectMail = (e: React.MouseEvent | React.ChangeEvent, mailId: string) => {
+    e.stopPropagation();
+    setSelectedMailIds((prev) =>
+      prev.includes(mailId) ? prev.filter((id) => id !== mailId) : [...prev, mailId]
+    );
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedMailIds.length === filteredMails.length && filteredMails.length > 0) {
+      setSelectedMailIds([]);
+    } else {
+      setSelectedMailIds(filteredMails.map((m) => m.id));
+    }
+  };
+
+  const handleBatchDelete = () => {
+    if (selectedMailIds.length === 0) return;
+    setMails((prev) => prev.filter((m) => !selectedMailIds.includes(m.id)));
+    setSelectedMailIds([]);
+  };
 
   const handleOpenMail = (mail: MailItem) => {
     setSelectedMail(mail);
@@ -208,19 +232,43 @@ export function MailView() {
 
       {/* 📩 Mail Card List View */}
       <Card className="border shadow-xs overflow-hidden">
-        <CardHeader className="py-3 px-4 bg-muted/20 border-b flex items-center justify-between">
-          <CardTitle className="text-xs sm:text-sm font-black flex items-center gap-2">
-            <span>
-              {selectedProvider === "all"
-                ? "📬 전체 통합 수신함"
-                : selectedProvider === "gmail"
-                ? "🔴 Google 지메일 수신함"
-                : "🟢 Naver 네이버 메일 수신함"}
-            </span>
-            <Badge variant="outline" className="text-[10px] font-bold">
-              총 {filteredMails.length}건
-            </Badge>
-          </CardTitle>
+        <CardHeader className="py-3 px-4 bg-muted/20 border-b flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <div className="flex items-center gap-3">
+            <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-muted-foreground hover:text-foreground">
+              <input
+                type="checkbox"
+                checked={selectedMailIds.length === filteredMails.length && filteredMails.length > 0}
+                onChange={toggleSelectAll}
+                className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer accent-indigo-600"
+              />
+              <span>전체 선택</span>
+            </label>
+
+            <CardTitle className="text-xs sm:text-sm font-black flex items-center gap-2">
+              <span>
+                {selectedProvider === "all"
+                  ? "📬 전체 통합 수신함"
+                  : selectedProvider === "gmail"
+                  ? "🔴 Google 지메일 수신함"
+                  : "🟢 Naver 네이버 메일 수신함"}
+              </span>
+              <Badge variant="outline" className="text-[10px] font-bold">
+                총 {filteredMails.length}건
+              </Badge>
+            </CardTitle>
+          </div>
+
+          {selectedMailIds.length > 0 && (
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={handleBatchDelete}
+              className="h-8 px-3 text-xs font-bold rounded-xl gap-1.5 shadow-xs animate-in fade-in zoom-in-95 duration-150"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+              <span>선택한 {selectedMailIds.length}개 일괄 삭제</span>
+            </Button>
+          )}
         </CardHeader>
 
         <CardContent className="p-0 divide-y">
@@ -237,13 +285,14 @@ export function MailView() {
           ) : (
             filteredMails.map((mail) => {
               const isGmail = mail.provider === "gmail";
+              const isChecked = selectedMailIds.includes(mail.id);
 
               return (
                 <div
                   key={mail.id}
                   onClick={() => handleOpenMail(mail)}
                   className={`p-4 hover:bg-muted/30 transition-all cursor-pointer flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 ${
-                    !mail.isRead ? "bg-indigo-500/5 font-semibold" : ""
+                    isChecked ? "bg-indigo-500/10 border-l-4 border-l-indigo-600" : (!mail.isRead ? "bg-indigo-500/5 font-semibold" : "")
                   }`}
                 >
                   <div className="flex items-start gap-3 w-full sm:w-auto flex-1 min-w-0">
@@ -281,21 +330,37 @@ export function MailView() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 whitespace-nowrap">
+                  <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 whitespace-nowrap">
                     <span className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1 whitespace-nowrap bg-muted/30 px-2 py-1 rounded-lg">
                       <Clock className="w-3 h-3 text-indigo-600 shrink-0" />
                       <span className="whitespace-nowrap">{mail.receivedAt ? mail.receivedAt.slice(0, 10) + " " + mail.receivedAt.slice(11, 16) : ""}</span>
                     </span>
 
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={(e) => handleDeleteMail(e, mail.id)}
-                      className="h-7 w-7 p-0 rounded-lg hover:bg-rose-500/10 hover:text-rose-600 text-muted-foreground transition-all shrink-0"
-                      title="휴지통으로 삭제"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </Button>
+                    <div className="flex items-center gap-1.5">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => handleDeleteMail(e, mail.id)}
+                        className="h-7 w-7 p-0 rounded-lg hover:bg-rose-500/10 hover:text-rose-600 text-muted-foreground transition-all shrink-0"
+                        title="휴지통으로 삭제"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+
+                      {/* 우측 선택 체크박스 */}
+                      <div
+                        onClick={(e) => toggleSelectMail(e, mail.id)}
+                        className="p-1 hover:bg-muted rounded-md cursor-pointer flex items-center justify-center shrink-0"
+                        title="선택"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={(e) => toggleSelectMail(e, mail.id)}
+                          className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer accent-indigo-600"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               );
