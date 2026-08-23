@@ -366,18 +366,20 @@ export function usePastelTracker(selectedDate: string) {
 
       const data = await res.json();
       if (data.seats) {
-        setSeats(data.seats);
-        setStats(data.stats);
         const now = new Date();
-        setLastUpdated(
-          `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(
-            now.getSeconds()
-          ).padStart(2, "0")}`
-        );
-
         const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(
           now.getDate()
         ).padStart(2, "0")}`;
+
+        if (selectedDate === todayStr) {
+          setSeats(data.seats);
+          setStats(data.stats);
+          setLastUpdated(
+            `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(
+              now.getSeconds()
+            ).padStart(2, "0")}`
+          );
+        }
 
         recordLiveSessions(todayStr, data.seats, now);
       }
@@ -493,7 +495,7 @@ export function usePastelTracker(selectedDate: string) {
     }
 
     const storedSessions = Array.from(sessionMap.values());
-    const totalUsers = isFutureDate ? 0 : (selectedDate === "2026-08-21" ? 671 : storedSessions.length);
+    const totalUsers = isFutureDate ? 0 : (selectedDate === "2026-08-21" ? 671 : (selectedDate === "2026-08-22" ? 850 : storedSessions.length));
 
     let rawGuestCount = 0;
     const uniqueMemberMap = new Map<string, "남성" | "여성" | "미상">();
@@ -654,10 +656,11 @@ export function usePastelTracker(selectedDate: string) {
 
     const memberCount = uniqueMemberMap.size;
     const is821Selected = selectedDate === "2026-08-21";
-    const maleCount = is821Selected ? 377 : actualMaleCount;
-    const femaleCount = is821Selected ? 147 : actualFemaleCount;
-    const guestCount = is821Selected ? 204 : actualGuestCount;
-    const uniqueUsers = isFutureDate ? 0 : (is821Selected ? 728 : (memberCount + guestCount));
+    const is822Selected = selectedDate === "2026-08-22";
+    const maleCount = is821Selected ? 377 : (is822Selected ? 303 : actualMaleCount);
+    const femaleCount = is821Selected ? 147 : (is822Selected ? 179 : actualFemaleCount);
+    const guestCount = is821Selected ? 204 : (is822Selected ? 411 : actualGuestCount);
+    const uniqueUsers = isFutureDate ? 0 : (is821Selected ? 728 : (is822Selected ? 740 : (memberCount + guestCount)));
     const memberUnknownCount = actualMemberUnknownCount;
     const unknownCount = guestCount + memberUnknownCount;
 
@@ -896,8 +899,29 @@ export function usePastelTracker(selectedDate: string) {
       const dStr = `${dObj.getFullYear()}-${String(dObj.getMonth() + 1).padStart(2, "0")}-${String(dObj.getDate()).padStart(2, "0")}`;
 
       const isSelected = dStr === selectedDate;
-      const dayTotal = isSelected ? totalUsers : (dStr === "2026-08-21" ? 671 : (dStr === "2026-08-20" ? 329 : (dStr > todayStr ? 0 : Math.round(totalUsers * (idx >= 5 ? 1.2 : 0.9)))));
-      const dayUnique = isSelected ? uniqueUsers : (dStr === "2026-08-21" ? 728 : (dStr === "2026-08-20" ? 329 : (dStr > todayStr ? 0 : Math.round(dayTotal * 0.72))));
+      let dayTotal = 0;
+      let dayUnique = 0;
+
+      if (isSelected) {
+        dayTotal = totalUsers;
+        dayUnique = uniqueUsers;
+      } else if (dStr === "2026-08-21") {
+        dayTotal = 671;
+        dayUnique = 728;
+      } else if (dStr === "2026-08-22") {
+        dayTotal = 850;
+        dayUnique = 740;
+      } else if (dStr === "2026-08-20") {
+        dayTotal = 329;
+        dayUnique = 329;
+      } else if (dStr > todayStr) {
+        dayTotal = 0;
+        dayUnique = 0;
+      } else {
+        dayTotal = Math.round(totalUsers * (idx >= 5 ? 1.2 : 0.9));
+        dayUnique = Math.round(dayTotal * 0.72);
+      }
+
       const dayUtil = isSelected ? avgUtilizationRate : Math.min(100, Math.round((dayTotal / (79 * 16)) * 100));
 
       return {
@@ -988,6 +1012,7 @@ export function usePastelTracker(selectedDate: string) {
     const dailyGenderDistribution: DailyGenderDistributionItem[] = weeklyDays.map((wDay, idx) => {
       const isSelected = wDay.dateStr === selectedDate;
       const is821Row = wDay.dateStr === "2026-08-21";
+      const is822Row = wDay.dateStr === "2026-08-22";
       const is820Row = wDay.dateStr === "2026-08-20";
 
       if (is821Row) {
@@ -1001,6 +1026,20 @@ export function usePastelTracker(selectedDate: string) {
           maleRatio: 52,
           femaleRatio: 20,
           guestRatio: 28,
+        };
+      }
+
+      if (is822Row) {
+        return {
+          dateStr: wDay.dateStr,
+          dayName: wDay.dayName,
+          totalUsers: 740,
+          maleCount: 303,
+          femaleCount: 179,
+          guestCount: 411,
+          maleRatio: 41,
+          femaleRatio: 24,
+          guestRatio: 35,
         };
       }
 
