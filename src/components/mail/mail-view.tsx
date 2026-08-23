@@ -16,6 +16,7 @@ import {
   ExternalLink,
   ShieldCheck,
   Filter,
+  Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -82,6 +83,11 @@ export function MailView() {
     setReplySuccess(false);
     // Mark as read locally
     setMails((prev) => prev.map((m) => (m.id === mail.id ? { ...m, isRead: true } : m)));
+  };
+
+  const handleDeleteMail = (e: React.MouseEvent, mailId: string) => {
+    e.stopPropagation();
+    setMails((prev) => prev.filter((m) => m.id !== mailId));
   };
 
   const handleSendReply = () => {
@@ -240,7 +246,7 @@ export function MailView() {
                     !mail.isRead ? "bg-indigo-500/5 font-semibold" : ""
                   }`}
                 >
-                  <div className="flex items-start gap-3 w-full sm:w-auto flex-1">
+                  <div className="flex items-start gap-3 w-full sm:w-auto flex-1 min-w-0">
                     {/* 계정 뱃지 */}
                     <div className="shrink-0 mt-0.5">
                       {isGmail ? (
@@ -261,7 +267,7 @@ export function MailView() {
                         <span className={`text-xs ${!mail.isRead ? "font-black text-foreground" : "font-bold text-muted-foreground"}`}>
                           {mail.senderName}
                         </span>
-                        <span className="text-[10px] text-muted-foreground">({mail.senderEmail})</span>
+                        <span className="text-[10px] text-muted-foreground truncate max-w-[180px]">({mail.senderEmail})</span>
                         {mail.isStarred && <Star className="w-3 h-3 text-amber-500 fill-amber-500 shrink-0" />}
                       </div>
 
@@ -275,11 +281,21 @@ export function MailView() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0">
-                    <span className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      <span>{new Date(mail.receivedAt).toLocaleDateString()} {new Date(mail.receivedAt).toLocaleTimeString().slice(0, 5)}</span>
+                  <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 whitespace-nowrap">
+                    <span className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1 whitespace-nowrap bg-muted/30 px-2 py-1 rounded-lg">
+                      <Clock className="w-3 h-3 text-indigo-600 shrink-0" />
+                      <span className="whitespace-nowrap">{mail.receivedAt ? mail.receivedAt.slice(0, 10) + " " + mail.receivedAt.slice(11, 16) : ""}</span>
                     </span>
+
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={(e) => handleDeleteMail(e, mail.id)}
+                      className="h-7 w-7 p-0 rounded-lg hover:bg-rose-500/10 hover:text-rose-600 text-muted-foreground transition-all shrink-0"
+                      title="휴지통으로 삭제"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </Button>
                   </div>
                 </div>
               );
