@@ -42,7 +42,7 @@ async function fetchRealNaverPop3Mails(count = 25): Promise<MailItem[]> {
         client.destroy();
       } catch (e) {}
       resolve([]);
-    }, 8000);
+    }, 1500);
 
     client.on("data", (data) => {
       const str = data.toString("utf-8");
@@ -202,7 +202,67 @@ export async function getNaverMails(): Promise<MailItem[]> {
   ];
 }
 
-export async function getGmailMails(): Promise<MailItem[]> {
+export async function getGmailMails(accessToken?: string): Promise<MailItem[]> {
+  if (accessToken) {
+    try {
+      const listRes = await fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=15", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      if (listRes.ok) {
+        const listData = await listRes.json();
+        const messages = listData.messages || [];
+
+        const detailPromises = messages.map(async (msg: { id: string }) => {
+          const detailRes = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${msg.id}?format=full`, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          });
+          if (!detailRes.ok) return null;
+          const d = await detailRes.json();
+
+          const headers = d.payload?.headers || [];
+          const getH = (name: string) => headers.find((h: any) => h.name.toLowerCase() === name.toLowerCase())?.value || "";
+
+          const subject = getH("Subject") || "제목 없음";
+          const rawFrom = getH("From") || "Unknown";
+          const dateStr = getH("Date") || new Date().toISOString();
+
+          let senderName = rawFrom;
+          let senderEmail = "zollove@gmail.com";
+          if (rawFrom.includes("<")) {
+            const parts = rawFrom.split("<");
+            senderName = parts[0].replace(/"/g, "").trim() || parts[1].replace(">", "").trim();
+            senderEmail = parts[1].replace(">", "").trim();
+          }
+
+          const isUnread = d.labelIds?.includes("UNREAD") ?? false;
+          const isStarred = d.labelIds?.includes("STARRED") ?? false;
+
+          return {
+            id: `gmail-live-${d.id}`,
+            provider: "gmail" as const,
+            accountEmail: "zollove@gmail.com",
+            senderName,
+            senderEmail,
+            subject,
+            snippet: d.snippet || subject,
+            body: d.snippet || subject,
+            receivedAt: new Date(dateStr).toISOString(),
+            isRead: !isUnread,
+            isStarred,
+          };
+        });
+
+        const fetchedMails = (await Promise.all(detailPromises)).filter(Boolean) as MailItem[];
+        if (fetchedMails.length > 0) {
+          return fetchedMails;
+        }
+      }
+    } catch (e) {
+      console.error("Gmail API fetch error:", e);
+    }
+  }
+
+  // Gmail Fallback Dataset
   return [
     {
       id: "gmail-001",

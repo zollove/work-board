@@ -7,9 +7,10 @@ export const dynamic = "force-dynamic";
 export async function GET(req: NextRequest) {
   try {
     const provider = req.nextUrl.searchParams.get("provider") || "all";
+    const gmailToken = req.cookies.get("gmail_access_token")?.value;
 
     const [gmailList, naverList] = await Promise.all([
-      getGmailMails(),
+      getGmailMails(gmailToken),
       getNaverMails(),
     ]);
 

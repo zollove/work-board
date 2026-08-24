@@ -33,6 +33,14 @@ export function MailView() {
   const [replyText, setReplyText] = useState("");
   const [replySuccess, setReplySuccess] = useState(false);
   const [selectedMailIds, setSelectedMailIds] = useState<string[]>([]);
+  const [deletedIds, setDeletedIds] = useState<string[]>([]);
+
+  const saveDeletedIds = (newIds: string[]) => {
+    setDeletedIds(newIds);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("pastel_deleted_mail_ids", JSON.stringify(newIds));
+    }
+  };
 
   const fetchMails = async (provider = selectedProvider) => {
     setLoading(true);
@@ -40,7 +48,8 @@ export function MailView() {
       const res = await fetch(`/api/mail?provider=${provider}&_t=${Date.now()}`);
       if (res.ok) {
         const data = await res.json();
-        setMails(data.mails || []);
+        const rawMails: MailItem[] = data.mails || [];
+        setMails(rawMails);
       }
     } catch (e) {
       console.error("Mail fetch error:", e);
@@ -63,6 +72,7 @@ export function MailView() {
 
   const filteredMails = useMemo(() => {
     return mails.filter((m) => {
+      if (deletedIds.includes(m.id)) return false;
       if (selectedProvider !== "all" && m.provider !== selectedProvider) return false;
       if (unreadOnly && m.isRead) return false;
       if (searchQuery.trim()) {
@@ -74,11 +84,23 @@ export function MailView() {
       }
       return true;
     });
-  }, [mails, selectedProvider, unreadOnly, searchQuery]);
+  }, [mails, deletedIds, selectedProvider, unreadOnly, searchQuery]);
 
-  const gmailCount = useMemo(() => mails.filter((m) => m.provider === "gmail").length, [mails]);
-  const naverCount = useMemo(() => mails.filter((m) => m.provider === "naver").length, [mails]);
-  const unreadCount = useMemo(() => mails.filter((m) => !m.isRead).length, [mails]);
+  const gmailCount = useMemo(() => filteredMails.filter((m) => m.provider === "gmail").length, [filteredMails]);
+  const naverCount = useMemo(() => filteredMails.filter((m) => m.provider === "naver").length, [filteredMails]);
+  const unreadCount = useMemo(() => filteredMails.filter((m) => !m.isRead).length, [filteredMails]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("mail-count-set", { detail: { count: unreadCount } })
+      );
+    }
+  }, [unreadCount]);
+
+  const handleMarkAllRead = () => {
+    setMails((prev) => prev.map((m) => ({ ...m, isRead: true })));
+  };
 
   const toggleSelectMail = (mailId: string) => {
     setSelectedMailIds((prev) =>
@@ -96,7 +118,8 @@ export function MailView() {
 
   const handleBatchDelete = () => {
     if (selectedMailIds.length === 0) return;
-    setMails((prev) => prev.filter((m) => !selectedMailIds.includes(m.id)));
+    const updatedDeleted = Array.from(new Set([...deletedIds, ...selectedMailIds]));
+    saveDeletedIds(updatedDeleted);
     setSelectedMailIds([]);
   };
 
@@ -104,13 +127,18 @@ export function MailView() {
     setSelectedMail(mail);
     setReplyText("");
     setReplySuccess(false);
-    // Mark as read locally
     setMails((prev) => prev.map((m) => (m.id === mail.id ? { ...m, isRead: true } : m)));
   };
 
   const handleDeleteMail = (e: React.MouseEvent, mailId: string) => {
     e.stopPropagation();
-    setMails((prev) => prev.filter((m) => m.id !== mailId));
+    const updatedDeleted = Array.from(new Set([...deletedIds, mailId]));
+    saveDeletedIds(updatedDeleted);
+  };
+
+  const handleRestoreMails = () => {
+    saveDeletedIds([]);
+    setSelectedMailIds([]);
   };
 
   const handleSendReply = () => {
@@ -145,6 +173,19 @@ export function MailView() {
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+          {unreadCount > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleMarkAllRead}
+              className="h-9 px-3 text-xs font-bold gap-1 rounded-xl shadow-xs border-emerald-500/30 bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20"
+              title="모든 안읽은 메일을 읽음 상태로 변경"
+            >
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>모두 읽음 처리</span>
+            </Button>
+          )}
+
           <Button
             variant="outline"
             size="sm"
