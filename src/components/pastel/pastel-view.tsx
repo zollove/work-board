@@ -1163,6 +1163,17 @@ export function PastelView() {
           )}
         </Card>
       )}
+
+      {selectedWidgetModal && (
+        <WidgetExplanationModal
+          type={selectedWidgetModal}
+          onClose={() => setSelectedWidgetModal(null)}
+          summary={summary}
+          stats={stats}
+          utilizationRate={utilizationRate}
+          isToday={isToday}
+        />
+      )}
     </div>
   );
 }
@@ -1174,12 +1185,14 @@ function WidgetExplanationModal({
   summary,
   stats,
   utilizationRate,
+  isToday,
 }: {
   type: string;
   onClose: () => void;
   summary: any;
   stats: any;
   utilizationRate: number;
+  isToday?: boolean;
 }) {
   const getModalContent = () => {
     switch (type) {
@@ -1269,15 +1282,19 @@ function WidgetExplanationModal({
 
       case "utilization":
       default:
+        const displayUtilRate = isToday ? utilizationRate : summary.avgUtilizationRate;
         return {
-          title: "7번 선택일 평균 가동률 (16시간 풀가동 기준)",
+          title: isToday ? "7번 실시간 가동률 (현재 점유 기준)" : "7번 선택일 평균 가동률 (16시간 풀가동 기준)",
           icon: <Flame className="w-6 h-6 text-rose-500" />,
           bgColor: "bg-rose-500/10",
           borderColor: "border-rose-500/30",
-          currentValue: `${summary.avgUtilizationRate}%`,
-          formula: "선택일 평균 가동률(%) = (당일 총 회전수 ÷ 16시간 풀가동 이론상 수용량 1,264회) × 100",
-          description:
-            "하루 영업시간 16시간(06:00~22:00) 동안 79개 전 타석의 이론상 최대 가능 회전수(1,264회) 대비 실제 가동된 정밀 백분율입니다.",
+          currentValue: `${displayUtilRate}% (${isToday ? `${stats.using_cnt}석 이용중 / 79석` : `당일 회전수 ${summary.totalUsers}회 / 1,264회`})`,
+          formula: isToday
+            ? "실시간 가동률(%) = (현재 이용 중인 타석 수 ÷ 전체 79개 타석) × 100"
+            : "선택일 평균 가동률(%) = (당일 총 회전수 ÷ 16시간 풀가동 이론상 수용량 1,264회) × 100",
+          description: isToday
+            ? "현재 시각 기준 파스텔골프클럽 79개 타석 중 손님이 들어와 실제로 연습하고 있는 실시간 가동 비율입니다."
+            : "하루 영업시간 16시간(06:00~22:00) 동안 79개 전 타석의 이론상 최대 가능 회전수(1,264회) 대비 실제 가동된 정밀 백분율입니다.",
           practicalUse:
             "🔥 [운용 효율 & 매출 최적화]: 매장의 시간대별 가동 효율 분석 및 주중 틈새 시간대 모닝 쿠폰 프로모션 설계 기준 지표입니다.",
         };
