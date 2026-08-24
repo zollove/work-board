@@ -116,11 +116,25 @@ export function MailView() {
     }
   };
 
+  const sendDeleteApi = async (ids: string[]) => {
+    try {
+      await fetch("/api/mail/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mailIds: ids }),
+      });
+    } catch (e) {
+      console.error("Delete API call error:", e);
+    }
+  };
+
   const handleBatchDelete = () => {
     if (selectedMailIds.length === 0) return;
-    const updatedDeleted = Array.from(new Set([...deletedIds, ...selectedMailIds]));
+    const targetIds = [...selectedMailIds];
+    const updatedDeleted = Array.from(new Set([...deletedIds, ...targetIds]));
     saveDeletedIds(updatedDeleted);
     setSelectedMailIds([]);
+    sendDeleteApi(targetIds);
   };
 
   const handleOpenMail = (mail: MailItem) => {
@@ -134,6 +148,7 @@ export function MailView() {
     e.stopPropagation();
     const updatedDeleted = Array.from(new Set([...deletedIds, mailId]));
     saveDeletedIds(updatedDeleted);
+    sendDeleteApi([mailId]);
   };
 
   const handleRestoreMails = () => {

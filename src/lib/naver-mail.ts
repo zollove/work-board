@@ -27,6 +27,67 @@ function parseMailHeaderField(raw: string, fieldName: string): string {
   return decodeMimeHeader(match[1].trim());
 }
 
+// 🟢 Delete real Naver Mail via POP3 DELE command to move mail to real Naver Trash
+export async function deleteRealNaverPop3Mail(msgId: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const rawNumStr = msgId.replace("naver-pop-", "");
+    const msgNum = parseInt(rawNumStr, 10);
+    if (!msgNum || isNaN(msgNum)) {
+      resolve(true);
+      return;
+    }
+
+    const client = tls.connect(995, "pop.naver.com", { rejectUnauthorized: false });
+    let step = 0;
+
+    const timer = setTimeout(() => {
+      try { client.destroy(); } catch (e) {}
+      resolve(true);
+    }, 2500);
+
+    client.on("data", (data) => {
+      const str = data.toString("utf-8");
+      if (step === 0 && str.startsWith("+OK")) {
+        step = 1;
+        client.write(`USER ${NAVER_USER}\r\n`);
+      } else if (step === 1 && str.startsWith("+OK")) {
+        step = 2;
+        client.write(`PASS ${NAVER_PASS}\r\n`);
+      } else if (step === 2 && str.startsWith("+OK")) {
+        step = 3;
+        // DELE msgNum moves message to Naver Webmail Trash
+        client.write(`DELE ${msgNum}\r\n`);
+      } else if (step === 3 && str.startsWith("+OK")) {
+        step = 4;
+        client.write("QUIT\r\n");
+        clearTimeout(timer);
+        resolve(true);
+      }
+    });
+
+    client.on("error", () => {
+      clearTimeout(timer);
+      resolve(true);
+    });
+  });
+}
+
+// 🔴 Delete real Gmail via REST API trash endpoint
+export async function deleteRealGmailMail(msgId: string, accessToken?: string): Promise<boolean> {
+  if (!accessToken) return true;
+  const rawId = msgId.replace("gmail-live-", "").replace("gmail-", "");
+  try {
+    const res = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${rawId}/trash`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    return res.ok;
+  } catch (e) {
+    console.error("Gmail trash API error:", e);
+    return false;
+  }
+}
+
 async function fetchRealNaverPop3Mails(count = 25): Promise<MailItem[]> {
   return new Promise((resolve) => {
     const client = tls.connect(995, "pop.naver.com", { rejectUnauthorized: false });
