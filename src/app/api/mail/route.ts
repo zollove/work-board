@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getGmailMails, getNaverMails } from "@/lib/naver-mail";
+import { getGmailMails } from "@/lib/naver-mail";
+import { fetchNaverMailsViaRest } from "@/lib/naver-rest-connector";
 import { MailItem } from "@/types/mail";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +12,7 @@ export async function GET(req: NextRequest) {
 
     const [gmailList, naverList] = await Promise.all([
       getGmailMails(gmailToken),
-      getNaverMails(),
+      fetchNaverMailsViaRest(25),
     ]);
 
     let combinedMails: MailItem[] = [];

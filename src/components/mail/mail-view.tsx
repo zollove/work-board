@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   Filter,
   Trash2,
+  Key,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -187,7 +188,20 @@ export function MailView() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+        <div className="flex items-center gap-2 w-full sm:w-auto justify-end flex-wrap">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              window.location.href = "/api/auth/google";
+            }}
+            className="h-9 px-3 text-xs font-bold gap-1.5 rounded-xl shadow-xs border-rose-500/30 bg-rose-500/10 text-rose-600 hover:bg-rose-500/20"
+            title="구글 계정 인증으로 실제 지메일 100% 라이브 연동"
+          >
+            <Key className="w-3.5 h-3.5" />
+            <span>🔑 Google 계정으로 로그인</span>
+          </Button>
+
           {unreadCount > 0 && (
             <Button
               variant="outline"
