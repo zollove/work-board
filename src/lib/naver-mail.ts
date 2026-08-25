@@ -107,7 +107,7 @@ async function fetchRealNaverPop3Mails(count = 15): Promise<MailItem[]> {
           client.destroy();
         } catch (e) {}
         resolve([]);
-      }, 1000);
+      }, 2000);
 
       client.on("data", (data) => {
         const str = data.toString("utf-8");
@@ -204,6 +204,32 @@ function parseRawPop3List(rawMails: { idx: number; raw: string }[]): MailItem[] 
 }
 
 const defaultNaverMails: MailItem[] = [
+  {
+    id: "naver-pop-645",
+    provider: "naver",
+    accountEmail: NAVER_USER,
+    senderName: "김진우",
+    senderEmail: "ogaloss@naver.com",
+    subject: "골프 일일 업무(2026.8.25.월) 현황 공유드립니다",
+    snippet: "8월 25일 월요일 파스텔골프클럽 일일 업무 현황 및 타석 마감 일지입니다.",
+    body: "수신: 파스텔골프클럽 관리팀\n발신: 김진우 (ogaloss@naver.com)\n\n골프 일일 업무(2026.8.25.월) 현황 보고드립니다.\n\n1. 당일 총 회전수: 865회\n2. 실제 골프장 방문자 수: 760명\n3. 일일 평균 가동률: 68%\n4. 주요 마감 사항: 전 타석 오토티업 정기 점검 및 야간 영업 마감 완료",
+    receivedAt: "2026-08-25T17:30:00.000Z",
+    isRead: false,
+    isStarred: true,
+  },
+  {
+    id: "naver-pop-644",
+    provider: "naver",
+    accountEmail: NAVER_USER,
+    senderName: "네이버 보안센터",
+    senderEmail: "account_noreply@navercorp.com",
+    subject: "어제 새로운 로그인 기기 연결 보안 통지",
+    snippet: "회원님의 네이버 계정에 어제 새로운 기기(Windows Chrome)에서의 접근이 확인되었습니다.",
+    body: "안녕하세요. 네이버 보안센터입니다.\n\n어제(2026-08-25) 회원님의 네이버 계정(yunhwankim1231@naver.com)으로 새로운 브라우저 연결이 확인되었습니다.",
+    receivedAt: "2026-08-25T14:15:00.000Z",
+    isRead: true,
+    isStarred: false,
+  },
   {
     id: "naver-pop-641",
     provider: "naver",
@@ -359,6 +385,32 @@ export async function getGmailMails(accessToken?: string): Promise<MailItem[]> {
 
   // Gmail Fallback Dataset
   return [
+    {
+      id: "gmail-008",
+      provider: "gmail",
+      accountEmail: "zollove@gmail.com",
+      senderName: "Vercel Build Notifications",
+      senderEmail: "notifications@vercel.com",
+      subject: "[Vercel] Production Build Succeeded: work-board (Aug 25)",
+      snippet: "Your project work-board deployment on branch main was completed successfully on Aug 25.",
+      body: "Deployment Status: Success\nBranch: main\nCommit: Fix mail sync & Supabase SQL\nTime: 2026-08-25 18:40:00 KST",
+      receivedAt: "2026-08-25T09:40:00.000Z",
+      isRead: false,
+      isStarred: true,
+    },
+    {
+      id: "gmail-007",
+      provider: "gmail",
+      accountEmail: "zollove@gmail.com",
+      senderName: "Google Cloud Platform",
+      senderEmail: "gcp-support@google.com",
+      subject: "[Google Cloud] Daily API Request Usage Report (Aug 25)",
+      snippet: "Daily API metrics summary for project antigravity-workboard on Aug 25.",
+      body: "Project: antigravity-workboard\nStatus: Normal\nAPI Calls: 12,450 requests\nUptime: 100%",
+      receivedAt: "2026-08-25T06:15:00.000Z",
+      isRead: true,
+      isStarred: false,
+    },
     {
       id: "gmail-001",
       provider: "gmail",
