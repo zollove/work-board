@@ -203,124 +203,14 @@ function parseRawPop3List(rawMails: { idx: number; raw: string }[]): MailItem[] 
   });
 }
 
-const defaultNaverMails: MailItem[] = [
-  {
-    id: "naver-pop-645",
-    provider: "naver",
-    accountEmail: NAVER_USER,
-    senderName: "김진우",
-    senderEmail: "ogaloss@naver.com",
-    subject: "골프 일일 업무(2026.8.25.월) 현황 공유드립니다",
-    snippet: "8월 25일 월요일 파스텔골프클럽 일일 업무 현황 및 타석 마감 일지입니다.",
-    body: "수신: 파스텔골프클럽 관리팀\n발신: 김진우 (ogaloss@naver.com)\n\n골프 일일 업무(2026.8.25.월) 현황 보고드립니다.\n\n1. 당일 총 회전수: 865회\n2. 실제 골프장 방문자 수: 760명\n3. 일일 평균 가동률: 68%\n4. 주요 마감 사항: 전 타석 오토티업 정기 점검 및 야간 영업 마감 완료",
-    receivedAt: "2026-08-25T17:30:00.000Z",
-    isRead: false,
-    isStarred: true,
-  },
-  {
-    id: "naver-pop-644",
-    provider: "naver",
-    accountEmail: NAVER_USER,
-    senderName: "네이버 보안센터",
-    senderEmail: "account_noreply@navercorp.com",
-    subject: "어제 새로운 로그인 기기 연결 보안 통지",
-    snippet: "회원님의 네이버 계정에 어제 새로운 기기(Windows Chrome)에서의 접근이 확인되었습니다.",
-    body: "안녕하세요. 네이버 보안센터입니다.\n\n어제(2026-08-25) 회원님의 네이버 계정(yunhwankim1231@naver.com)으로 새로운 브라우저 연결이 확인되었습니다.",
-    receivedAt: "2026-08-25T14:15:00.000Z",
-    isRead: true,
-    isStarred: false,
-  },
-  {
-    id: "naver-pop-641",
-    provider: "naver",
-    accountEmail: NAVER_USER,
-    senderName: "네이버 보안센터",
-    senderEmail: "account_noreply@navercorp.com",
-    subject: "2단계 인증을 위한 애플리케이션 비밀번호 생성 완료",
-    snippet: "회원님의 네이버 계정에 종합 메일 연동 애플리케이션 비밀번호가 등록되었습니다.",
-    body: "안녕하세요. 네이버 보안센터입니다.\n\n회원님의 네이버 계정(yunhwankim1231@naver.com)에 외부 메일 모듈 접근을 위한 2단계 인증 애플리케이션 비밀번호가 성공적으로 연동되었습니다.\n\n- 일시: 2026-08-23 09:13:27\n- 서비스: 종합 메일 모듈",
-    receivedAt: "2026-08-23T00:13:27.000Z",
-    isRead: false,
-    isStarred: true,
-  },
-  {
-    id: "naver-pop-640",
-    provider: "naver",
-    accountEmail: NAVER_USER,
-    senderName: "놀유니버스",
-    senderEmail: "no-reply@nol-universe.com",
-    subject: "[NOL] 개인정보 이용·제공 내역 및 수집 출처 안내",
-    snippet: "정보통신망법 제30조의2에 따라 회원님의 개인정보 이용 내역을 안내해 드립니다.",
-    body: "안녕하세요. 놀유니버스입니다.\n\n개인정보보호법에 의거하여 회원님의 개인정보 이용 및 제3자 제공 내역을 통지해 드립니다.\n\n- 수수자: NOL 서비스 운영팀\n- 일시: 2026년 8월 22일 21:02",
-    receivedAt: "2026-08-22T12:02:18.000Z",
-    isRead: true,
-    isStarred: false,
-  },
-  {
-    id: "naver-pop-638",
-    provider: "naver",
-    accountEmail: NAVER_USER,
-    senderName: "김진우",
-    senderEmail: "ogaloss@naver.com",
-    subject: "골프 일일 업무(2026.8.22.토) 현황 공유드립니다",
-    snippet: "8월 22일 토요일 파스텔골프클럽 일일 업무 현황 및 타석 기동 일지입니다.",
-    body: "수신: 파스텔골프클럽 관리팀\n발신: 김진우 (ogaloss@naver.com)\n\n골프 일일 업무(2026.8.22.토) 현황 보고드립니다.\n\n1. 당일 총 회전수: 850회\n2. 실제 골프장 방문자 수: 740명\n3. 일일 평균 가동률: 67%\n4. 주요 마감 사항: 전 타석 오토티업 수거 및 주말 마감 점검 완료",
-    receivedAt: "2026-08-22T07:45:00.000Z",
-    isRead: false,
-    isStarred: true,
-  },
-  {
-    id: "naver-pop-637",
-    provider: "naver",
-    accountEmail: NAVER_USER,
-    senderName: "김진우",
-    senderEmail: "ogaloss@naver.com",
-    subject: "테스트",
-    snippet: "네이버 메일 연결 테스트 메시지입니다.",
-    body: "네이버 메일 수신 연결 테스트입니다.",
-    receivedAt: "2026-08-22T01:46:20.000Z",
-    isRead: true,
-    isStarred: false,
-  },
-  {
-    id: "naver-pop-635",
-    provider: "naver",
-    accountEmail: NAVER_USER,
-    senderName: "네이버 메일팀",
-    senderEmail: "mail_help@naver.com",
-    subject: "POP3/IMAP 외부 메일 서비스 연결 설정이 연동되었습니다",
-    snippet: "파스텔골프클럽 통합 메일함에 네이버 메일 계정이 성공적으로 연동되었습니다.",
-    body: "안녕하세요. 네이버 메일팀입니다.\n\n회원님의 네이버 메일 계정(yunhwankim1231@naver.com)이 파스텔골프클럽 외부 메일 모듈에 연결되었습니다.\n- 수신 시각: 2026년 8월 21일 10:15",
-    receivedAt: "2026-08-21T01:15:00.000Z",
-    isRead: true,
-    isStarred: false,
-  },
-  {
-    id: "naver-pop-634",
-    provider: "naver",
-    accountEmail: NAVER_USER,
-    senderName: "네이버 개인정보",
-    senderEmail: "privacy_notice@navercorp.com",
-    subject: "[네이버] 2026년 8월 개인정보 이용 내역 정기 통지",
-    snippet: "개인정보보호법 제30조의2에 따라 회원님의 개인정보 이용 내역을 안내드립니다.",
-    body: "안녕하세요. 네이버입니다.\n\n관련 법령에 따라 회원님의 개인정보 이용 및 수집 내역을 2026년 8월 기준 정기 통지해 드립니다.",
-    receivedAt: "2026-08-21T00:00:00.000Z",
-    isRead: true,
-    isStarred: false,
-  },
-];
-
 export async function getNaverMails(): Promise<MailItem[]> {
   try {
-    const realMails = await fetchRealNaverPop3Mails(15);
-    if (realMails && realMails.length > 0) {
-      return realMails;
-    }
+    const realMails = await fetchRealNaverPop3Mails(25);
+    return realMails || [];
   } catch (e) {
     console.error("Live Naver POP3 fetch error:", e);
+    return [];
   }
-
-  return defaultNaverMails;
 }
 
 export async function getGmailMails(accessToken?: string): Promise<MailItem[]> {
