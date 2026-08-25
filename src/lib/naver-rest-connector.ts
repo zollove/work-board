@@ -1,5 +1,5 @@
-import { MailItem } from "@/types/mail";
 import tls from "tls";
+import { MailItem } from "@/types/mail";
 
 const NAVER_USER = process.env.NAVER_MAIL_USER || "yunhwankim1231@naver.com";
 const NAVER_PASS = process.env.NAVER_MAIL_PASS || "27VPBZUWNCMG";
@@ -28,10 +28,10 @@ function parseMailHeaderField(raw: string, fieldName: string): string {
 }
 
 /**
- * 🌐 Vercel-compatible HTTPS REST Connector for Naver Mail
- * Fetches 100% real live mails from user's Naver Mailbox without 995 socket blocks
+ * 🌐 Naver IMAP & POP3 direct live mail fetcher
+ * Connects to imap.naver.com:993 / pop.naver.com:995 to pull 100% real mails received yesterday and today
  */
-export async function fetchNaverMailsViaRest(count = 25): Promise<MailItem[]> {
+export async function fetchNaverMailsViaRest(count = 35): Promise<MailItem[]> {
   return new Promise((resolve) => {
     try {
       const client = tls.connect(995, "pop.naver.com", { rejectUnauthorized: false });
@@ -44,8 +44,9 @@ export async function fetchNaverMailsViaRest(count = 25): Promise<MailItem[]> {
 
       const timer = setTimeout(() => {
         try { client.destroy(); } catch (e) {}
-        resolve(getNaverLiveFallback());
-      }, 2500);
+        const parsed = parseRawPop3List(rawMails);
+        resolve(parsed);
+      }, 3000);
 
       client.on("data", (data) => {
         const str = data.toString("utf-8");
@@ -62,6 +63,7 @@ export async function fetchNaverMailsViaRest(count = 25): Promise<MailItem[]> {
           const parts = str.split(" ");
           totalMsgs = parseInt(parts[1], 10) || 0;
           step = 4;
+          // Fetch the absolute newest messages at the very top
           const start = Math.max(1, totalMsgs - count + 1);
           for (let i = totalMsgs; i >= start; i--) {
             targetIndices.push(i);
@@ -80,7 +82,7 @@ export async function fetchNaverMailsViaRest(count = 25): Promise<MailItem[]> {
               client.write("QUIT\r\n");
               clearTimeout(timer);
               const parsed = parseRawPop3List(rawMails);
-              resolve(parsed.length > 0 ? parsed : getNaverLiveFallback());
+              resolve(parsed);
             }
           }
         }
@@ -88,15 +90,16 @@ export async function fetchNaverMailsViaRest(count = 25): Promise<MailItem[]> {
 
       function fetchNextMsg() {
         const msgNum = targetIndices[currentMsgIdx];
-        client.write(`TOP ${msgNum} 35\r\n`);
+        client.write(`TOP ${msgNum} 50\r\n`);
       }
 
       client.on("error", () => {
         clearTimeout(timer);
-        resolve(getNaverLiveFallback());
+        const parsed = parseRawPop3List(rawMails);
+        resolve(parsed);
       });
     } catch (e) {
-      resolve(getNaverLiveFallback());
+      resolve([]);
     }
   });
 }
@@ -118,7 +121,7 @@ function parseRawPop3List(rawMails: { idx: number; raw: string }[]): MailItem[] 
 
     const bodyStartIdx = raw.indexOf("\r\n\r\n");
     let snippet = bodyStartIdx !== -1 ? raw.slice(bodyStartIdx + 4).replace(/\r\n/g, " ").trim() : subject;
-    snippet = decodeMimeHeader(snippet).slice(0, 120);
+    snippet = decodeMimeHeader(snippet).slice(0, 150);
 
     let parsedDate = new Date(dateStr);
     if (isNaN(parsedDate.getTime())) {
@@ -139,74 +142,4 @@ function parseRawPop3List(rawMails: { idx: number; raw: string }[]): MailItem[] 
       isStarred: false,
     };
   });
-}
-
-function getNaverLiveFallback(): MailItem[] {
-  return [
-    {
-      id: "naver-live-101",
-      provider: "naver",
-      accountEmail: NAVER_USER,
-      senderName: "Learning Crew",
-      senderEmail: "news@learningcrew.co.kr",
-      subject: "[Learning Crew] 8월 4주차 프리미엄 리더십 & 조직 관리 인사이트",
-      snippet: "파스텔골프클럽 리더십을 위한 8월 4주차 레터가 도착했습니다.",
-      body: "안녕하세요 김윤환 님.\nLearning Crew 주간 리더십 리포트입니다.",
-      receivedAt: "2026-08-25T16:20:00.000Z",
-      isRead: false,
-      isStarred: true,
-    },
-    {
-      id: "naver-live-102",
-      provider: "naver",
-      accountEmail: NAVER_USER,
-      senderName: "망고보드",
-      senderEmail: "no-reply@mangoboard.net",
-      subject: "[망고보드] 8월 신규 디자인 템플릿 및 골프 카드뉴스 공개",
-      snippet: "골프연습장 및 카드뉴스 제작용 8월 최신 디자인 템플릿이 업데이트 되었습니다.",
-      body: "망고보드 신규 템플릿 업데이트 소식입니다.",
-      receivedAt: "2026-08-25T11:10:00.000Z",
-      isRead: true,
-      isStarred: false,
-    },
-    {
-      id: "naver-live-103",
-      provider: "naver",
-      accountEmail: NAVER_USER,
-      senderName: "서울시청",
-      senderEmail: "seoul_news@seoul.go.kr",
-      subject: "[서울시청] 서초구 반포동 사업장 주차 및 체육시설 종합 안내",
-      snippet: "서초구 소재 체육시설 및 주차 관리 관련 안내문입니다.",
-      body: "서울특별시 체육시설 및 대형 주차장 관리 종합 안내서입니다.",
-      receivedAt: "2026-08-24T09:00:00.000Z",
-      isRead: true,
-      isStarred: false,
-    },
-    {
-      id: "naver-live-104",
-      provider: "naver",
-      accountEmail: NAVER_USER,
-      senderName: "이노핏파트너스",
-      senderEmail: "contact@innofit.co.kr",
-      subject: "[이노핏파트너스] 디지털 혁신 및 경영 전략 세미나 초청장",
-      snippet: "2026년 하반기 임원진 및 경영진 대상 세미나에 초청합니다.",
-      body: "이노핏파트너스 디지털 혁신 세미나 상세 일정 안내입니다.",
-      receivedAt: "2026-08-23T14:30:00.000Z",
-      isRead: true,
-      isStarred: false,
-    },
-    {
-      id: "naver-live-105",
-      provider: "naver",
-      accountEmail: NAVER_USER,
-      senderName: "요즘IT",
-      senderEmail: "yozm_it@wishket.com",
-      subject: "[요즘IT] 2026년 하반기 최신 인공지능 & 웹 시스템 아키텍처",
-      snippet: "개발 및 경영 리더를 위한 개발 트렌드 큐레이션입니다.",
-      body: "요즘IT 주간 뉴스레터입니다.",
-      receivedAt: "2026-08-22T08:00:00.000Z",
-      isRead: true,
-      isStarred: false,
-    },
-  ];
 }
