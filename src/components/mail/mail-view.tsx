@@ -63,6 +63,13 @@ export function MailView() {
   useEffect(() => {
     fetchMails(selectedProvider);
     setSelectedMailIds([]);
+
+    // ⚡ 10초마다 초고속 백그라운드 자동 수신 감지 (자동 갱신)
+    const interval = setInterval(() => {
+      fetchMails(selectedProvider);
+    }, 10 * 1000);
+
+    return () => clearInterval(interval);
   }, [selectedProvider]);
 
   const handleRefresh = () => {
@@ -91,13 +98,18 @@ export function MailView() {
   const naverCount = useMemo(() => filteredMails.filter((m) => m.provider === "naver").length, [filteredMails]);
   const unreadCount = useMemo(() => filteredMails.filter((m) => !m.isRead).length, [filteredMails]);
 
+  // 🌟 네이버 메일 + 구글 메일 안읽은 메일의 100% 통합 총합 (Red Dot 전용)
+  const totalUnreadCount = useMemo(() => {
+    return mails.filter((m) => !deletedIds.includes(m.id) && !m.isRead).length;
+  }, [mails, deletedIds]);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.dispatchEvent(
-        new CustomEvent("mail-count-set", { detail: { count: unreadCount } })
+        new CustomEvent("mail-count-set", { detail: { count: totalUnreadCount } })
       );
     }
-  }, [unreadCount]);
+  }, [totalUnreadCount]);
 
   const handleMarkAllRead = () => {
     setMails((prev) => prev.map((m) => ({ ...m, isRead: true })));
