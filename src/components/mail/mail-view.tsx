@@ -2,37 +2,66 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { MailItem, MailProvider } from "@/types/mail";
+import { useMemos } from "@/hooks/use-memos";
+import { useWorkLogs } from "@/hooks/use-work-logs";
 import {
-  Inbox,
   Mail,
-  Search,
-  RefreshCw,
-  Star,
-  CheckCircle2,
+  Inbox,
   Send,
-  X,
+  Star,
+  Search,
+  Filter,
+  RefreshCw,
+  CheckCircle2,
+  Trash2,
   Clock,
   User,
-  ExternalLink,
-  ShieldCheck,
-  Filter,
-  Trash2,
+  X,
   Key,
   ChevronLeft,
   ChevronRight,
+  StickyNote,
+  BookOpen,
+  Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function MailView() {
-  const [mails, setMails] = useState<MailItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { addMemo } = useMemos();
+  const { saveLog } = useWorkLogs();
+
+  const CACHE_KEY = "pastel_cached_mails_v2";
+
+  const [mails, setMails] = useState<MailItem[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const cached = localStorage.getItem(CACHE_KEY);
+        return cached ? JSON.parse(cached) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+    return [];
+  });
+
+  const [loading, setLoading] = useState(mails.length === 0);
   const [refreshing, setRefreshing] = useState(false);
-  const [selectedProvider, setSelectedProvider] = useState<"all" | "gmail_inbox" | "gmail_sent" | "naver_inbox" | "naver_sent" | "gmail" | "naver">("all");
+
+  // 🌟 [개선안 1] 2단계 계층 필터 State
+  const [accountFilter, setAccountFilter] = useState<"all" | "gmail" | "naver">("all");
+  const [folderFilter, setFolderFilter] = useState<"all" | "inbox" | "sent" | "starred">("all");
+
+  // 🌟 [개선안 3] 한눈에 보기 개수 선택 (30, 50, 100, 500)
+  const [itemsPerPage, setItemsPerPage] = useState<number>(30);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [unreadOnly, setUnreadOnly] = useState(false);
   const [selectedMail, setSelectedMail] = useState<MailItem | null>(null);
+  const [scrapSuccessMessage, setScrapSuccessMessage] = useState<string | null>(null);
+
   const [replyText, setReplyText] = useState("");
   const [replySuccess, setReplySuccess] = useState(false);
   const [selectedMailIds, setSelectedMailIds] = useState<string[]>([]);
@@ -45,14 +74,17 @@ export function MailView() {
     }
   };
 
-  const fetchMails = async (provider = selectedProvider, isSilent = false) => {
-    if (!isSilent) setLoading(true);
+  const fetchMails = async (isSilent = false) => {
+    if (!isSilent && mails.length === 0) setLoading(true);
     try {
-      const res = await fetch(`/api/mail?provider=${provider}&_t=${Date.now()}`);
+      const res = await fetch(`/api/mail?provider=all&_t=${Date.now()}`);
       if (res.ok) {
         const data = await res.json();
         const rawMails: MailItem[] = data.mails || [];
         setMails(rawMails);
+        if (typeof window !== "undefined") {
+          localStorage.setItem(CACHE_KEY, JSON.stringify(rawMails));
+        }
       }
     } catch (e) {
       console.error("Mail fetch error:", e);
@@ -63,42 +95,65 @@ export function MailView() {
   };
 
   useEffect(() => {
-    fetchMails(selectedProvider, false);
+    fetchMails(false);
     setSelectedMailIds([]);
 
-    // 🌟 15초 백그라운드 자동 수신 시에는 화면에 '가져오는 중...' 메시지가 뜨지 않도록 100% 조용하게(Silent) 처리
     const interval = setInterval(() => {
       if (!selectedMail && !replyText.trim()) {
-        fetchMails(selectedProvider, true);
+        fetchMails(true);
       }
     }, 15 * 1000);
 
     return () => clearInterval(interval);
-  }, [selectedProvider, selectedMail, replyText]);
+  }, [selectedMail, replyText]);
 
   const handleRefresh = () => {
     setRefreshing(true);
-    fetchMails(selectedProvider);
+    fetchMails(false);
     setSelectedMailIds([]);
+  };
+
+  // 🌟 [개선안 2] 원클릭 스크랩 연동 함수
+  const handleScrapToMemo = async (mail: MailItem) => {
+    const title = `[메일 스크랩] ${mail.subject}`;
+    const content = `<p><strong>📧 원본 메일 정보:</strong></p><ul><li>보낸이: ${mail.senderName} (${mail.senderEmail})</li><li>수신 계정: ${mail.accountEmail}</li><li>수신 시각: ${new Date(mail.receivedAt).toLocaleString()}</li></ul><hr/><p>${mail.body || mail.snippet}</p>`;
+
+    await addMemo({
+      title,
+      content,
+      category: "업무",
+    });
+
+    setScrapSuccessMessage("📝 메모장 [업무] 보관함으로 즉시 스크랩 저장되었습니다!");
+    setTimeout(() => setScrapSuccessMessage(null), 3000);
+  };
+
+  const handleScrapToWorkLog = async (mail: MailItem) => {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const scrapBody = `<p><strong>✉️ 스크랩 메일:</strong> ${mail.subject} (${mail.senderName})</p><p>${mail.body || mail.snippet}</p>`;
+
+    await saveLog({
+      date: todayStr,
+      todayWork: scrapBody,
+      pendingWork: "",
+      issues: "",
+    });
+
+    setScrapSuccessMessage("📖 오늘 업무일지로 즉시 스크랩 등록되었습니다!");
+    setTimeout(() => setScrapSuccessMessage(null), 3000);
   };
 
   const filteredMails = useMemo(() => {
     return mails.filter((m) => {
       if (deletedIds.includes(m.id)) return false;
-      
-      if (selectedProvider === "gmail_inbox") {
-        if (m.provider !== "gmail" || m.folder === "sent") return false;
-      } else if (selectedProvider === "gmail_sent") {
-        if (m.provider !== "gmail" || m.folder !== "sent") return false;
-      } else if (selectedProvider === "naver_inbox") {
-        if (m.provider !== "naver" || m.folder === "sent") return false;
-      } else if (selectedProvider === "naver_sent") {
-        if (m.provider !== "naver" || m.folder !== "sent") return false;
-      } else if (selectedProvider === "gmail") {
-        if (m.provider !== "gmail") return false;
-      } else if (selectedProvider === "naver") {
-        if (m.provider !== "naver") return false;
-      }
+
+      // 1단계 계정 필터
+      if (accountFilter !== "all" && m.provider !== accountFilter) return false;
+
+      // 2단계 서브 메일함 필터
+      if (folderFilter === "inbox" && m.folder === "sent") return false;
+      if (folderFilter === "sent" && m.folder !== "sent") return false;
+      if (folderFilter === "starred" && !m.isStarred) return false;
 
       if (unreadOnly && m.isRead) return false;
       if (searchQuery.trim()) {
@@ -110,22 +165,14 @@ export function MailView() {
       }
       return true;
     });
-  }, [mails, deletedIds, selectedProvider, unreadOnly, searchQuery]);
+  }, [mails, deletedIds, accountFilter, folderFilter, unreadOnly, searchQuery]);
 
-  // 📄 30개 단위 페이지네이션 관리
-  const ITEMS_PER_PAGE = 30;
-  const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedProvider, searchQuery, unreadOnly]);
-
-  const totalPages = Math.ceil(filteredMails.length / ITEMS_PER_PAGE) || 1;
+  const totalPages = Math.ceil(filteredMails.length / itemsPerPage) || 1;
 
   const paginatedMails = useMemo(() => {
-    const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
-    return filteredMails.slice(startIdx, startIdx + ITEMS_PER_PAGE);
-  }, [filteredMails, currentPage]);
+    const start = (currentPage - 1) * itemsPerPage;
+    return filteredMails.slice(start, start + itemsPerPage);
+  }, [filteredMails, currentPage, itemsPerPage]);
 
   const gmailCount = useMemo(() => filteredMails.filter((m) => m.provider === "gmail").length, [filteredMails]);
   const naverCount = useMemo(() => filteredMails.filter((m) => m.provider === "naver").length, [filteredMails]);
@@ -273,101 +320,6 @@ export function MailView() {
         </div>
       </div>
 
-      {/* 🗂️ Account Tab Toggle & Search Toolbar */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 bg-muted/20 p-3 rounded-2xl border">
-        {/* 1번 & 2번 통합 탭 토글 */}
-        <div className="flex items-center gap-1 bg-background p-1.5 rounded-xl border shrink-0 overflow-x-auto scrollbar-none flex-wrap">
-          <Button
-            variant={selectedProvider === "all" ? "default" : "ghost"}
-            size="sm"
-            onClick={() => setSelectedProvider("all")}
-            className={`h-8 text-xs font-bold rounded-lg shrink-0 gap-1.5 ${
-              selectedProvider === "all" ? "bg-indigo-600 hover:bg-indigo-700 text-white" : ""
-            }`}
-          >
-            <Inbox className="w-3.5 h-3.5" />
-            <span>✉️ 전체 메일함</span>
-          </Button>
-
-          <Button
-            variant={selectedProvider === "gmail_inbox" ? "default" : "ghost"}
-            size="sm"
-            onClick={() => setSelectedProvider("gmail_inbox")}
-            className={`h-8 text-xs font-bold rounded-lg shrink-0 gap-1.5 ${
-              selectedProvider === "gmail_inbox" ? "bg-rose-600 hover:bg-rose-700 text-white" : ""
-            }`}
-          >
-            <span className="w-2 h-2 rounded-full bg-rose-500 inline-block" />
-            <span>🔴 지메일 - 받은 메일함</span>
-          </Button>
-
-          <Button
-            variant={selectedProvider === "gmail_sent" ? "default" : "ghost"}
-            size="sm"
-            onClick={() => setSelectedProvider("gmail_sent")}
-            className={`h-8 text-xs font-bold rounded-lg shrink-0 gap-1.5 ${
-              selectedProvider === "gmail_sent" ? "bg-rose-700 hover:bg-rose-800 text-white" : ""
-            }`}
-          >
-            <Send className="w-3 h-3 text-rose-300" />
-            <span>🔴 지메일 - 보낸 메일함</span>
-          </Button>
-
-          <Button
-            variant={selectedProvider === "naver_inbox" ? "default" : "ghost"}
-            size="sm"
-            onClick={() => setSelectedProvider("naver_inbox")}
-            className={`h-8 text-xs font-bold rounded-lg shrink-0 gap-1.5 ${
-              selectedProvider === "naver_inbox" ? "bg-emerald-600 hover:bg-emerald-700 text-white" : ""
-            }`}
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
-            <span>🟢 네이버 - 받은 메일함</span>
-          </Button>
-
-          <Button
-            variant={selectedProvider === "naver_sent" ? "default" : "ghost"}
-            size="sm"
-            onClick={() => setSelectedProvider("naver_sent")}
-            className={`h-8 text-xs font-bold rounded-lg shrink-0 gap-1.5 ${
-              selectedProvider === "naver_sent" ? "bg-emerald-700 hover:bg-emerald-800 text-white" : ""
-            }`}
-          >
-            <Send className="w-3 h-3 text-emerald-300" />
-            <span>🟢 네이버 - 보낸 메일함</span>
-          </Button>
-        </div>
-
-        {/* Search & Unread Filter */}
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 bg-background border px-3 py-1 rounded-xl shadow-xs flex-1 md:w-64">
-            <Search className="w-4 h-4 text-muted-foreground shrink-0" />
-            <input
-              type="text"
-              placeholder="제목, 보낸이, 내용 검색..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-transparent text-xs font-semibold border-none outline-none w-full"
-            />
-            {searchQuery && (
-              <X className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" onClick={() => setSearchQuery("")} />
-            )}
-          </div>
-
-          <Button
-            variant={unreadOnly ? "secondary" : "outline"}
-            size="sm"
-            onClick={() => setUnreadOnly(!unreadOnly)}
-            className={`h-8 text-xs font-bold rounded-xl px-2.5 gap-1 shrink-0 ${
-              unreadOnly ? "bg-amber-500/10 text-amber-600 border-amber-500/30" : ""
-            }`}
-          >
-            <Filter className="w-3 h-3" />
-            <span>안읽음 ({unreadCount})</span>
-          </Button>
-        </div>
-      </div>
-
       {/* 📩 Mail Card List View */}
       <Card className="border shadow-xs overflow-hidden">
         <CardHeader className="py-3 px-4 bg-muted/20 border-b flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
@@ -384,17 +336,14 @@ export function MailView() {
 
             <CardTitle className="text-xs sm:text-sm font-black flex items-center gap-2">
               <span>
-                {selectedProvider === "all"
+                {accountFilter === "all"
                   ? "📬 전체 통합 메일함"
-                  : selectedProvider === "gmail_inbox"
-                  ? "🔴 지메일 - 받은 메일함"
-                  : selectedProvider === "gmail_sent"
-                  ? "🔴 지메일 - 보낸 메일함"
-                  : selectedProvider === "naver_inbox"
-                  ? "🟢 네이버 - 받은 메일함"
-                  : selectedProvider === "naver_sent"
-                  ? "🟢 네이버 - 보낸 메일함"
-                  : "📬 통합 메일함"}
+                  : accountFilter === "gmail"
+                  ? "🔴 Google 지메일 메일함"
+                  : "🟢 Naver 네이버 메일함"}
+                {folderFilter === "inbox" && " (받은 메일함)"}
+                {folderFilter === "sent" && " (보낸 메일함)"}
+                {folderFilter === "starred" && " (중요/북마크)"}
               </span>
               <Badge variant="outline" className="text-[10px] font-bold">
                 총 {filteredMails.length}건
@@ -521,7 +470,7 @@ export function MailView() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-card/90 border p-3.5 rounded-2xl shadow-xs text-xs font-bold">
           <div className="text-muted-foreground text-center sm:text-left">
             총 <span className="text-indigo-600 font-extrabold">{filteredMails.length}</span>개 메일 중{" "}
-            <span className="font-extrabold text-foreground">{(currentPage - 1) * 30 + 1} - {Math.min(currentPage * 30, filteredMails.length)}</span>번째 수신 표시 (페이지 {currentPage} / {totalPages})
+            <span className="font-extrabold text-foreground">{(currentPage - 1) * itemsPerPage + 1} - {Math.min(currentPage * itemsPerPage, filteredMails.length)}</span>번째 수신 표시 (페이지 {currentPage} / {totalPages})
           </div>
           <div className="flex items-center gap-1.5 overflow-x-auto max-w-full pb-1 sm:pb-0 scrollbar-none">
             <Button
@@ -614,6 +563,34 @@ export function MailView() {
 
               <div className="p-4 rounded-2xl bg-background border text-xs leading-relaxed text-foreground whitespace-pre-line font-medium min-h-[120px]">
                 {selectedMail.body || selectedMail.snippet}
+              </div>
+
+              {/* 🌟 [개선안 2] 원클릭 스크랩 액션 툴바 */}
+              <div className="flex items-center gap-2 p-3 bg-muted/20 border rounded-2xl flex-wrap justify-between">
+                <span className="text-xs font-bold text-muted-foreground flex items-center gap-1">
+                  <Share2 className="w-3.5 h-3.5 text-indigo-600" />
+                  원클릭 스크랩:
+                </span>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleScrapToMemo(selectedMail)}
+                    className="h-8 px-3 text-xs font-bold rounded-xl gap-1.5 border-indigo-500/30 bg-indigo-500/10 text-indigo-600 hover:bg-indigo-500/20"
+                  >
+                    <StickyNote className="w-3.5 h-3.5" />
+                    <span>📝 메모장으로 스크랩</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleScrapToWorkLog(selectedMail)}
+                    className="h-8 px-3 text-xs font-bold rounded-xl gap-1.5 border-amber-500/30 bg-amber-500/10 text-amber-600 hover:bg-amber-500/20"
+                  >
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>📖 오늘 업무일지로 스크랩</span>
+                  </Button>
+                </div>
               </div>
 
               {/* Reply Section */}

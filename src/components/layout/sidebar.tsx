@@ -26,7 +26,6 @@ const navItems = [
   { name: "계산기", href: "/calculators", icon: Calculator },
   { name: "타석 분석", href: "/pastel", icon: Compass },
   { name: "골프저널", href: "/golf", icon: Newspaper, isGolf: true },
-  { name: "드라이브", href: "/drive", icon: HardDrive },
 ];
 
 const AUTO_LOCK_OPTIONS = [
