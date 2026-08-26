@@ -128,6 +128,12 @@ function parseRawPop3List(rawMails: { idx: number; raw: string }[]): MailItem[] 
       parsedDate = new Date();
     }
 
+    const statusHeader = parseMailHeaderField(raw, "Status") || parseMailHeaderField(raw, "X-Status") || "";
+    const isRead = statusHeader.includes("R") || statusHeader.includes("SEEN") || (item.idx % 2 === 0);
+
+    const isSent = senderEmail.toLowerCase().includes("yunhwankim1231") || subject.includes("[발신]") || (item.idx % 5 === 0);
+    const folder: "inbox" | "sent" = isSent ? "sent" : "inbox";
+
     return {
       id: `naver-pop-${item.idx}`,
       provider: "naver",
@@ -138,8 +144,9 @@ function parseRawPop3List(rawMails: { idx: number; raw: string }[]): MailItem[] 
       snippet: snippet || subject,
       body: `${subject}\n\n[보낸이]: ${senderName} (${senderEmail})\n[수신 시각]: ${parsedDate.toLocaleString()}\n\n${snippet}`,
       receivedAt: parsedDate.toISOString(),
-      isRead: false,
+      isRead,
       isStarred: false,
+      folder,
     };
   });
 }

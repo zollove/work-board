@@ -12,10 +12,11 @@ export interface MailItem {
   receivedAt: string; // ISO Date String
   isRead: boolean;
   isStarred?: boolean;
+  folder?: "inbox" | "sent";
 }
 
 export interface MailFilterState {
-  providerFilter: "all" | "gmail" | "naver";
+  providerFilter: "all" | "gmail_inbox" | "gmail_sent" | "naver_inbox" | "naver_sent" | "gmail" | "naver";
   searchQuery: string;
   unreadOnly: boolean;
 }

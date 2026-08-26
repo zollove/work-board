@@ -29,7 +29,7 @@ export function MailView() {
   const [mails, setMails] = useState<MailItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [selectedProvider, setSelectedProvider] = useState<"all" | MailProvider>("all");
+  const [selectedProvider, setSelectedProvider] = useState<"all" | "gmail_inbox" | "gmail_sent" | "naver_inbox" | "naver_sent" | "gmail" | "naver">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [unreadOnly, setUnreadOnly] = useState(false);
   const [selectedMail, setSelectedMail] = useState<MailItem | null>(null);
@@ -85,7 +85,21 @@ export function MailView() {
   const filteredMails = useMemo(() => {
     return mails.filter((m) => {
       if (deletedIds.includes(m.id)) return false;
-      if (selectedProvider !== "all" && m.provider !== selectedProvider) return false;
+      
+      if (selectedProvider === "gmail_inbox") {
+        if (m.provider !== "gmail" || m.folder === "sent") return false;
+      } else if (selectedProvider === "gmail_sent") {
+        if (m.provider !== "gmail" || m.folder !== "sent") return false;
+      } else if (selectedProvider === "naver_inbox") {
+        if (m.provider !== "naver" || m.folder === "sent") return false;
+      } else if (selectedProvider === "naver_sent") {
+        if (m.provider !== "naver" || m.folder !== "sent") return false;
+      } else if (selectedProvider === "gmail") {
+        if (m.provider !== "gmail") return false;
+      } else if (selectedProvider === "naver") {
+        if (m.provider !== "naver") return false;
+      }
+
       if (unreadOnly && m.isRead) return false;
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
@@ -262,7 +276,7 @@ export function MailView() {
       {/* 🗂️ Account Tab Toggle & Search Toolbar */}
       <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 bg-muted/20 p-3 rounded-2xl border">
         {/* 1번 & 2번 통합 탭 토글 */}
-        <div className="flex items-center gap-1 bg-background p-1 rounded-xl border shrink-0 overflow-x-auto scrollbar-none">
+        <div className="flex items-center gap-1 bg-background p-1.5 rounded-xl border shrink-0 overflow-x-auto scrollbar-none flex-wrap">
           <Button
             variant={selectedProvider === "all" ? "default" : "ghost"}
             size="sm"
@@ -272,31 +286,55 @@ export function MailView() {
             }`}
           >
             <Inbox className="w-3.5 h-3.5" />
-            <span>✉️ 전체 메일함 ({mails.length})</span>
+            <span>✉️ 전체 메일함</span>
           </Button>
 
           <Button
-            variant={selectedProvider === "gmail" ? "default" : "ghost"}
+            variant={selectedProvider === "gmail_inbox" ? "default" : "ghost"}
             size="sm"
-            onClick={() => setSelectedProvider("gmail")}
+            onClick={() => setSelectedProvider("gmail_inbox")}
             className={`h-8 text-xs font-bold rounded-lg shrink-0 gap-1.5 ${
-              selectedProvider === "gmail" ? "bg-rose-600 hover:bg-rose-700 text-white" : ""
+              selectedProvider === "gmail_inbox" ? "bg-rose-600 hover:bg-rose-700 text-white" : ""
             }`}
           >
             <span className="w-2 h-2 rounded-full bg-rose-500 inline-block" />
-            <span>🔴 Google Gmail ({gmailCount})</span>
+            <span>🔴 지메일 - 받은 메일함</span>
           </Button>
 
           <Button
-            variant={selectedProvider === "naver" ? "default" : "ghost"}
+            variant={selectedProvider === "gmail_sent" ? "default" : "ghost"}
             size="sm"
-            onClick={() => setSelectedProvider("naver")}
+            onClick={() => setSelectedProvider("gmail_sent")}
             className={`h-8 text-xs font-bold rounded-lg shrink-0 gap-1.5 ${
-              selectedProvider === "naver" ? "bg-emerald-600 hover:bg-emerald-700 text-white" : ""
+              selectedProvider === "gmail_sent" ? "bg-rose-700 hover:bg-rose-800 text-white" : ""
+            }`}
+          >
+            <Send className="w-3 h-3 text-rose-300" />
+            <span>🔴 지메일 - 보낸 메일함</span>
+          </Button>
+
+          <Button
+            variant={selectedProvider === "naver_inbox" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => setSelectedProvider("naver_inbox")}
+            className={`h-8 text-xs font-bold rounded-lg shrink-0 gap-1.5 ${
+              selectedProvider === "naver_inbox" ? "bg-emerald-600 hover:bg-emerald-700 text-white" : ""
             }`}
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
-            <span>🟢 Naver Mail ({naverCount})</span>
+            <span>🟢 네이버 - 받은 메일함</span>
+          </Button>
+
+          <Button
+            variant={selectedProvider === "naver_sent" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => setSelectedProvider("naver_sent")}
+            className={`h-8 text-xs font-bold rounded-lg shrink-0 gap-1.5 ${
+              selectedProvider === "naver_sent" ? "bg-emerald-700 hover:bg-emerald-800 text-white" : ""
+            }`}
+          >
+            <Send className="w-3 h-3 text-emerald-300" />
+            <span>🟢 네이버 - 보낸 메일함</span>
           </Button>
         </div>
 
@@ -347,10 +385,16 @@ export function MailView() {
             <CardTitle className="text-xs sm:text-sm font-black flex items-center gap-2">
               <span>
                 {selectedProvider === "all"
-                  ? "📬 전체 통합 수신함"
-                  : selectedProvider === "gmail"
-                  ? "🔴 Google 지메일 수신함"
-                  : "🟢 Naver 네이버 메일 수신함"}
+                  ? "📬 전체 통합 메일함"
+                  : selectedProvider === "gmail_inbox"
+                  ? "🔴 지메일 - 받은 메일함"
+                  : selectedProvider === "gmail_sent"
+                  ? "🔴 지메일 - 보낸 메일함"
+                  : selectedProvider === "naver_inbox"
+                  ? "🟢 네이버 - 받은 메일함"
+                  : selectedProvider === "naver_sent"
+                  ? "🟢 네이버 - 보낸 메일함"
+                  : "📬 통합 메일함"}
               </span>
               <Badge variant="outline" className="text-[10px] font-bold">
                 총 {filteredMails.length}건

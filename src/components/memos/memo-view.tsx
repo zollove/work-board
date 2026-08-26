@@ -713,6 +713,7 @@ export function MemoView() {
                             : "bg-slate-500/10 text-slate-700 dark:text-slate-300 border-slate-500/30"
                         }`}
                       >
+                        {memo.category === "업무" && "💼 "}
                         {memo.category === "중요" && "🚨 "}
                         {memo.category === "일반" && "📋 "}
                         {memo.category === "생활" && "☕ "}
@@ -1024,6 +1025,7 @@ export function MemoView() {
                   onChange={(e) => setCategory(e.target.value)}
                 >
                   <optgroup label="📝 메모" className="font-bold text-muted-foreground">
+                    <option value="업무" className="py-2 text-foreground bg-background">💼 업무</option>
                     <option value="중요" className="py-2 text-foreground bg-background">🚨 중요</option>
                     <option value="일반" className="py-2 text-foreground bg-background">📋 일반</option>
                     <option value="생활" className="py-2 text-foreground bg-background">☕ 생활</option>
@@ -1040,7 +1042,7 @@ export function MemoView() {
 
               {/* Dynamic Destination Guide Indicator */}
               <div className="pt-1 flex items-center">
-                {["중요", "일반", "생활"].includes(category) ? (
+                {["업무", "중요", "일반", "생활"].includes(category) ? (
                   <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 animate-in fade-in duration-150">
                     📝 <strong>[메모]</strong> 메뉴의 '{category}' 보관함으로 저장됩니다
                   </span>

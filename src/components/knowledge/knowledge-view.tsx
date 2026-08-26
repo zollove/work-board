@@ -46,8 +46,8 @@ import {
   Briefcase
 } from "lucide-react";
 
-const CATEGORIES = ["전체", "업무", "아이디어", "노하우", "링크", "체크"];
-const KNOWLEDGE_CATEGORIES = ["업무", "아이디어", "노하우", "링크", "체크"];
+const CATEGORIES = ["전체", "아이디어", "노하우", "링크", "체크"];
+const KNOWLEDGE_CATEGORIES = ["아이디어", "노하우", "링크", "체크"];
 
 export function KnowledgeView() {
   const { memos, addMemo, updateMemo, deleteMemo, setMemoList } = useMemos();
@@ -313,7 +313,7 @@ export function KnowledgeView() {
   const handleOpenAdd = () => {
     setEditingMemo(null);
     setTitle("");
-    setCategory("업무");
+    setCategory("아이디어");
     setContent("");
     setImageUrl("");
     setIsPasted(false);
@@ -324,7 +324,7 @@ export function KnowledgeView() {
     setViewingMemo(null);
     setEditingMemo(memo);
     setTitle(memo.title);
-    setCategory(memo.category || "업무");
+    setCategory(memo.category || "아이디어");
     setContent(memo.content);
     setImageUrl(memo.imageUrl || "");
     setIsPasted(false);
