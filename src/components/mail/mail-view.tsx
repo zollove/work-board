@@ -18,6 +18,8 @@ import {
   Filter,
   Trash2,
   Key,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -95,6 +97,21 @@ export function MailView() {
       return true;
     });
   }, [mails, deletedIds, selectedProvider, unreadOnly, searchQuery]);
+
+  // 📄 30개 단위 페이지네이션 관리
+  const ITEMS_PER_PAGE = 30;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedProvider, searchQuery, unreadOnly]);
+
+  const totalPages = Math.ceil(filteredMails.length / ITEMS_PER_PAGE) || 1;
+
+  const paginatedMails = useMemo(() => {
+    const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredMails.slice(startIdx, startIdx + ITEMS_PER_PAGE);
+  }, [filteredMails, currentPage]);
 
   const gmailCount = useMemo(() => filteredMails.filter((m) => m.provider === "gmail").length, [filteredMails]);
   const naverCount = useMemo(() => filteredMails.filter((m) => m.provider === "naver").length, [filteredMails]);
@@ -366,7 +383,7 @@ export function MailView() {
               <p>조건에 일치하는 메일이 없습니다.</p>
             </div>
           ) : (
-            filteredMails.map((mail) => {
+            paginatedMails.map((mail) => {
               const isGmail = mail.provider === "gmail";
               const isChecked = selectedMailIds.includes(mail.id);
 
@@ -454,6 +471,53 @@ export function MailView() {
           )}
         </CardContent>
       </Card>
+
+      {/* 📄 30개 단위 페이지네이션 바 */}
+      {totalPages > 1 && (
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-card/90 border p-3.5 rounded-2xl shadow-xs text-xs font-bold">
+          <div className="text-muted-foreground text-center sm:text-left">
+            총 <span className="text-indigo-600 font-extrabold">{filteredMails.length}</span>개 메일 중{" "}
+            <span className="font-extrabold text-foreground">{(currentPage - 1) * 30 + 1} - {Math.min(currentPage * 30, filteredMails.length)}</span>번째 수신 표시 (페이지 {currentPage} / {totalPages})
+          </div>
+          <div className="flex items-center gap-1.5 overflow-x-auto max-w-full pb-1 sm:pb-0 scrollbar-none">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="h-8 px-2.5 text-xs font-bold gap-1 rounded-xl shadow-xs"
+            >
+              <ChevronLeft className="w-3.5 h-3.5" />
+              <span>이전</span>
+            </Button>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <Button
+                key={page}
+                variant={currentPage === page ? "default" : "outline"}
+                size="sm"
+                onClick={() => setCurrentPage(page)}
+                className={`h-8 w-8 p-0 text-xs font-bold rounded-xl ${
+                  currentPage === page ? "bg-indigo-600 text-white shadow-xs" : ""
+                }`}
+              >
+                {page}
+              </Button>
+            ))}
+
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="h-8 px-2.5 text-xs font-bold gap-1 rounded-xl shadow-xs"
+            >
+              <span>다음</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* 📖 Mail Reader & Reply Modal */}
       {selectedMail && (

@@ -31,7 +31,7 @@ function parseMailHeaderField(raw: string, fieldName: string): string {
  * 🌐 Naver IMAP & POP3 direct live mail fetcher
  * Connects to imap.naver.com:993 / pop.naver.com:995 to pull 100% real mails received yesterday and today
  */
-export async function fetchNaverMailsViaRest(count = 35): Promise<MailItem[]> {
+export async function fetchNaverMailsViaRest(count = 200): Promise<MailItem[]> {
   return new Promise((resolve) => {
     try {
       const client = tls.connect(995, "pop.naver.com", { rejectUnauthorized: false });

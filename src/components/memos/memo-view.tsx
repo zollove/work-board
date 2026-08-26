@@ -47,8 +47,8 @@ import {
   Save
 } from "lucide-react";
 
-const CATEGORIES = ["전체", "중요", "일반", "생활"];
-const MEMO_ONLY_CATEGORIES = ["중요", "일반", "생활"];
+const CATEGORIES = ["전체", "업무", "중요", "일반", "생활"];
+const MEMO_ONLY_CATEGORIES = ["업무", "중요", "일반", "생활"];
 
 export function MemoView() {
   const { memos, addMemo, updateMemo, deleteMemo, setMemoList } = useMemos();

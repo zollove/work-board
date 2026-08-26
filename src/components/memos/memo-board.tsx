@@ -19,7 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 
-const categories: MemoCategory[] = ["중요", "일반", "생활", "아이디어", "노하우", "링크"];
+const categories: MemoCategory[] = ["업무", "중요", "일반", "생활", "아이디어", "노하우", "링크"];
 
 export function MemoBoard() {
   const { memos, addMemo, updateMemo, deleteMemo } = useMemos();

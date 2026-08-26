@@ -1,4 +1,4 @@
-export type MemoCategory = "중요" | "일반" | "생활" | "아이디어" | "노하우" | "링크" | "체크";
+export type MemoCategory = "업무" | "중요" | "일반" | "생활" | "아이디어" | "노하우" | "링크" | "체크";
 
 export interface Memo {
   id: string;
