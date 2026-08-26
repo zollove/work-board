@@ -20,6 +20,8 @@ import {
   Link as LinkIcon,
   RemoveFormatting,
   Image as ImageIcon,
+  Plus,
+  Minus,
 } from "lucide-react";
 
 interface MemoRichEditorProps {
@@ -53,33 +55,85 @@ export function MemoRichEditor({ value, onChange, placeholder }: MemoRichEditorP
   };
 
   const insertTable = () => {
+    const rowsInput = prompt("표의 줄(행) 수를 입력하세요 (예: 5, 10, 20)", "5");
+    if (rowsInput === null) return;
+    const rows = Math.max(1, Math.min(50, parseInt(rowsInput, 10) || 5));
+
+    const colsInput = prompt("표의 칸(열) 수를 입력하세요 (예: 3, 5)", "3");
+    if (colsInput === null) return;
+    const cols = Math.max(1, Math.min(10, parseInt(colsInput, 10) || 3));
+
+    let headerCols = "";
+    for (let c = 1; c <= cols; c++) {
+      headerCols += `<th style="border: 1px solid #cbd5e1; padding: 8px 12px; background-color: #f1f5f9; font-weight: bold;">항목 ${c}</th>`;
+    }
+
+    let bodyRows = "";
+    for (let r = 1; r <= rows; r++) {
+      let rowCols = "";
+      for (let c = 1; c <= cols; c++) {
+        rowCols += `<td style="border: 1px solid #cbd5e1; padding: 8px 12px;">내용 ${r}-${c}</td>`;
+      }
+      bodyRows += `<tr>${rowCols}</tr>`;
+    }
+
     const tableHTML = `
-      <div style="overflow-x: auto; margin: 8px 0;">
+      <div style="overflow-x: auto; margin: 12px 0;">
         <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; border: 1px solid #cbd5e1;">
           <thead>
-            <tr style="background-color: #f1f5f9; font-weight: bold;">
-              <th style="border: 1px solid #cbd5e1; padding: 6px 10px;">구분</th>
-              <th style="border: 1px solid #cbd5e1; padding: 6px 10px;">항목</th>
-              <th style="border: 1px solid #cbd5e1; padding: 6px 10px;">비고</th>
-            </tr>
+            <tr>${headerCols}</tr>
           </thead>
           <tbody>
-            <tr>
-              <td style="border: 1px solid #cbd5e1; padding: 6px 10px;">내용 1</td>
-              <td style="border: 1px solid #cbd5e1; padding: 6px 10px;">세부사항 1</td>
-              <td style="border: 1px solid #cbd5e1; padding: 6px 10px;">-</td>
-            </tr>
-            <tr>
-              <td style="border: 1px solid #cbd5e1; padding: 6px 10px;">내용 2</td>
-              <td style="border: 1px solid #cbd5e1; padding: 6px 10px;">세부사항 2</td>
-              <td style="border: 1px solid #cbd5e1; padding: 6px 10px;">-</td>
-            </tr>
+            ${bodyRows}
           </tbody>
         </table>
       </div>
       <p><br></p>
     `;
     exec("insertHTML", tableHTML);
+  };
+
+  const addTableRow = () => {
+    if (!editorRef.current) return;
+    const sel = window.getSelection();
+    if (!sel || !sel.anchorNode) return;
+    let node: Node | null = sel.anchorNode;
+    while (node && node !== editorRef.current && node.nodeName !== "TR") {
+      node = node.parentNode;
+    }
+    if (node && node.nodeName === "TR") {
+      const currentTr = node as HTMLTableRowElement;
+      const colCount = currentTr.cells.length;
+      const newTr = document.createElement("tr");
+      for (let i = 0; i < colCount; i++) {
+        const td = document.createElement("td");
+        td.style.border = "1px solid #cbd5e1";
+        td.style.padding = "8px 12px";
+        td.innerHTML = "-";
+        newTr.appendChild(td);
+      }
+      currentTr.parentNode?.insertBefore(newTr, currentTr.nextSibling);
+      handleInput();
+    } else {
+      alert("추가할 표의 줄(행) 내부를 커서로 클릭하신 뒤 [➕ 줄 추가]를 눌러주세요!");
+    }
+  };
+
+  const deleteTableRow = () => {
+    if (!editorRef.current) return;
+    const sel = window.getSelection();
+    if (!sel || !sel.anchorNode) return;
+    let node: Node | null = sel.anchorNode;
+    while (node && node !== editorRef.current && node.nodeName !== "TR") {
+      node = node.parentNode;
+    }
+    if (node && node.nodeName === "TR") {
+      const currentTr = node as HTMLTableRowElement;
+      currentTr.parentNode?.removeChild(currentTr);
+      handleInput();
+    } else {
+      alert("삭제할 표의 줄(행) 내부를 커서로 클릭하신 뒤 [➖ 줄 삭제]를 눌러주세요!");
+    }
   };
 
   const insertLink = () => {
@@ -227,10 +281,34 @@ export function MemoRichEditor({ value, onChange, placeholder }: MemoRichEditorP
             size="sm"
             onClick={insertTable}
             className="h-7 px-1.5 text-xs font-bold gap-1 text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 hover:bg-indigo-500/20"
-            title="표(Table) 작성 삽입"
+            title="원하는 줄/칸 수의 표(Table) 자유 생성"
           >
             <TableIcon className="w-3.5 h-3.5" />
             <span>표 삽입</span>
+          </Button>
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={addTableRow}
+            className="h-7 px-1.5 text-xs font-bold gap-1 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20"
+            title="현재 위치한 표 아래에 1줄(행) 추가"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>줄 추가</span>
+          </Button>
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={deleteTableRow}
+            className="h-7 px-1.5 text-xs font-bold gap-1 text-rose-600 dark:text-rose-400 bg-rose-500/10 hover:bg-rose-500/20"
+            title="현재 위치한 표의 1줄(행) 삭제"
+          >
+            <Minus className="w-3.5 h-3.5" />
+            <span>줄 삭제</span>
           </Button>
 
           <Button

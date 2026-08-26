@@ -43,8 +43,8 @@ export function MailView() {
     }
   };
 
-  const fetchMails = async (provider = selectedProvider) => {
-    setLoading(true);
+  const fetchMails = async (provider = selectedProvider, isSilent = false) => {
+    if (!isSilent) setLoading(true);
     try {
       const res = await fetch(`/api/mail?provider=${provider}&_t=${Date.now()}`);
       if (res.ok) {
@@ -55,22 +55,24 @@ export function MailView() {
     } catch (e) {
       console.error("Mail fetch error:", e);
     } finally {
-      setLoading(false);
+      if (!isSilent) setLoading(false);
       setRefreshing(false);
     }
   };
 
   useEffect(() => {
-    fetchMails(selectedProvider);
+    fetchMails(selectedProvider, false);
     setSelectedMailIds([]);
 
-    // ⚡ 10초마다 초고속 백그라운드 자동 수신 감지 (자동 갱신)
+    // 🌟 15초 백그라운드 자동 수신 시에는 화면에 '가져오는 중...' 메시지가 뜨지 않도록 100% 조용하게(Silent) 처리
     const interval = setInterval(() => {
-      fetchMails(selectedProvider);
-    }, 10 * 1000);
+      if (!selectedMail && !replyText.trim()) {
+        fetchMails(selectedProvider, true);
+      }
+    }, 15 * 1000);
 
     return () => clearInterval(interval);
-  }, [selectedProvider]);
+  }, [selectedProvider, selectedMail, replyText]);
 
   const handleRefresh = () => {
     setRefreshing(true);
