@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
 
     const [gmailList, naverList] = await Promise.all([
       getGmailMails(gmailToken),
-      fetchNaverMailsViaRest(200),
+      fetchNaverMailsViaRest(500),
     ]);
 
     let combinedMails: MailItem[] = [];
