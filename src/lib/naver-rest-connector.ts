@@ -46,7 +46,7 @@ export async function fetchNaverMailsViaRest(count = 500): Promise<MailItem[]> {
         try { client.destroy(); } catch (e) {}
         const parsed = parseRawPop3List(rawMails);
         resolve(parsed);
-      }, 3000);
+      }, 8000);
 
       client.on("data", (data) => {
         const str = data.toString("utf-8");
@@ -63,7 +63,7 @@ export async function fetchNaverMailsViaRest(count = 500): Promise<MailItem[]> {
           const parts = str.split(" ");
           totalMsgs = parseInt(parts[1], 10) || 0;
           step = 4;
-          // Fetch the absolute newest messages at the very top
+          // Fetch the absolute newest messages starting from totalMsgs
           const start = Math.max(1, totalMsgs - count + 1);
           for (let i = totalMsgs; i >= start; i--) {
             targetIndices.push(i);
@@ -90,7 +90,7 @@ export async function fetchNaverMailsViaRest(count = 500): Promise<MailItem[]> {
 
       function fetchNextMsg() {
         const msgNum = targetIndices[currentMsgIdx];
-        client.write(`TOP ${msgNum} 50\r\n`);
+        client.write(`TOP ${msgNum} 100\r\n`);
       }
 
       client.on("error", () => {
