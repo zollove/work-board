@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useMemos, compressImage } from "@/hooks/use-memos";
 import { useChecklist } from "@/hooks/use-checklist";
 import { MemoRichEditor } from "./memo-rich-editor";
@@ -20,6 +20,7 @@ import {
   Sparkles, 
   Calendar as CalendarIcon, 
   Maximize2, 
+  Minimize2,
   Trash2, 
   Edit3, 
   Download, 
@@ -61,6 +62,43 @@ export function MemoView() {
   const [expandedMemoIds, setExpandedMemoIds] = useState<Set<string>>(new Set());
   const [sortOrder, setSortOrder] = useState<"custom" | "date_desc" | "date_asc">("custom");
   const [enlargedImageUrl, setEnlargedImageUrl] = useState<string | null>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      if (imageContainerRef.current) {
+        const el = imageContainerRef.current as any;
+        if (el.requestFullscreen) {
+          el.requestFullscreen();
+        } else if (el.webkitRequestFullscreen) {
+          el.webkitRequestFullscreen();
+        } else if (el.msRequestFullscreen) {
+          el.msRequestFullscreen();
+        }
+        setIsFullscreen(true);
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen();
+      }
+      setIsFullscreen(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
+    };
+  }, []);
 
   const toggleExpandMemo = (id: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
@@ -1084,27 +1122,39 @@ export function MemoView() {
       <Dialog open={!!enlargedImageUrl} onOpenChange={(open) => !open && setEnlargedImageUrl(null)}>
         <DialogContent className="max-w-[95vw] sm:max-w-4xl lg:max-w-6xl p-3 bg-black/95 border-none shadow-2xl rounded-2xl flex flex-col items-center justify-center">
           {enlargedImageUrl && (
-            <div className="relative w-full flex flex-col items-center justify-center p-2 space-y-3">
+            <div ref={imageContainerRef} className="relative w-full flex flex-col items-center justify-center p-2 space-y-3 bg-black rounded-xl">
               <img
                 src={enlargedImageUrl}
                 alt="확대 사진"
                 className="max-h-[82vh] w-auto max-w-full object-contain rounded-xl shadow-2xl"
               />
-              <div className="flex items-center justify-between w-full px-4 pt-1 text-white">
+              <div className="flex items-center justify-between w-full px-4 pt-1 text-white flex-wrap gap-2">
                 <span className="text-xs font-bold text-white/90">🖼️ 이미지 원본 크게 보기</span>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => {
-                    const link = document.createElement("a");
-                    link.href = enlargedImageUrl;
-                    link.download = `memo_image_${Date.now()}.png`;
-                    link.click();
-                  }}
-                  className="h-8 text-xs font-bold gap-1.5 bg-white/20 text-white hover:bg-white/30"
-                >
-                  <Download className="w-3.5 h-3.5" /> 원본 다운로드
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={toggleFullscreen}
+                    className="h-8 text-xs font-bold gap-1.5 bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm"
+                  >
+                    {isFullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+                    <span>{isFullscreen ? "전체 화면 종료" : "전체 화면으로 보기"}</span>
+                  </Button>
+
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      const link = document.createElement("a");
+                      link.href = enlargedImageUrl;
+                      link.download = `memo_image_${Date.now()}.png`;
+                      link.click();
+                    }}
+                    className="h-8 text-xs font-bold gap-1.5 bg-white/20 text-white hover:bg-white/30"
+                  >
+                    <Download className="w-3.5 h-3.5" /> 원본 다운로드
+                  </Button>
+                </div>
               </div>
             </div>
           )}

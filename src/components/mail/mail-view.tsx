@@ -28,7 +28,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export function MailView() {
+interface MailViewProps {
+  initialProvider?: "all" | "gmail" | "naver";
+}
+
+export function MailView({ initialProvider = "all" }: MailViewProps) {
   const { addMemo } = useMemos();
   const { saveLog } = useWorkLogs();
 
@@ -49,8 +53,8 @@ export function MailView() {
   const [loading, setLoading] = useState(mails.length === 0);
   const [refreshing, setRefreshing] = useState(false);
 
-  // 🌟 [개선안 1] 2단계 계층 필터 State
-  const [accountFilter, setAccountFilter] = useState<"all" | "gmail" | "naver">("all");
+  // 🌟 [개선안 1] 2단계 계층 필터 State (initialProvider 지원)
+  const [accountFilter, setAccountFilter] = useState<"all" | "gmail" | "naver">(initialProvider);
   const [folderFilter, setFolderFilter] = useState<"all" | "inbox" | "sent" | "starred">("all");
 
   // 🌟 [개선안 3] 한눈에 보기 개수 선택 (30, 50, 100, 500)

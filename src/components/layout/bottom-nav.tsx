@@ -12,7 +12,8 @@ import { useMailUnread } from "@/hooks/use-mail-unread";
 import { useEffect, useRef } from "react";
 
 const navItems = [
-  { name: "메일", href: "/mail", icon: Mail, isMail: true },
+  { name: "지메일", href: "/mail/gmail", icon: Mail },
+  { name: "네이버메일", href: "/mail/naver", icon: Mail },
   { name: "캘린더", href: "/", icon: Calendar },
   { name: "메모", href: "/memos", icon: StickyNote },
   { name: "지식창고", href: "/knowledge", icon: Library },
@@ -49,7 +50,6 @@ export function BottomNav() {
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const showRedDot = item.isGolf && hasUnread;
-          const hasMailUnread = item.isMail && mailUnreadCount > 0;
 
           return (
             <Link
@@ -67,11 +67,6 @@ export function BottomNav() {
                 <item.icon className={cn("h-4.5 w-4.5", isActive ? "stroke-[2.5]" : "stroke-[1.8]")} />
                 {showRedDot && (
                   <span className="absolute -top-1 -right-1.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-background animate-pulse" />
-                )}
-                {hasMailUnread && (
-                  <span className="absolute -top-1.5 -right-2 min-w-3.5 h-3.5 px-0.5 rounded-full bg-rose-600 text-[8px] font-black text-white flex items-center justify-center ring-1.5 ring-background shadow-xs">
-                    {mailUnreadCount > 99 ? "99+" : mailUnreadCount}
-                  </span>
                 )}
               </div>
               <span className="truncate max-w-[58px] leading-none">{item.name}</span>

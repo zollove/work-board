@@ -168,36 +168,7 @@ export function WorkCalendar() {
       {/* 1. 🌤️ 7-Day Weather & Building Hazard Warning Bar */}
       <WeatherWidget />
 
-      {/* 2. 🛠️ 건물관리 업무 (날씨 위젯 바로 아래 배치 및 접기/펼치기 가능!) */}
-      <Card className="border rounded-2xl bg-card shadow-sm overflow-hidden">
-        <div className="p-3 sm:p-4 border-b bg-muted/20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Wrench className="w-4 h-4 text-primary shrink-0" />
-            <h2 className="text-xs sm:text-base font-extrabold flex items-center gap-2 truncate">
-              <span>건물관리 업무</span>
-              <Badge variant="outline" className="text-[10px] bg-primary/5 text-primary border-primary/30 hidden sm:inline-flex">
-                점검 D-Day · 비품 재고 · 비번 보관함 · 만기 D-90
-              </Badge>
-            </h2>
-          </div>
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setIsUtilitiesCollapsed(!isUtilitiesCollapsed)}
-            className="h-7 text-xs text-muted-foreground hover:text-foreground gap-1 shrink-0"
-          >
-            <span>{isUtilitiesCollapsed ? "업무 펼치기 🔽" : "업무 접기 🔼"}</span>
-            {isUtilitiesCollapsed ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronUp className="w-3.5 h-3.5" />}
-          </Button>
-        </div>
-
-        {!isUtilitiesCollapsed && (
-          <div className="p-1 sm:p-2">
-            <UtilitiesView />
-          </div>
-        )}
-      </Card>
 
       {/* 3. 📅 모바일 스마트 최적화 단일 월 캘린더 타일 */}
       <Card className="border shadow-sm overflow-hidden">

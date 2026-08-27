@@ -1,5 +1,5 @@
-import { MailView } from "@/components/mail/mail-view";
+import { redirect } from "next/navigation";
 
 export default function MailPage() {
-  return <MailView />;
+  redirect("/mail/gmail");
 }
