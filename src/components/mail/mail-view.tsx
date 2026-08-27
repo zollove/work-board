@@ -713,7 +713,29 @@ export function MailView({ initialProvider = "all" }: MailViewProps) {
 
               {/* 메일 본문 시원한 200% 확장 영역 */}
               <div className="p-5 sm:p-6 rounded-2xl bg-background border text-xs sm:text-base leading-relaxed text-foreground whitespace-pre-line font-medium min-h-[260px] max-h-[48vh] overflow-y-auto shadow-xs">
-                {selectedMail.body || selectedMail.snippet}
+                {(() => {
+                  const rawText = selectedMail.body || selectedMail.snippet || "";
+                  let text = rawText.trim();
+                  const compact = text.replace(/[\r\n\s]/g, "");
+                  if (/^[A-Za-z0-9+/=]{40,}$/.test(compact)) {
+                    try {
+                      const decoded = decodeURIComponent(escape(atob(compact)));
+                      if (decoded && decoded.length > 10) {
+                        text = decoded
+                          .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, " ")
+                          .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, " ")
+                          .replace(/<[^>]+>/g, " ")
+                          .replace(/&nbsp;/gi, " ")
+                          .replace(/&gt;/gi, ">")
+                          .replace(/&lt;/gi, "<")
+                          .replace(/&amp;/gi, "&")
+                          .replace(/\s+/g, " ")
+                          .trim();
+                      }
+                    } catch (e) {}
+                  }
+                  return text || rawText;
+                })()}
               </div>
 
               {/* 📎 첨부파일 다운로드 & 상태 표시 박스 (무조건 100% 노출) */}

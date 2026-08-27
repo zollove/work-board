@@ -107,28 +107,35 @@ export async function fetchNaverMailsViaRest(count = 500): Promise<MailItem[]> {
 function cleanMailBodyText(rawBody: string): string {
   if (!rawBody) return "";
 
-  let cleaned = rawBody;
+  let textToParse = rawBody.trim();
 
-  // 1. If base64 content-transfer-encoding exists, extract and decode Base64
-  if (cleaned.includes("base64") || /^[A-Za-z0-9+/=\s]{40,}$/.test(cleaned)) {
-    const base64Matches = cleaned.match(/([A-Za-z0-9+/=\r\n]{40,})/g);
+  // Check if textToParse is a raw Base64 string (like PCFET0... from newsletter emails)
+  const compact = textToParse.replace(/[\r\n\s]/g, "");
+  if (/^[A-Za-z0-9+/=]{40,}$/.test(compact)) {
+    try {
+      const decoded = Buffer.from(compact, "base64").toString("utf-8");
+      if (decoded && decoded.length > 10) {
+        textToParse = decoded;
+      }
+    } catch (e) {}
+  } else {
+    // Extract inline base64 chunks
+    const base64Matches = textToParse.match(/([A-Za-z0-9+/=\r\n]{50,})/g);
     if (base64Matches && base64Matches.length > 0) {
       for (const b64Str of base64Matches) {
         const compactB64 = b64Str.replace(/[\r\n\s]/g, "");
-        if (compactB64.length > 30) {
-          try {
-            const decoded = Buffer.from(compactB64, "base64").toString("utf-8");
-            if (decoded && decoded.length > 10 && !/[^\x00-\x7F가-힣]/.test(decoded)) {
-              cleaned += "\n" + decoded;
-            }
-          } catch (e) {}
-        }
+        try {
+          const decoded = Buffer.from(compactB64, "base64").toString("utf-8");
+          if (decoded && (decoded.includes("<") || decoded.includes("http") || /[가-힣]/.test(decoded))) {
+            textToParse = textToParse.replace(b64Str, "\n" + decoded);
+          }
+        } catch (e) {}
       }
     }
   }
 
-  // 2. Filter out MIME boundaries, ThunderMail headers, and HTML tags
-  cleaned = cleaned
+  // Filter out MIME boundaries, headers, and HTML tags to extract clean Korean text
+  let cleaned = textToParse
     .replace(/--+_[A-Za-z0-9_\-.]+/g, " ")
     .replace(/Content-Type:[^\r\n]+/gi, " ")
     .replace(/Content-Transfer-Encoding:[^\r\n]+/gi, " ")
@@ -136,6 +143,11 @@ function cleanMailBodyText(rawBody: string): string {
     .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, " ")
     .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, " ")
     .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&gt;/gi, ">")
+    .replace(/&lt;/gi, "<")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
     .replace(/\s+/g, " ")
     .trim();
 
