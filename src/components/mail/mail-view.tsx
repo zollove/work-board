@@ -18,11 +18,15 @@ import {
   User,
   X,
   Key,
+  ExternalLink,
   ChevronLeft,
   ChevronRight,
   StickyNote,
   BookOpen,
   Share2,
+  Paperclip,
+  FileText,
+  Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -551,6 +555,18 @@ export function MailView({ initialProvider = "all" }: MailViewProps) {
                         {mail.subject}
                       </h3>
 
+                      {mail.attachments && mail.attachments.length > 0 && (
+                        <div className="flex items-center gap-1.5 pt-0.5 flex-wrap">
+                          <Badge variant="outline" className="text-[10px] font-bold bg-indigo-500/10 text-indigo-600 border-indigo-500/30 gap-1 py-0 px-2 rounded-lg">
+                            <Paperclip className="w-3 h-3" />
+                            <span>첨부파일 ({mail.attachments.length}개)</span>
+                          </Badge>
+                          <span className="text-[10px] text-muted-foreground font-semibold truncate max-w-[200px]">
+                            {mail.attachments.map((a) => a.name).join(", ")}
+                          </span>
+                        </div>
+                      )}
+
                       <p className="text-xs text-muted-foreground/80 truncate font-medium">
                         {mail.snippet}
                       </p>
@@ -698,6 +714,57 @@ export function MailView({ initialProvider = "all" }: MailViewProps) {
               <div className="p-4 rounded-2xl bg-background border text-xs leading-relaxed text-foreground whitespace-pre-line font-medium min-h-[120px]">
                 {selectedMail.body || selectedMail.snippet}
               </div>
+
+              {/* 📎 첨부파일 다운로드 & 미리보기 박스 */}
+              {selectedMail.attachments && selectedMail.attachments.length > 0 && (
+                <div className="p-4 rounded-2xl bg-indigo-500/5 border border-indigo-500/20 space-y-2.5">
+                  <div className="flex items-center justify-between text-xs font-black text-indigo-600">
+                    <span className="flex items-center gap-1.5">
+                      <Paperclip className="w-4 h-4" />
+                      <span>수신된 첨부파일 ({selectedMail.attachments.length}개)</span>
+                    </span>
+                    <span className="text-[10px] text-muted-foreground font-semibold">
+                      클릭하여 다운로드 저장
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {selectedMail.attachments.map((att, idx) => (
+                      <div
+                        key={idx}
+                        onClick={() => {
+                          const blob = new Blob([`Dummy content for ${att.name}`], { type: "text/plain" });
+                          const url = URL.createObjectURL(blob);
+                          const a = document.createElement("a");
+                          a.href = url;
+                          a.download = att.name;
+                          a.click();
+                        }}
+                        className="p-2.5 bg-background border rounded-xl flex items-center justify-between gap-2 hover:bg-muted/50 cursor-pointer transition-all shadow-xs group"
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-600 flex items-center justify-center shrink-0">
+                            <FileText className="w-4 h-4" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-xs font-bold text-foreground truncate group-hover:text-indigo-600">
+                              {att.name}
+                            </p>
+                            <p className="text-[10px] text-muted-foreground font-semibold">
+                              {att.size || "첨부 파일"}
+                            </p>
+                          </div>
+                        </div>
+
+                        <Badge variant="secondary" className="text-[10px] font-bold shrink-0 gap-1 bg-indigo-600 text-white">
+                          <Download className="w-3 h-3" />
+                          <span>다운로드</span>
+                        </Badge>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* 🌟 [개선안 2] 원클릭 스크랩 액션 툴바 */}
               <div className="flex items-center gap-2 p-3 bg-muted/20 border rounded-2xl flex-wrap justify-between">

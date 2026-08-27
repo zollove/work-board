@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   Calendar, Building2, StickyNote, Contact2, BookOpen,
   Calculator, PanelLeftClose, PanelLeftOpen,
-  Lock, Unlock, Settings, ChevronDown, ChevronUp,
+  Lock, Unlock, Settings, ChevronDown, ChevronUp, ChevronRight,
   Library, Compass, Mail, Newspaper, Briefcase,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -15,10 +15,13 @@ import { useScreenLockContext } from "@/components/layout/lock-provider";
 import { useGolfUnread } from "@/hooks/use-golf-unread";
 import { useMailUnread } from "@/hooks/use-mail-unread";
 
-const navItems = [
+const navGroup1 = [
   { name: "캘린더", href: "/", icon: Calendar },
   { name: "메모", href: "/memos", icon: StickyNote },
   { name: "지식창고", href: "/knowledge", icon: Library },
+];
+
+const navGroup2 = [
   { name: "계산기", href: "/calculators", icon: Calculator },
   { name: "타석 분석", href: "/pastel", icon: Compass },
   { name: "골프저널", href: "/golf", icon: Newspaper, isGolf: true },
@@ -36,6 +39,10 @@ export function Sidebar() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+
+  // 🌟 평상시(기본 상태)에는 접혀있도록 false로 설정
+  const [isMailOpen, setIsMailOpen] = useState(false);
+  const [isWorkOpen, setIsWorkOpen] = useState(false);
 
   const { hasUnread } = useGolfUnread();
   const { unreadCount: mailUnreadCount } = useMailUnread();
@@ -107,110 +114,157 @@ export function Sidebar() {
       {/* Navigation Items */}
       <div className="flex-1 py-4 overflow-y-auto">
         <nav className="grid items-start px-2 text-sm font-medium gap-1">
-          {/* ✉️ 메일 계층 그룹 (통합 제외, 들여쓰기 서브메뉴) */}
-          <div className="space-y-1 pb-1 mb-1 border-b">
-            <div className="flex items-center gap-2.5 px-3 py-2 text-xs font-black text-muted-foreground uppercase tracking-wider">
-              <Mail className="h-4 w-4 text-primary shrink-0" />
-              {!isCollapsed && <span>메일</span>}
-            </div>
-
-            {/* Submenu 1: Google 지메일 (Indent pl-7 / ml-1) */}
-            <Link
-              href="/mail/gmail"
-              title={isCollapsed ? "Google 지메일" : undefined}
-              className={cn(
-                "flex items-center gap-2.5 rounded-lg py-2 transition-all hover:text-primary relative group",
-                pathname === "/mail/gmail" || pathname === "/mail"
-                  ? "bg-rose-500/10 text-rose-600 font-extrabold border-l-2 border-l-rose-500"
-                  : "text-muted-foreground hover:bg-muted font-semibold",
-                isCollapsed ? "justify-center px-0" : "pl-7 ml-1 text-xs"
-              )}
+          {/* 1. ✉️ 메일 계층 그룹 (기본 접힘 아코디언) */}
+          <div className="space-y-1 pb-1">
+            <button
+              type="button"
+              onClick={() => setIsMailOpen(!isMailOpen)}
+              className="w-full flex items-center justify-between px-3 py-2 text-xs font-black text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-colors cursor-pointer select-none"
             >
-              <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
+              <div className="flex items-center gap-2.5">
+                <Mail className="h-4 w-4 text-primary shrink-0" />
+                {!isCollapsed && <span className="uppercase tracking-wider">메일</span>}
+              </div>
               {!isCollapsed && (
-                <div className="flex items-center justify-between w-full min-w-0 pr-2">
-                  <span className="truncate">Google 지메일</span>
+                <div className="text-muted-foreground">
+                  {isMailOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
                 </div>
               )}
-            </Link>
+            </button>
 
-            {/* Submenu 2: Naver 메일 (Indent pl-7 / ml-1) */}
-            <Link
-              href="/mail/naver"
-              title={isCollapsed ? "Naver 메일" : undefined}
-              className={cn(
-                "flex items-center gap-2.5 rounded-lg py-2 transition-all hover:text-primary relative group",
-                pathname === "/mail/naver"
-                  ? "bg-emerald-500/10 text-emerald-600 font-extrabold border-l-2 border-l-emerald-500"
-                  : "text-muted-foreground hover:bg-muted font-semibold",
-                isCollapsed ? "justify-center px-0" : "pl-7 ml-1 text-xs"
-              )}
+            {/* 메일 서브메뉴 (isMailOpen 일 때만 전개) */}
+            {isMailOpen && (
+              <div className="space-y-1 animate-in fade-in slide-in-from-top-1 duration-150">
+                <Link
+                  href="/mail/gmail"
+                  title={isCollapsed ? "Google 지메일" : undefined}
+                  className={cn(
+                    "flex items-center gap-2.5 rounded-lg py-2 transition-all hover:text-primary relative group",
+                    pathname === "/mail/gmail" || pathname === "/mail"
+                      ? "bg-rose-500/10 text-rose-600 font-extrabold border-l-2 border-l-rose-500"
+                      : "text-muted-foreground hover:bg-muted font-semibold",
+                    isCollapsed ? "justify-center px-0" : "pl-7 ml-1 text-xs"
+                  )}
+                >
+                  <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
+                  {!isCollapsed && <span className="truncate">Google 지메일</span>}
+                </Link>
+
+                <Link
+                  href="/mail/naver"
+                  title={isCollapsed ? "Naver 메일" : undefined}
+                  className={cn(
+                    "flex items-center gap-2.5 rounded-lg py-2 transition-all hover:text-primary relative group",
+                    pathname === "/mail/naver"
+                      ? "bg-emerald-500/10 text-emerald-600 font-extrabold border-l-2 border-l-emerald-500"
+                      : "text-muted-foreground hover:bg-muted font-semibold",
+                    isCollapsed ? "justify-center px-0" : "pl-7 ml-1 text-xs"
+                  )}
+                >
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                  {!isCollapsed && <span className="truncate">Naver 메일</span>}
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* 2. 캘린더, 메모, 지식창고 */}
+          {navGroup1.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                title={isCollapsed ? item.name : undefined}
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all hover:text-primary relative group",
+                  isActive ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:bg-muted",
+                  isCollapsed && "justify-center px-0"
+                )}
+              >
+                <div className="relative">
+                  <item.icon className="h-5 w-5 shrink-0" />
+                </div>
+                {!isCollapsed && (
+                  <div className="flex items-center justify-between w-full min-w-0">
+                    <span className="truncate">{item.name}</span>
+                  </div>
+                )}
+              </Link>
+            );
+          })}
+
+          {/* 3. 💼 업무 계층 그룹 (기본 접힘 아코디언) */}
+          <div className="space-y-1 pt-1 pb-1 my-1 border-t border-b">
+            <button
+              type="button"
+              onClick={() => setIsWorkOpen(!isWorkOpen)}
+              className="w-full flex items-center justify-between px-3 py-2 text-xs font-black text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-colors cursor-pointer select-none"
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+              <div className="flex items-center gap-2.5">
+                <Briefcase className="h-4 w-4 text-primary shrink-0" />
+                {!isCollapsed && <span className="uppercase tracking-wider">업무</span>}
+              </div>
               {!isCollapsed && (
-                <div className="flex items-center justify-between w-full min-w-0 pr-2">
-                  <span className="truncate">Naver 메일</span>
+                <div className="text-muted-foreground">
+                  {isWorkOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
                 </div>
               )}
-            </Link>
+            </button>
+
+            {/* 업무 서브메뉴 (isWorkOpen 일 때만 전개) */}
+            {isWorkOpen && (
+              <div className="space-y-1 animate-in fade-in slide-in-from-top-1 duration-150">
+                <Link
+                  href="/worklog"
+                  title={isCollapsed ? "업무일지" : undefined}
+                  className={cn(
+                    "flex items-center gap-2.5 rounded-lg py-2 transition-all hover:text-primary relative group",
+                    pathname === "/worklog"
+                      ? "bg-primary/10 text-primary font-extrabold border-l-2 border-l-primary"
+                      : "text-muted-foreground hover:bg-muted font-semibold",
+                    isCollapsed ? "justify-center px-0" : "pl-7 ml-1 text-xs"
+                  )}
+                >
+                  <BookOpen className="w-3.5 h-3.5 shrink-0" />
+                  {!isCollapsed && <span className="truncate">업무일지</span>}
+                </Link>
+
+                <Link
+                  href="/rentals"
+                  title={isCollapsed ? "임대현황" : undefined}
+                  className={cn(
+                    "flex items-center gap-2.5 rounded-lg py-2 transition-all hover:text-primary relative group",
+                    pathname === "/rentals"
+                      ? "bg-primary/10 text-primary font-extrabold border-l-2 border-l-primary"
+                      : "text-muted-foreground hover:bg-muted font-semibold",
+                    isCollapsed ? "justify-center px-0" : "pl-7 ml-1 text-xs"
+                  )}
+                >
+                  <Building2 className="w-3.5 h-3.5 shrink-0" />
+                  {!isCollapsed && <span className="truncate">임대현황</span>}
+                </Link>
+
+                <Link
+                  href="/contacts"
+                  title={isCollapsed ? "업체 연락처 관리" : undefined}
+                  className={cn(
+                    "flex items-center gap-2.5 rounded-lg py-2 transition-all hover:text-primary relative group",
+                    pathname === "/contacts"
+                      ? "bg-primary/10 text-primary font-extrabold border-l-2 border-l-primary"
+                      : "text-muted-foreground hover:bg-muted font-semibold",
+                    isCollapsed ? "justify-center px-0" : "pl-7 ml-1 text-xs"
+                  )}
+                >
+                  <Contact2 className="w-3.5 h-3.5 shrink-0" />
+                  {!isCollapsed && <span className="truncate">업체 연락처 관리</span>}
+                </Link>
+              </div>
+            )}
           </div>
 
-          {/* 💼 업무 계층 그룹 (하위 서브메뉴: 업무일지, 임대현황, 업체 연락처 관리) */}
-          <div className="space-y-1 pt-1 pb-1 mt-1 mb-1 border-t border-b">
-            <div className="flex items-center gap-2.5 px-3 py-2 text-xs font-black text-muted-foreground uppercase tracking-wider">
-              <Briefcase className="h-4 w-4 text-primary shrink-0" />
-              {!isCollapsed && <span>업무</span>}
-            </div>
-
-            {/* Submenu 1: 📖 업무일지 (/worklog) */}
-            <Link
-              href="/worklog"
-              title={isCollapsed ? "업무일지" : undefined}
-              className={cn(
-                "flex items-center gap-2.5 rounded-lg py-2 transition-all hover:text-primary relative group",
-                pathname === "/worklog"
-                  ? "bg-primary/10 text-primary font-extrabold border-l-2 border-l-primary"
-                  : "text-muted-foreground hover:bg-muted font-semibold",
-                isCollapsed ? "justify-center px-0" : "pl-7 ml-1 text-xs"
-              )}
-            >
-              <BookOpen className="w-3.5 h-3.5 shrink-0" />
-              {!isCollapsed && <span className="truncate">업무일지</span>}
-            </Link>
-
-            {/* Submenu 2: 🏢 임대현황 (/rentals) */}
-            <Link
-              href="/rentals"
-              title={isCollapsed ? "임대현황" : undefined}
-              className={cn(
-                "flex items-center gap-2.5 rounded-lg py-2 transition-all hover:text-primary relative group",
-                pathname === "/rentals"
-                  ? "bg-primary/10 text-primary font-extrabold border-l-2 border-l-primary"
-                  : "text-muted-foreground hover:bg-muted font-semibold",
-                isCollapsed ? "justify-center px-0" : "pl-7 ml-1 text-xs"
-              )}
-            >
-              <Building2 className="w-3.5 h-3.5 shrink-0" />
-              {!isCollapsed && <span className="truncate">임대현황</span>}
-            </Link>
-
-            {/* Submenu 3: 📇 업체 연락처 관리 (/contacts) */}
-            <Link
-              href="/contacts"
-              title={isCollapsed ? "업체 연락처 관리" : undefined}
-              className={cn(
-                "flex items-center gap-2.5 rounded-lg py-2 transition-all hover:text-primary relative group",
-                pathname === "/contacts"
-                  ? "bg-primary/10 text-primary font-extrabold border-l-2 border-l-primary"
-                  : "text-muted-foreground hover:bg-muted font-semibold",
-                isCollapsed ? "justify-center px-0" : "pl-7 ml-1 text-xs"
-              )}
-            >
-              <Contact2 className="w-3.5 h-3.5 shrink-0" />
-              {!isCollapsed && <span className="truncate">업체 연락처 관리</span>}
-            </Link>
-          </div>
-          {navItems.map((item) => {
+          {/* 4. 계산기, 타석 분석, 골프저널 */}
+          {navGroup2.map((item) => {
             const isActive = pathname === item.href;
             const showRedDot = item.isGolf && hasUnread;
 
@@ -221,9 +275,7 @@ export function Sidebar() {
                 title={isCollapsed ? item.name : undefined}
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all hover:text-primary relative group",
-                  isActive
-                    ? "bg-primary/10 text-primary font-semibold"
-                    : "text-muted-foreground hover:bg-muted",
+                  isActive ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:bg-muted",
                   isCollapsed && "justify-center px-0"
                 )}
               >

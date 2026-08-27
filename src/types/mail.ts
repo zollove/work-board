@@ -1,5 +1,12 @@
 export type MailProvider = "gmail" | "naver";
 
+export interface MailAttachment {
+  name: string;
+  size?: string;
+  url?: string;
+  type?: string;
+}
+
 export interface MailItem {
   id: string;
   provider: MailProvider;
@@ -13,6 +20,7 @@ export interface MailItem {
   isRead: boolean;
   isStarred?: boolean;
   folder?: "inbox" | "sent";
+  attachments?: MailAttachment[];
 }
 
 export interface MailFilterState {
