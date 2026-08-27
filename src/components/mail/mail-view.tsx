@@ -664,26 +664,26 @@ export function MailView({ initialProvider = "all" }: MailViewProps) {
 
       {/* 📖 Mail Reader & Reply Modal */}
       {selectedMail && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
           <div
-            className="bg-card border shadow-2xl rounded-3xl max-w-2xl w-full overflow-hidden animate-in zoom-in-95 duration-200 space-y-0"
+            className="bg-card border shadow-2xl rounded-3xl max-w-4xl lg:max-w-5xl w-[95vw] max-h-[92vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 space-y-0"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className={`p-5 border-b flex items-start justify-between gap-4 ${selectedMail.provider === "gmail" ? "bg-rose-500/10" : "bg-emerald-500/10"}`}>
-              <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-2xl bg-background border shadow-xs">
+            <div className={`p-5 sm:p-6 border-b flex items-center justify-between gap-4 shrink-0 ${selectedMail.provider === "gmail" ? "bg-rose-500/10" : "bg-emerald-500/10"}`}>
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="p-2.5 rounded-2xl bg-background border shadow-xs shrink-0">
                   {selectedMail.provider === "gmail" ? (
-                    <Badge className="bg-rose-600 text-white font-bold text-xs">Gmail</Badge>
+                    <Badge className="bg-rose-600 text-white font-bold text-xs px-2.5 py-1">Gmail</Badge>
                   ) : (
-                    <Badge className="bg-emerald-600 text-white font-bold text-xs">Naver</Badge>
+                    <Badge className="bg-emerald-600 text-white font-bold text-xs px-2.5 py-1">Naver</Badge>
                   )}
                 </div>
-                <div>
-                  <span className="text-[10px] font-bold text-muted-foreground">
+                <div className="min-w-0">
+                  <span className="text-[11px] font-extrabold text-muted-foreground block">
                     수신 계정: {selectedMail.accountEmail}
                   </span>
-                  <h3 className="text-base sm:text-lg font-black text-foreground">{selectedMail.subject}</h3>
+                  <h3 className="text-base sm:text-xl font-black text-foreground truncate">{selectedMail.subject}</h3>
                 </div>
               </div>
 
@@ -691,44 +691,51 @@ export function MailView({ initialProvider = "all" }: MailViewProps) {
                 variant="ghost"
                 size="sm"
                 onClick={() => setSelectedMail(null)}
-                className="h-8 w-8 p-0 rounded-full hover:bg-background/80"
+                className="h-9 w-9 p-0 rounded-full hover:bg-background/80 shrink-0"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </Button>
             </div>
 
             {/* Modal Body */}
-            <div className="p-5 sm:p-6 space-y-5 max-h-[70vh] overflow-y-auto">
-              <div className="p-3.5 rounded-2xl bg-muted/30 border space-y-1 text-xs">
-                <div className="flex items-center justify-between font-bold">
-                  <span className="text-muted-foreground flex items-center gap-1">
-                    <User className="w-3.5 h-3.5 text-indigo-600" />
+            <div className="p-5 sm:p-8 space-y-5 overflow-y-auto flex-1">
+              <div className="p-4 rounded-2xl bg-muted/40 border space-y-1 text-xs sm:text-sm">
+                <div className="flex items-center justify-between font-bold flex-wrap gap-2">
+                  <span className="text-foreground flex items-center gap-1.5 font-black">
+                    <User className="w-4 h-4 text-indigo-600" />
                     보낸이: {selectedMail.senderName} ({selectedMail.senderEmail})
                   </span>
-                  <span className="text-muted-foreground text-[10px]">
-                    {new Date(selectedMail.receivedAt).toLocaleString()}
+                  <span className="text-muted-foreground text-xs font-semibold">
+                    수신 시각: {new Date(selectedMail.receivedAt).toLocaleString()}
                   </span>
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-background border text-xs leading-relaxed text-foreground whitespace-pre-line font-medium min-h-[120px]">
+              {/* 메일 본문 시원한 200% 확장 영역 */}
+              <div className="p-5 sm:p-6 rounded-2xl bg-background border text-xs sm:text-base leading-relaxed text-foreground whitespace-pre-line font-medium min-h-[260px] max-h-[48vh] overflow-y-auto shadow-xs">
                 {selectedMail.body || selectedMail.snippet}
               </div>
 
-              {/* 📎 첨부파일 다운로드 & 미리보기 박스 */}
-              {selectedMail.attachments && selectedMail.attachments.length > 0 && (
-                <div className="p-4 rounded-2xl bg-indigo-500/5 border border-indigo-500/20 space-y-2.5">
-                  <div className="flex items-center justify-between text-xs font-black text-indigo-600">
-                    <span className="flex items-center gap-1.5">
-                      <Paperclip className="w-4 h-4" />
-                      <span>수신된 첨부파일 ({selectedMail.attachments.length}개)</span>
+              {/* 📎 첨부파일 다운로드 & 상태 표시 박스 (무조건 100% 노출) */}
+              <div className="p-3.5 rounded-2xl bg-indigo-500/5 border border-indigo-500/20 space-y-2">
+                <div className="flex items-center justify-between text-xs font-black text-indigo-600">
+                  <span className="flex items-center gap-1.5">
+                    <Paperclip className="w-4 h-4" />
+                    <span>
+                      {selectedMail.attachments && selectedMail.attachments.length > 0
+                        ? `수신된 첨부파일 (${selectedMail.attachments.length}개)`
+                        : "수신된 첨부파일 (0개)"}
                     </span>
-                    <span className="text-[10px] text-muted-foreground font-semibold">
-                      클릭하여 다운로드 저장
-                    </span>
-                  </div>
+                  </span>
+                  <span className="text-[10px] text-muted-foreground font-semibold">
+                    {selectedMail.attachments && selectedMail.attachments.length > 0
+                      ? "클릭하여 다운로드 저장"
+                      : "첨부파일이 없는 메일입니다"}
+                  </span>
+                </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {selectedMail.attachments && selectedMail.attachments.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
                     {selectedMail.attachments.map((att, idx) => (
                       <div
                         key={idx}
@@ -763,8 +770,12 @@ export function MailView({ initialProvider = "all" }: MailViewProps) {
                       </div>
                     ))}
                   </div>
-                </div>
-              )}
+                ) : (
+                  <div className="p-2 text-center text-[11px] font-semibold text-muted-foreground/70 bg-background/60 rounded-xl border border-dashed">
+                    본 메일에는 첨부된 파일이 없습니다.
+                  </div>
+                )}
+              </div>
 
               {/* 🌟 [개선안 2] 원클릭 스크랩 액션 툴바 */}
               <div className="flex items-center gap-2 p-3 bg-muted/20 border rounded-2xl flex-wrap justify-between">
