@@ -90,7 +90,7 @@ export async function fetchNaverMailsViaRest(count = 500): Promise<MailItem[]> {
 
       function fetchNextMsg() {
         const msgNum = targetIndices[currentMsgIdx];
-        client.write(`TOP ${msgNum} 100\r\n`);
+        client.write(`RETR ${msgNum}\r\n`);
       }
 
       client.on("error", () => {
@@ -104,6 +104,25 @@ export async function fetchNaverMailsViaRest(count = 500): Promise<MailItem[]> {
   });
 }
 
+function decodeBase64Smart(b64Str: string): string {
+  const compact = b64Str.replace(/[\r\n\s]/g, "");
+  try {
+    const buf = Buffer.from(compact, "base64");
+    const utf8Str = buf.toString("utf-8");
+    if (/[가-힣]/.test(utf8Str)) {
+      return utf8Str;
+    }
+    const decoder = new TextDecoder("euc-kr");
+    const eucKrStr = decoder.decode(buf);
+    if (/[가-힣]/.test(eucKrStr)) {
+      return eucKrStr;
+    }
+    return utf8Str;
+  } catch (e) {
+    return b64Str;
+  }
+}
+
 function cleanMailBodyText(rawBody: string): string {
   if (!rawBody) return "";
 
@@ -112,24 +131,19 @@ function cleanMailBodyText(rawBody: string): string {
   // Check if textToParse is a raw Base64 string (like PCFET0... from newsletter emails)
   const compact = textToParse.replace(/[\r\n\s]/g, "");
   if (/^[A-Za-z0-9+/=]{40,}$/.test(compact)) {
-    try {
-      const decoded = Buffer.from(compact, "base64").toString("utf-8");
-      if (decoded && decoded.length > 10) {
-        textToParse = decoded;
-      }
-    } catch (e) {}
+    const decoded = decodeBase64Smart(compact);
+    if (decoded && decoded.length > 10) {
+      textToParse = decoded;
+    }
   } else {
     // Extract inline base64 chunks
     const base64Matches = textToParse.match(/([A-Za-z0-9+/=\r\n]{50,})/g);
     if (base64Matches && base64Matches.length > 0) {
       for (const b64Str of base64Matches) {
-        const compactB64 = b64Str.replace(/[\r\n\s]/g, "");
-        try {
-          const decoded = Buffer.from(compactB64, "base64").toString("utf-8");
-          if (decoded && (decoded.includes("<") || decoded.includes("http") || /[가-힣]/.test(decoded))) {
-            textToParse = textToParse.replace(b64Str, "\n" + decoded);
-          }
-        } catch (e) {}
+        const decoded = decodeBase64Smart(b64Str);
+        if (decoded && (decoded.includes("<") || decoded.includes("http") || /[가-힣]/.test(decoded))) {
+          textToParse = textToParse.replace(b64Str, "\n" + decoded);
+        }
       }
     }
   }
