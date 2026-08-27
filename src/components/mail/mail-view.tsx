@@ -320,6 +320,136 @@ export function MailView() {
         </div>
       </div>
 
+      {/* 🗂️ [개선안 1] 2단계 계층 스마트 필터 & [개선안 3] 보기 개수 툴바 */}
+      <div className="flex flex-col gap-3 bg-muted/20 p-3.5 rounded-2xl border">
+        {/* 1단계: 계정 선택 탭 */}
+        <div className="flex items-center justify-between gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 bg-background p-1.5 rounded-xl border shrink-0 overflow-x-auto scrollbar-none">
+            <Button
+              variant={accountFilter === "all" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => { setAccountFilter("all"); setCurrentPage(1); }}
+              className={`h-8 text-xs font-bold rounded-lg shrink-0 gap-1.5 ${
+                accountFilter === "all" ? "bg-indigo-600 hover:bg-indigo-700 text-white" : ""
+              }`}
+            >
+              <Inbox className="w-3.5 h-3.5" />
+              <span>✉️ 전체 메일함 ({mails.length})</span>
+            </Button>
+
+            <Button
+              variant={accountFilter === "gmail" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => { setAccountFilter("gmail"); setCurrentPage(1); }}
+              className={`h-8 text-xs font-bold rounded-lg shrink-0 gap-1.5 ${
+                accountFilter === "gmail" ? "bg-rose-600 hover:bg-rose-700 text-white" : ""
+              }`}
+            >
+              <span className="w-2 h-2 rounded-full bg-rose-500 inline-block" />
+              <span>🔴 Google 지메일 ({gmailCount})</span>
+            </Button>
+
+            <Button
+              variant={accountFilter === "naver" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => { setAccountFilter("naver"); setCurrentPage(1); }}
+              className={`h-8 text-xs font-bold rounded-lg shrink-0 gap-1.5 ${
+                accountFilter === "naver" ? "bg-emerald-600 hover:bg-emerald-700 text-white" : ""
+              }`}
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
+              <span>🟢 Naver 네이버 ({naverCount})</span>
+            </Button>
+          </div>
+
+          {/* 🌟 [개선안 3] 500개 한눈에 보기 선택 드롭다운 */}
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-muted-foreground whitespace-nowrap">표시 개수:</span>
+            <select
+              value={itemsPerPage}
+              onChange={(e) => { setItemsPerPage(Number(e.target.value)); setCurrentPage(1); }}
+              className="h-8 rounded-xl border border-input bg-background px-3 text-xs font-extrabold focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer shadow-xs"
+            >
+              <option value={30}>30개씩 분할 보기</option>
+              <option value={50}>50개씩 보기</option>
+              <option value={100}>100개씩 보기</option>
+              <option value={500}>🚀 500개 전체 한눈에 보기</option>
+            </select>
+          </div>
+        </div>
+
+        {/* 2단계: 서브 메일함 토글 및 검색 바 */}
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 pt-1">
+          <div className="flex items-center gap-1 overflow-x-auto scrollbar-none">
+            <Button
+              variant={folderFilter === "all" ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => { setFolderFilter("all"); setCurrentPage(1); }}
+              className={`h-7 text-[11px] font-bold rounded-lg ${folderFilter === "all" ? "bg-primary text-primary-foreground" : ""}`}
+            >
+              전체 메일
+            </Button>
+            <Button
+              variant={folderFilter === "inbox" ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => { setFolderFilter("inbox"); setCurrentPage(1); }}
+              className={`h-7 text-[11px] font-bold rounded-lg gap-1 ${folderFilter === "inbox" ? "bg-primary text-primary-foreground" : ""}`}
+            >
+              <Inbox className="w-3 h-3" />
+              <span>받은 메일함</span>
+            </Button>
+            <Button
+              variant={folderFilter === "sent" ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => { setFolderFilter("sent"); setCurrentPage(1); }}
+              className={`h-7 text-[11px] font-bold rounded-lg gap-1 ${folderFilter === "sent" ? "bg-primary text-primary-foreground" : ""}`}
+            >
+              <Send className="w-3 h-3" />
+              <span>보낸 메일함</span>
+            </Button>
+            <Button
+              variant={folderFilter === "starred" ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => { setFolderFilter("starred"); setCurrentPage(1); }}
+              className={`h-7 text-[11px] font-bold rounded-lg gap-1 ${folderFilter === "starred" ? "bg-amber-500 text-white" : ""}`}
+            >
+              <Star className="w-3 h-3 fill-amber-300" />
+              <span>중요/북마크</span>
+            </Button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 bg-background border px-3 py-1 rounded-xl shadow-xs flex-1 md:w-64">
+              <Search className="w-4 h-4 text-muted-foreground shrink-0" />
+              <input
+                type="text"
+                placeholder="제목, 보낸이, 내용 검색..."
+                value={searchQuery}
+                onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+                className="w-full text-xs bg-transparent border-none outline-none font-medium placeholder:text-muted-foreground"
+              />
+              {searchQuery && (
+                <button onClick={() => setSearchQuery("")} className="text-muted-foreground hover:text-foreground">
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+
+            <Button
+              variant={unreadOnly ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => { setUnreadOnly(!unreadOnly); setCurrentPage(1); }}
+              className={`h-8 text-xs font-bold rounded-xl px-2.5 gap-1 shrink-0 ${
+                unreadOnly ? "bg-amber-500/10 text-amber-600 border-amber-500/30" : ""
+              }`}
+            >
+              <Filter className="w-3 h-3" />
+              <span>안읽음 ({unreadCount})</span>
+            </Button>
+          </div>
+        </div>
+      </div>
+
       {/* 📩 Mail Card List View */}
       <Card className="border shadow-xs overflow-hidden">
         <CardHeader className="py-3 px-4 bg-muted/20 border-b flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
