@@ -42,7 +42,8 @@ import {
   Table as TableIcon,
   Eye,
   EyeOff,
-  Save
+  Save,
+  Briefcase
 } from "lucide-react";
 
 const CATEGORIES = ["전체", "아이디어", "노하우", "링크", "체크"];

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useWorkLogs } from "@/hooks/use-work-logs";
 import { compressImage } from "@/hooks/use-memos";
 import { MemoRichEditor } from "@/components/memos/memo-rich-editor";
@@ -67,6 +67,12 @@ export function WorkLogView() {
   const [isCompressing, setIsCompressing] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
 
+  // 🌟 Auto-Save State & Timer Ref
+  const [autoSaveStatus, setAutoSaveStatus] = useState<"idle" | "typing" | "saving" | "saved">("idle");
+  const [lastSavedTime, setLastSavedTime] = useState<string | null>(null);
+  const isInitialLoad = useRef(true);
+  const autoSaveTimerRef = useRef<NodeJS.Timeout | null>(null);
+
   // Set of dates that have saved work logs
   const logDatesSet = useMemo(() => {
     const set = new Set<string>();
@@ -95,6 +101,7 @@ export function WorkLogView() {
 
   // Sync form fields when selectedDate changes or logs update
   useEffect(() => {
+    isInitialLoad.current = true;
     const existing = getLogByDate(selectedDate);
     if (existing) {
       let combined = existing.todayWork || "";
@@ -111,6 +118,8 @@ export function WorkLogView() {
       setImageUrl("");
     }
 
+    setAutoSaveStatus("idle");
+
     // Sync calendar view month to selectedDate
     const [y, m] = selectedDate.split("-").map(Number);
     if (y && m) {
@@ -118,6 +127,40 @@ export function WorkLogView() {
       setCalendarMonth(m);
     }
   }, [selectedDate, logs]);
+
+  // ✍️ 텍스트 감지 실시간 자동 저장 (1.5초 디바운스)
+  useEffect(() => {
+    if (isInitialLoad.current) {
+      isInitialLoad.current = false;
+      return;
+    }
+
+    setAutoSaveStatus("typing");
+
+    if (autoSaveTimerRef.current) {
+      clearTimeout(autoSaveTimerRef.current);
+    }
+
+    autoSaveTimerRef.current = setTimeout(async () => {
+      setAutoSaveStatus("saving");
+      await saveLog({
+        date: selectedDate,
+        todayWork,
+        pendingWork: "",
+        issues: "",
+        imageUrl,
+      });
+      const timeStr = new Date().toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      setLastSavedTime(timeStr);
+      setAutoSaveStatus("saved");
+    }, 1500);
+
+    return () => {
+      if (autoSaveTimerRef.current) {
+        clearTimeout(autoSaveTimerRef.current);
+      }
+    };
+  }, [todayWork, imageUrl, selectedDate]);
 
   const handleDateChange = (days: number) => {
     const [y, m, d] = selectedDate.split("-").map(Number);
@@ -506,6 +549,23 @@ export function WorkLogView() {
 
           {/* Right: Date badge, Prior Year Badges, Today Jump, Delete, Save */}
           <div className="flex items-center gap-2 flex-wrap justify-between md:justify-end">
+            {/* 🌟 Auto-Save Status Badge Indicator */}
+            {autoSaveStatus === "typing" && (
+              <Badge className="bg-amber-500/10 text-amber-600 border border-amber-500/30 text-[11px] font-extrabold px-2.5 py-0.5 animate-pulse">
+                ✍️ 텍스트 감지 중... (1.5초 후 자동 저장)
+              </Badge>
+            )}
+            {autoSaveStatus === "saving" && (
+              <Badge className="bg-blue-500/10 text-blue-600 border border-blue-500/30 text-[11px] font-extrabold px-2.5 py-0.5 animate-pulse">
+                💾 자동 저장 중...
+              </Badge>
+            )}
+            {autoSaveStatus === "saved" && (
+              <Badge className="bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 text-[11px] font-extrabold px-2.5 py-0.5">
+                ✅ {lastSavedTime}에 자동 저장 완료
+              </Badge>
+            )}
+
             <Badge variant="secondary" className="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/30 text-xs px-3 py-1 font-bold">
               {formattedDateKo}
             </Badge>

@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay } from "date-fns";
+import { ko } from "date-fns/locale";
 import { useMemos, compressImage } from "@/hooks/use-memos";
 import { useChecklist } from "@/hooks/use-checklist";
 import { MemoRichEditor } from "./memo-rich-editor";
@@ -20,6 +22,7 @@ import {
   Sparkles, 
   Calendar as CalendarIcon, 
   Maximize2, 
+  Minimize2,
   Trash2, 
   Edit3, 
   Download, 
@@ -38,6 +41,8 @@ import {
   Square,
   ChevronDown,
   ChevronUp,
+  ChevronLeft,
+  ChevronRight,
   Sparkle,
   Link2,
   Clipboard,
@@ -47,8 +52,8 @@ import {
   Save
 } from "lucide-react";
 
-const CATEGORIES = ["전체", "중요", "일반", "생활"];
-const MEMO_ONLY_CATEGORIES = ["중요", "일반", "생활"];
+const CATEGORIES = ["전체", "업무", "중요", "일반", "생활"];
+const MEMO_ONLY_CATEGORIES = ["업무", "중요", "일반", "생활"];
 
 export function MemoView() {
   const { memos, addMemo, updateMemo, deleteMemo, setMemoList } = useMemos();
@@ -56,11 +61,53 @@ export function MemoView() {
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(["전체"]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [viewMode, setViewMode] = useState<"card" | "gallery">("card");
+  const [viewMode, setViewMode] = useState<"card" | "gallery" | "calendar">("card");
+
+  // 🌟 메모 달력 연도/월 State
+  const today = new Date();
+  const [calendarYear, setCalendarYear] = useState(today.getFullYear());
+  const [calendarMonth, setCalendarMonth] = useState(today.getMonth());
   const [isCompactFolded, setIsCompactFolded] = useState(true);
   const [expandedMemoIds, setExpandedMemoIds] = useState<Set<string>>(new Set());
   const [sortOrder, setSortOrder] = useState<"custom" | "date_desc" | "date_asc">("custom");
   const [enlargedImageUrl, setEnlargedImageUrl] = useState<string | null>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      if (imageContainerRef.current) {
+        const el = imageContainerRef.current as any;
+        if (el.requestFullscreen) {
+          el.requestFullscreen();
+        } else if (el.webkitRequestFullscreen) {
+          el.webkitRequestFullscreen();
+        } else if (el.msRequestFullscreen) {
+          el.msRequestFullscreen();
+        }
+        setIsFullscreen(true);
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen();
+      }
+      setIsFullscreen(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
+    };
+  }, []);
 
   const toggleExpandMemo = (id: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
@@ -622,11 +669,23 @@ export function MemoView() {
               variant={viewMode === "gallery" ? "secondary" : "ghost"}
               size="sm"
               onClick={() => setViewMode("gallery")}
-              className="h-7 text-xs px-2 gap-1"
+              className="h-7 text-xs px-2 gap-1 font-bold"
               title="사진 갤러리 뷰"
             >
               <Images className="w-3.5 h-3.5 text-amber-500" />
               <span>갤러리</span>
+            </Button>
+            <Button
+              variant={viewMode === "calendar" ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => setViewMode("calendar")}
+              className={`h-7 text-xs px-2 gap-1 font-bold ${
+                viewMode === "calendar" ? "bg-indigo-600 text-white hover:bg-indigo-700 shadow-xs" : ""
+              }`}
+              title="달력 뷰 (메모 생성 날짜별 수록)"
+            >
+              <CalendarIcon className="w-3.5 h-3.5" />
+              <span>달력 뷰</span>
             </Button>
             <Button
               variant={isCompactFolded ? "secondary" : "ghost"}
@@ -644,8 +703,179 @@ export function MemoView() {
         </div>
       </div>
 
-      {/* MEMO ITEMS DISPLAY (Drag and Drop Supported) */}
-      {filteredMemos.length === 0 ? (
+      {/* 📅 [신규] viewMode === 'calendar' 전용 월별 메모 달력 뷰 */}
+      {viewMode === "calendar" ? (
+        <Card className="border rounded-2xl bg-card shadow-sm overflow-hidden p-4 sm:p-6 space-y-4">
+          {/* Calendar Controls */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-muted/20 p-3 rounded-2xl border">
+            <div className="flex items-center gap-2">
+              <CalendarIcon className="w-5 h-5 text-indigo-600 shrink-0" />
+              <h2 className="text-base sm:text-xl font-extrabold flex items-center gap-2">
+                <span>{calendarYear}년 {calendarMonth + 1}월 메모 달력</span>
+                <Badge variant="outline" className="text-[10px] font-bold bg-indigo-500/10 text-indigo-600 border-indigo-500/30">
+                  총 {filteredMemos.length}개 메모
+                </Badge>
+              </h2>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  if (calendarMonth === 0) {
+                    setCalendarYear(calendarYear - 1);
+                    setCalendarMonth(11);
+                  } else {
+                    setCalendarMonth(calendarMonth - 1);
+                  }
+                }}
+                className="h-8 px-2.5 text-xs font-bold gap-1"
+              >
+                <ChevronLeft className="w-3.5 h-3.5" />
+                <span>이전달</span>
+              </Button>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setCalendarYear(today.getFullYear());
+                  setCalendarMonth(today.getMonth());
+                }}
+                className="h-8 px-3 text-xs font-bold bg-indigo-500/10 text-indigo-600 border-indigo-500/30 hover:bg-indigo-500/20"
+              >
+                오늘
+              </Button>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  if (calendarMonth === 11) {
+                    setCalendarYear(calendarYear + 1);
+                    setCalendarMonth(0);
+                  } else {
+                    setCalendarMonth(calendarMonth + 1);
+                  }
+                }}
+                className="h-8 px-2.5 text-xs font-bold gap-1"
+              >
+                <span>다음달</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Calendar Grid */}
+          {(() => {
+            const activeDate = new Date(calendarYear, calendarMonth, 1);
+            const daysInMonth = eachDayOfInterval({
+              start: startOfMonth(activeDate),
+              end: endOfMonth(activeDate),
+            });
+            const startDay = startOfMonth(activeDate).getDay();
+            const emptyDays = Array.from({ length: startDay }, (_, i) => i);
+            const weekDays = ["일", "월", "화", "수", "목", "금", "토"];
+
+            return (
+              <div className="border rounded-2xl overflow-hidden bg-background shadow-xs">
+                {/* Weekday Header */}
+                <div className="grid grid-cols-7 border-b bg-muted/40 text-center font-black text-xs py-2.5">
+                  {weekDays.map((day, i) => (
+                    <span key={day} className={i === 0 ? "text-rose-500" : i === 6 ? "text-blue-500" : "text-muted-foreground"}>
+                      {day}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Day Cells Grid */}
+                <div className="grid grid-cols-7 divide-x divide-y auto-rows-fr">
+                  {emptyDays.map((_, idx) => (
+                    <div key={`empty-${idx}`} className="min-h-[100px] sm:min-h-[120px] bg-muted/10 p-1.5" />
+                  ))}
+
+                  {daysInMonth.map((day) => {
+                    const dayStr = format(day, "yyyy-MM-dd");
+                    const isToday = isSameDay(day, today);
+                    const isSunday = day.getDay() === 0;
+                    const isSaturday = day.getDay() === 6;
+
+                    // Filter memos created/updated on this day
+                    const dayMemos = filteredMemos.filter((m) => {
+                      const memoDateStr = m.createdAt ? m.createdAt.slice(0, 10) : "";
+                      return memoDateStr === dayStr;
+                    });
+
+                    return (
+                      <div
+                        key={dayStr}
+                        onClick={() => {
+                          setEditingMemo(null);
+                          setTitle(`${format(day, "M월 d일")} 메모`);
+                          setCategory("일반");
+                          setContent("");
+                          setImageUrl("");
+                          setIsPasted(false);
+                          setIsFormOpen(true);
+                        }}
+                        className={`min-h-[100px] sm:min-h-[120px] p-1.5 transition-all hover:bg-indigo-500/5 cursor-pointer flex flex-col justify-between ${
+                          isToday ? "bg-indigo-500/10 ring-2 ring-indigo-500/40" : ""
+                        }`}
+                      >
+                        <div>
+                          {/* Date Number Header */}
+                          <div className="flex items-center justify-between">
+                            <span
+                              className={`text-xs font-black w-6 h-6 rounded-full flex items-center justify-center ${
+                                isToday
+                                  ? "bg-indigo-600 text-white shadow-xs"
+                                  : isSunday
+                                  ? "text-rose-500 font-bold"
+                                  : isSaturday
+                                  ? "text-blue-500 font-bold"
+                                  : "text-foreground"
+                              }`}
+                            >
+                              {format(day, "d")}
+                            </span>
+
+                            {dayMemos.length > 0 && (
+                              <span className="text-[10px] font-black text-indigo-600 bg-indigo-500/15 px-1.5 py-0.2 rounded-full border border-indigo-500/30">
+                                {dayMemos.length}개
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Memos List in Day Cell */}
+                          <div className="mt-1.5 space-y-1">
+                            {dayMemos.map((memo) => (
+                              <div
+                                key={memo.id}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setViewingMemo(memo);
+                                }}
+                                className="p-1 sm:p-1.5 rounded-lg bg-card border shadow-2xs hover:border-indigo-500 hover:shadow-xs transition-all text-[11px] font-bold truncate flex items-center gap-1 group cursor-pointer"
+                              >
+                                <span className={`w-2 h-2 rounded-full shrink-0 ${
+                                  memo.category === "업무" ? "bg-indigo-500" : memo.category === "중요" ? "bg-rose-500" : "bg-emerald-500"
+                                }`} />
+                                <span className="truncate flex-1 group-hover:text-indigo-600">{memo.title}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
+        </Card>
+      ) : (
+        filteredMemos.length === 0 ? (
         <div className="text-center py-16 border-2 border-dashed rounded-2xl space-y-3 bg-muted/10">
           <StickyNote className="w-10 h-10 text-muted-foreground/50 mx-auto" />
           <p className="text-sm font-medium text-muted-foreground">
@@ -713,6 +943,7 @@ export function MemoView() {
                             : "bg-slate-500/10 text-slate-700 dark:text-slate-300 border-slate-500/30"
                         }`}
                       >
+                        {memo.category === "업무" && "💼 "}
                         {memo.category === "중요" && "🚨 "}
                         {memo.category === "일반" && "📋 "}
                         {memo.category === "생활" && "☕ "}
@@ -883,6 +1114,7 @@ export function MemoView() {
             );
           })}
         </div>
+      )
       )}
 
       {/* 팝업 1: MEMO DETAIL POPUP MODAL */}
@@ -1024,6 +1256,7 @@ export function MemoView() {
                   onChange={(e) => setCategory(e.target.value)}
                 >
                   <optgroup label="📝 메모" className="font-bold text-muted-foreground">
+                    <option value="업무" className="py-2 text-foreground bg-background">💼 업무</option>
                     <option value="중요" className="py-2 text-foreground bg-background">🚨 중요</option>
                     <option value="일반" className="py-2 text-foreground bg-background">📋 일반</option>
                     <option value="생활" className="py-2 text-foreground bg-background">☕ 생활</option>
@@ -1040,7 +1273,7 @@ export function MemoView() {
 
               {/* Dynamic Destination Guide Indicator */}
               <div className="pt-1 flex items-center">
-                {["중요", "일반", "생활"].includes(category) ? (
+                {["업무", "중요", "일반", "생활"].includes(category) ? (
                   <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 animate-in fade-in duration-150">
                     📝 <strong>[메모]</strong> 메뉴의 '{category}' 보관함으로 저장됩니다
                   </span>
@@ -1082,27 +1315,39 @@ export function MemoView() {
       <Dialog open={!!enlargedImageUrl} onOpenChange={(open) => !open && setEnlargedImageUrl(null)}>
         <DialogContent className="max-w-[95vw] sm:max-w-4xl lg:max-w-6xl p-3 bg-black/95 border-none shadow-2xl rounded-2xl flex flex-col items-center justify-center">
           {enlargedImageUrl && (
-            <div className="relative w-full flex flex-col items-center justify-center p-2 space-y-3">
+            <div ref={imageContainerRef} className="relative w-full flex flex-col items-center justify-center p-2 space-y-3 bg-black rounded-xl">
               <img
                 src={enlargedImageUrl}
                 alt="확대 사진"
                 className="max-h-[82vh] w-auto max-w-full object-contain rounded-xl shadow-2xl"
               />
-              <div className="flex items-center justify-between w-full px-4 pt-1 text-white">
+              <div className="flex items-center justify-between w-full px-4 pt-1 text-white flex-wrap gap-2">
                 <span className="text-xs font-bold text-white/90">🖼️ 이미지 원본 크게 보기</span>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => {
-                    const link = document.createElement("a");
-                    link.href = enlargedImageUrl;
-                    link.download = `memo_image_${Date.now()}.png`;
-                    link.click();
-                  }}
-                  className="h-8 text-xs font-bold gap-1.5 bg-white/20 text-white hover:bg-white/30"
-                >
-                  <Download className="w-3.5 h-3.5" /> 원본 다운로드
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={toggleFullscreen}
+                    className="h-8 text-xs font-bold gap-1.5 bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm"
+                  >
+                    {isFullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+                    <span>{isFullscreen ? "전체 화면 종료" : "전체 화면으로 보기"}</span>
+                  </Button>
+
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      const link = document.createElement("a");
+                      link.href = enlargedImageUrl;
+                      link.download = `memo_image_${Date.now()}.png`;
+                      link.click();
+                    }}
+                    className="h-8 text-xs font-bold gap-1.5 bg-white/20 text-white hover:bg-white/30"
+                  >
+                    <Download className="w-3.5 h-3.5" /> 원본 다운로드
+                  </Button>
+                </div>
               </div>
             </div>
           )}
