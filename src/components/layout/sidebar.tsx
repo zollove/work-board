@@ -40,8 +40,6 @@ export function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
-  // 🌟 평상시(기본 상태)에는 접혀있도록 false로 설정
-  const [isMailOpen, setIsMailOpen] = useState(false);
   const [isWorkOpen, setIsWorkOpen] = useState(false);
 
   const { hasUnread } = useGolfUnread();
@@ -114,59 +112,6 @@ export function Sidebar() {
       {/* Navigation Items */}
       <div className="flex-1 py-4 overflow-y-auto">
         <nav className="grid items-start px-2 text-sm font-medium gap-1">
-          {/* 1. ✉️ 메일 계층 그룹 (기본 접힘 아코디언) */}
-          <div className="space-y-1 pb-1">
-            <button
-              type="button"
-              onClick={() => setIsMailOpen(!isMailOpen)}
-              className="w-full flex items-center justify-between px-3 py-2 text-xs font-black text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-colors cursor-pointer select-none"
-            >
-              <div className="flex items-center gap-2.5">
-                <Mail className="h-4 w-4 text-primary shrink-0" />
-                {!isCollapsed && <span className="uppercase tracking-wider">메일</span>}
-              </div>
-              {!isCollapsed && (
-                <div className="text-muted-foreground">
-                  {isMailOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
-                </div>
-              )}
-            </button>
-
-            {/* 메일 서브메뉴 (isMailOpen 일 때만 전개) */}
-            {isMailOpen && (
-              <div className="space-y-1 animate-in fade-in slide-in-from-top-1 duration-150">
-                <Link
-                  href="/mail/gmail"
-                  title={isCollapsed ? "Google 지메일" : undefined}
-                  className={cn(
-                    "flex items-center gap-2.5 rounded-lg py-2 transition-all hover:text-primary relative group",
-                    pathname === "/mail/gmail" || pathname === "/mail"
-                      ? "bg-rose-500/10 text-rose-600 font-extrabold border-l-2 border-l-rose-500"
-                      : "text-muted-foreground hover:bg-muted font-semibold",
-                    isCollapsed ? "justify-center px-0" : "pl-7 ml-1 text-xs"
-                  )}
-                >
-                  <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
-                  {!isCollapsed && <span className="truncate">Google 지메일</span>}
-                </Link>
-
-                <Link
-                  href="/mail/naver"
-                  title={isCollapsed ? "Naver 메일" : undefined}
-                  className={cn(
-                    "flex items-center gap-2.5 rounded-lg py-2 transition-all hover:text-primary relative group",
-                    pathname === "/mail/naver"
-                      ? "bg-emerald-500/10 text-emerald-600 font-extrabold border-l-2 border-l-emerald-500"
-                      : "text-muted-foreground hover:bg-muted font-semibold",
-                    isCollapsed ? "justify-center px-0" : "pl-7 ml-1 text-xs"
-                  )}
-                >
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
-                  {!isCollapsed && <span className="truncate">Naver 메일</span>}
-                </Link>
-              </div>
-            )}
-          </div>
 
           {/* 2. 캘린더, 메모, 지식창고 */}
           {navGroup1.map((item) => {

@@ -12,8 +12,6 @@ import { useMailUnread } from "@/hooks/use-mail-unread";
 import { useEffect, useRef } from "react";
 
 const navItems = [
-  { name: "지메일", href: "/mail/gmail", icon: Mail },
-  { name: "네이버메일", href: "/mail/naver", icon: Mail },
   { name: "캘린더", href: "/", icon: Calendar },
   { name: "메모", href: "/memos", icon: StickyNote },
   { name: "지식창고", href: "/knowledge", icon: Library },
