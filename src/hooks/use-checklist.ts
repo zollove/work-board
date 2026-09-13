@@ -54,25 +54,28 @@ export function useChecklist() {
   };
 
   const fetchChecklist = async () => {
-    const { data, error } = await supabase
-      .from("checklist")
-      .select("*")
-      .order("created_at", { ascending: true });
+    try {
+      const { data, error } = await supabase
+        .from("checklist")
+        .select("*")
+        .order("created_at", { ascending: true });
 
-    if (error) {
-      console.warn("Checklist table fallback to local storage:", error.message);
-      return;
-    }
+      if (error) {
+        console.warn("Checklist table fallback to local storage:", error.message);
+        return;
+      }
 
-    if (data) {
-      const mapped: ChecklistItem[] = data.map((item: any) => ({
-        id: item.id,
-        text: item.text || "",
-        isCompleted: item.is_completed ?? item.isCompleted ?? false,
-        createdAt: item.created_at || item.createdAt || new Date().toISOString(),
-      }));
-      // Exact sync with DB (deletions on one device will instantly reflect on all devices)
-      saveLocal(mapped);
+      if (data && data.length > 0) {
+        const mapped: ChecklistItem[] = data.map((item: any) => ({
+          id: item.id,
+          text: item.text || "",
+          isCompleted: item.is_completed ?? item.isCompleted ?? false,
+          createdAt: item.created_at || item.createdAt || new Date().toISOString(),
+        }));
+        saveLocal(mapped);
+      }
+    } catch (e) {
+      console.warn("Checklist fetch error fallback to local storage:", e);
     }
   };
 
@@ -103,16 +106,15 @@ export function useChecklist() {
     const updated = [...items, newItem];
     saveLocal(updated);
 
-    const payload = {
-      id: newItem.id,
-      text: newItem.text,
-      is_completed: false,
-      created_at: newItem.createdAt,
-    };
-
-    const { error } = await supabase.from("checklist").insert([payload]);
-    if (error) console.warn("Checklist DB insert error:", error.message);
-    else fetchChecklist();
+    try {
+      const payload = {
+        id: newItem.id,
+        text: newItem.text,
+        is_completed: false,
+        created_at: newItem.createdAt,
+      };
+      await supabase.from("checklist").insert([payload]);
+    } catch (e) {}
   };
 
   const toggleItem = async (id: string) => {
@@ -123,21 +125,21 @@ export function useChecklist() {
     const updated = items.map((i) => (i.id === id ? { ...i, isCompleted: newCompleted } : i));
     saveLocal(updated);
 
-    const { error } = await supabase
-      .from("checklist")
-      .update({ is_completed: newCompleted })
-      .eq("id", id);
-    if (error) console.warn("Checklist DB update error:", error.message);
-    else fetchChecklist();
+    try {
+      await supabase
+        .from("checklist")
+        .update({ is_completed: newCompleted })
+        .eq("id", id);
+    } catch (e) {}
   };
 
   const deleteItem = async (id: string) => {
     const updated = items.filter((i) => i.id !== id);
     saveLocal(updated);
 
-    const { error } = await supabase.from("checklist").delete().eq("id", id);
-    if (error) console.warn("Checklist DB delete error:", error.message);
-    else fetchChecklist();
+    try {
+      await supabase.from("checklist").delete().eq("id", id);
+    } catch (e) {}
   };
 
   const clearCompleted = async () => {
@@ -146,9 +148,9 @@ export function useChecklist() {
     saveLocal(updated);
 
     if (completedIds.length > 0) {
-      const { error } = await supabase.from("checklist").delete().in("id", completedIds);
-      if (error) console.warn("Checklist DB clear error:", error.message);
-      else fetchChecklist();
+      try {
+        await supabase.from("checklist").delete().in("id", completedIds);
+      } catch (e) {}
     }
   };
 
