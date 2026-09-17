@@ -49,8 +49,39 @@ import {
   Table as TableIcon,
   Eye,
   EyeOff,
-  Save
+  Save,
+  RotateCw,
 } from "lucide-react";
+
+// 🌟 Canvas 기반 이미지 90도 회전 유틸리티
+export function rotateImageBase64(srcUrl: string, angleDegree: number = 90): Promise<string> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return resolve(srcUrl);
+
+      const rad = (angleDegree * Math.PI) / 180;
+      if (angleDegree === 90 || angleDegree === 270) {
+        canvas.width = img.height;
+        canvas.height = img.width;
+      } else {
+        canvas.width = img.width;
+        canvas.height = img.height;
+      }
+
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.rotate(rad);
+      ctx.drawImage(img, -img.width / 2, -img.height / 2);
+
+      resolve(canvas.toDataURL("image/jpeg", 0.85));
+    };
+    img.onerror = () => resolve(srcUrl);
+    img.src = srcUrl;
+  });
+}
 
 const CATEGORIES = ["전체", "업무", "중요", "일반", "생활"];
 const MEMO_ONLY_CATEGORIES = ["업무", "중요", "일반", "생활"];
@@ -73,6 +104,36 @@ export function MemoView() {
   const [enlargedImageUrl, setEnlargedImageUrl] = useState<string | null>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // 🌟 이미지 회전 각도 및 로딩 상태
+  const [rotationDegree, setRotationDegree] = useState(0);
+  const [isRotating, setIsRotating] = useState(false);
+
+  // 🔄 90도 회전 및 영구 저장 핸들러 (상세 읽기 팝업 및 작성/수정 모달)
+  const handleRotateCurrentMemoImage = async (memoToUpdate?: Memo | null, targetImageUrl?: string) => {
+    const src = targetImageUrl || (memoToUpdate ? memoToUpdate.imageUrl : imageUrl);
+    if (!src) return;
+
+    setIsRotating(true);
+    try {
+      const rotatedBase64 = await rotateImageBase64(src, 90);
+
+      if (memoToUpdate) {
+        await updateMemo(memoToUpdate.id, { imageUrl: rotatedBase64 });
+        setViewingMemo({ ...memoToUpdate, imageUrl: rotatedBase64 });
+      } else {
+        setImageUrl(rotatedBase64);
+      }
+
+      if (enlargedImageUrl) {
+        setEnlargedImageUrl(rotatedBase64);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsRotating(false);
+    }
+  };
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -607,6 +668,7 @@ export function MemoView() {
                 }`}
               >
                 <span>
+                  {cat === "업무" && "💼 "}
                   {cat === "중요" && "🚨 "}
                   {cat === "일반" && "📋 "}
                   {cat === "생활" && "☕ "}
@@ -1179,7 +1241,21 @@ export function MemoView() {
                       alt={viewingMemo.title}
                       className="max-h-[480px] w-auto mx-auto object-contain rounded-lg group-hover:scale-[1.01] transition-transform"
                     />
-                    <div className="pt-2 flex justify-end">
+                    <div className="pt-2 flex justify-end gap-2 flex-wrap">
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        disabled={isRotating}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRotateCurrentMemoImage(viewingMemo);
+                        }}
+                        className="h-7 text-xs gap-1 bg-white/20 text-white hover:bg-white/30 font-bold"
+                      >
+                        <RotateCw className={`w-3.5 h-3.5 ${isRotating ? "animate-spin text-amber-400" : ""}`} />
+                        <span>{isRotating ? "회전 저장 중..." : "90도 회전 및 저장"}</span>
+                      </Button>
+
                       <Button
                         variant="secondary"
                         size="sm"
@@ -1187,7 +1263,7 @@ export function MemoView() {
                           e.stopPropagation();
                           handleDownloadImage(viewingMemo);
                         }}
-                        className="h-7 text-xs gap-1 bg-white/20 text-white hover:bg-white/30"
+                        className="h-7 text-xs gap-1 bg-white/20 text-white hover:bg-white/30 font-bold"
                       >
                         <Download className="w-3.5 h-3.5" /> 사진 원본 다운로드
                       </Button>
@@ -1323,7 +1399,18 @@ export function MemoView() {
               />
               <div className="flex items-center justify-between w-full px-4 pt-1 text-white flex-wrap gap-2">
                 <span className="text-xs font-bold text-white/90">🖼️ 이미지 원본 크게 보기</span>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    disabled={isRotating}
+                    onClick={() => handleRotateCurrentMemoImage(viewingMemo, enlargedImageUrl)}
+                    className="h-8 text-xs font-bold gap-1.5 bg-amber-600 text-white hover:bg-amber-700 shadow-sm"
+                  >
+                    <RotateCw className={`w-3.5 h-3.5 ${isRotating ? "animate-spin" : ""}`} />
+                    <span>{isRotating ? "회전 저장 중..." : "90도 회전 및 저장"}</span>
+                  </Button>
+
                   <Button
                     variant="secondary"
                     size="sm"

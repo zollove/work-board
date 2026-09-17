@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Calendar, Building2, StickyNote, BookOpen,
-  Calculator, Contact2, Library, Compass, Mail, HardDrive, Newspaper,
+  Calculator, Contact2, Library, Compass, Mail, HardDrive, Newspaper, Radio,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useGolfUnread } from "@/hooks/use-golf-unread";
@@ -12,11 +12,10 @@ import { useMailUnread } from "@/hooks/use-mail-unread";
 import { useEffect, useRef } from "react";
 
 const navItems = [
-  { name: "지메일", href: "/mail/gmail", icon: Mail },
-  { name: "네이버메일", href: "/mail/naver", icon: Mail },
   { name: "캘린더", href: "/", icon: Calendar },
   { name: "메모", href: "/memos", icon: StickyNote },
   { name: "지식창고", href: "/knowledge", icon: Library },
+  { name: "경쟁사 동향", href: "/competitors", icon: Radio },
   { name: "업무일지", href: "/worklog", icon: BookOpen },
   { name: "임대현황", href: "/rentals", icon: Building2 },
   { name: "연락처", href: "/contacts", icon: Contact2 },
