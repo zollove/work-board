@@ -32,6 +32,7 @@ const DEFAULT_COMPETITORS: Competitor[] = [
   { id: "comp-3", name: "SG골프", keyword: "SG골프", category: "스크린골프", createdAt: "2026-01-01" },
   { id: "comp-4", name: "QED", keyword: "QED 타석", category: "타석센서", createdAt: "2026-01-01" },
   { id: "comp-5", name: "프렌즈아카데미", keyword: "프렌즈아카데미", category: "연습장", createdAt: "2026-01-01" },
+  { id: "comp-6", name: "잠원 스포츠센터", keyword: "잠원 스포츠센터", category: "스포츠센터", createdAt: "2026-01-01" },
 ];
 
 const LOCAL_STORAGE_KEY = "work_board_competitors_v1";
